@@ -1,13 +1,12 @@
 # MU4RBI01 Projet Python
 
-**Participants:** *(Groupe 5)*
+**Participants:** *(Groupe 5, IPS TSDM)*
 
-- ELION GALIBA Fady
+- ELION GALIBA Fady (*fady2010*)
 - NOCHÉ Kévin (*NKevinVI*)
 - SIVATHASAN Ramya
 
-**Langage:**
-> Français
+**Langage:** *Français*
 
 ---
 
