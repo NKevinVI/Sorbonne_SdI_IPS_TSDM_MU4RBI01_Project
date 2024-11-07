@@ -49,4 +49,4 @@ Pour plus d'informations, voir le fichier `Sujet.pdf`.
 
 **Tous droits réservés.**
 
-*Les outils utilisés ici sont fournis par _Sorbonne Université_ et les bibliothèques _Python_, et l'univers du jeu est directement inspiré de celui de _Pokémon_; il est à noté cependant que ce projet n'a lieu que dans un but purement éducatif.*
+> Les outils utilisés ici sont fournis par _Sorbonne Université_ et les bibliothèques _Python_, et l'univers du jeu est directement inspiré de celui de _Pokémon_; il est à noté cependant que ce projet n'a lieu que dans un but purement éducatif.
