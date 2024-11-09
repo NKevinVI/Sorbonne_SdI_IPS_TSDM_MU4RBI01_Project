@@ -4,7 +4,7 @@
 
 - ELION GALIBA Fady (*fady2010*)
 - NOCHÉ Kévin (*NKevinVI*)
-- SIVATHASAN Ramya
+- SIVATHASAN Ramya (*RamyaThasan*)
 
 **Langage:** *Français*
 
