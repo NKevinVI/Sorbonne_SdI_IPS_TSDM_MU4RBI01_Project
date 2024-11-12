@@ -12,7 +12,7 @@
 
 ## But du Projet
 
-Création d'un simple jeu de tactique en 2D, dans lequel chaque joueur incarne un clan de dragons.
+Création d'un simple jeu de tactique en 2D à deux joueurs, dans lequel chaque joueur incarne un clan de dragons.
 
 À faire:
 - Un rapport de 2 pages présentant les fonctionnalités implémentées dans le Projet, et la justifications des choix de conception du diagramme de classes UML.
@@ -25,16 +25,16 @@ Fonctionnalités du jeu:
 - Il y aura quatre types d'*unités*.
 - Lorsqu'un joueur n'a plus d'*unité*, il a perdu.
 - Une *unité* doit disposer:
-    - D'un nombre de points de vie (*health*)
-    - Une statistique d'attaque (*attack_power*)
-    - Une statistique de défense (*resistance*)
-    - Une statistique de vitesse (*speed*)
+    - D'un nombre de points de vie (`health`)
+    - Une statistique d'attaque (`attack_power`)
+    - Une statistique de défense (`resistance`)
+    - Une statistique de vitesse (`speed`)
 - Les unités auront différentes compétences (au moins trois différentes par type d'unité).
 - Le terrain aura au minimum trois types de cases différentes (neutre, naturel, mort). Chaque type de case peut être un "sous-type" d'une autre classe (la forêt est naturelle, un vieux champ de bataille mort).
 - Le calcul des HP doit dépendre:
     - La puissance de la compétence subie (si une compétence a été utilisée)
-    - Les Dmg de l'*unité* ayant lancé l'attaque
-    - La DR de l'*unité* cible
+    - La puissance d'attaque (`attack_power`) de l'*unité* ayant lancé l'attaque
+    - La résistance (`resistance`) de l'*unité* cible
 
 Fonctionnalités supplémentaires:
 - Système de ramassage d'objets et d'utilisation de ces objets.
