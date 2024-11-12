@@ -44,7 +44,7 @@ class Unit:
         Dessine l'unité sur la grille.
     """
 
-    def __init__(self, x, y, health, attack_power, team):
+    def __init__(self, x, y, health, attack_power, resistance, speed, team):
         """
         Construit une unité avec une position, une santé, une puissance d'attaque et une équipe.
 
@@ -65,6 +65,8 @@ class Unit:
         self.y = y
         self.health = health
         self.attack_power = attack_power
+        self.resistance = resistance
+        self.speed = speed
         self.team = team  # 'good' ou 'evil'
         self.is_selected = False
 
