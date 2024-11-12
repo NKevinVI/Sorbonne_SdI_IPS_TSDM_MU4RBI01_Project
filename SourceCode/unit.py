@@ -30,7 +30,7 @@ class Unit:
     attack_power : int
         La puissance d'attaque de l'unité.
     team : str
-        L'équipe de l'unité ('player' ou 'enemy').
+        L'équipe de l'unité ('good' ou 'evil').
     is_selected : bool
         Si l'unité est sélectionnée ou non.
 
@@ -59,13 +59,13 @@ class Unit:
         attack_power : int
             La puissance d'attaque de l'unité.
         team : str
-            L'équipe de l'unité ('player' ou 'enemy').
+            L'équipe de l'unité ('good' ou 'evil').
         """
         self.x = x
         self.y = y
         self.health = health
         self.attack_power = attack_power
-        self.team = team  # 'player' ou 'enemy'
+        self.team = team  # 'good' ou 'evil'
         self.is_selected = False
 
     def move(self, dx, dy):
@@ -81,7 +81,7 @@ class Unit:
 
     def draw(self, screen):
         """Affiche l'unité sur l'écran."""
-        color = BLUE if self.team == 'player' else RED
+        color = BLUE if self.team == 'good' else RED
         if self.is_selected:
             pygame.draw.rect(screen, GREEN, (self.x * CELL_SIZE,
                              self.y * CELL_SIZE, CELL_SIZE, CELL_SIZE))
