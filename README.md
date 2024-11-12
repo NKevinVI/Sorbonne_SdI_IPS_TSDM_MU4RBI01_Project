@@ -25,10 +25,10 @@ Fonctionnalités du jeu:
 - Il y aura quatre types d'*unités*.
 - Lorsqu'un joueur n'a plus d'*unité*, il a perdu.
 - Une *unité* doit disposer:
-    - D'un nombre de points de vie (*Hit Points*, ou HP)
-    - Une statistique d'attaque (*Damage*, ou Dmg)
-    - Une statistique de défense (*Damage Resistance*, ou DR)
-    - Une statistique de vitesse (*Move Speed*, ou MS)
+    - D'un nombre de points de vie (*health*)
+    - Une statistique d'attaque (*attack_power*)
+    - Une statistique de défense (*resistance*)
+    - Une statistique de vitesse (*speed*)
 - Les unités auront différentes compétences (au moins trois différentes par type d'unité).
 - Le terrain aura au minimum trois types de cases différentes (neutre, naturel, mort). Chaque type de case peut être un "sous-type" d'une autre classe (la forêt est naturelle, un vieux champ de bataille mort).
 - Le calcul des HP doit dépendre:
