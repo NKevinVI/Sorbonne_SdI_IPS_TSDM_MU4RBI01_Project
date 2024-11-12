@@ -51,5 +51,5 @@ Pour plus d'informations, voir le fichier `Sujet.pdf`.
 
 > Les outils utilisés ici sont fournis par _Sorbonne Université_ et les bibliothèques _Python_; l'univers est le produit des collaborateurs (toute ressemblance avec une marque ou un fait réel est une pure coïncidence). Le but de ce projet est en tout premier lieu éducatif.
 
-![](SdI.png)
-![](pygame_logo.png)
+![](SdI.png){width=25%}
+![](pygame_logo.png){width=25%}
