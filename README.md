@@ -30,7 +30,7 @@ Fonctionnalités du jeu:
     - Une statistique de défense (*Damage Resistance*, ou DR)
     - Une statistique de vitesse (*Move Speed*, ou MS)
 - Les unités auront différentes compétences (au moins trois différentes par type d'unité).
-- Le terrain aura quatre types de cases différentes (normal, mur, eau, lave).
+- Le terrain aura au minimum trois types de cases différentes (neutre, naturel, mort). Chaque type de case peut être un "sous-type" d'une autre classe (la forêt est naturelle, un vieux champ de bataille mort).
 - Le calcul des HP doit dépendre:
     - La puissance de la compétence subie (si une compétence a été utilisée)
     - Les Dmg de l'*unité* ayant lancé l'attaque
