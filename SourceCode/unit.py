@@ -2,16 +2,18 @@ import pygame
 import random
 
 # Constantes
-GRID_SIZE = 8
-CELL_SIZE = 60
+GRID_SIZE = 5
+CELL_SIZE = 128 # Default
 WIDTH = GRID_SIZE * CELL_SIZE
 HEIGHT = GRID_SIZE * CELL_SIZE
 FPS = 30
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
-BLUE = (0, 0, 255)
 GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)
+
+WINDOW = pygame.display.set_mode((CELL_SIZE, CELL_SIZE))
 
 
 class Unit:
@@ -44,7 +46,7 @@ class Unit:
         Dessine l'unité sur la grille.
     """
 
-    def __init__(self, x, y, health, attack_power, resistance, speed, team):
+    def __init__(self, x, y, team, hierarchy):
         """
         Construit une unité avec une position, une santé, une puissance d'attaque et une équipe.
 
@@ -60,15 +62,33 @@ class Unit:
             La puissance d'attaque de l'unité.
         team : str
             L'équipe de l'unité ('good' ou 'evil').
+        hierarchy: str
+            Il s'agit du type de l'unité.
+                - "royal" => roi ou reine
+                - "soldier" => wyverne ou gargouille
+                - "pauper" => larve ou lindwurm
         """
         self.x = x
         self.y = y
-        self.health = health
-        self.attack_power = attack_power
-        self.resistance = resistance
-        self.speed = speed
-        self.team = team  # 'good' ou 'evil'
+        self.hierarchy = hierarchy
+        self.team = team
         self.is_selected = False
+        match self.hierarchy:
+            case "royal":
+                self.health = 180
+                self.attack_power = 32
+                self.resistance = 26
+                self.speed = 1
+            case "soldier":
+                self.health = 32
+                self.attack_power = 16
+                self.resistance = 12
+                self.speed = 7
+            case "pauper":
+                self.health = 60
+                self.attack_power = 6
+                self.resistance = 0
+                self.speed = 3
 
     def move(self, dx, dy):
         """Déplace l'unité de dx, dy."""
@@ -79,13 +99,34 @@ class Unit:
     def attack(self, target):
         """Attaque une unité cible."""
         if abs(self.x - target.x) <= 1 and abs(self.y - target.y) <= 1:
-            target.health -= self.attack_power
+            if target.resistance <= self.attack_power:
+                target.health -= self.attack_power - target.resistance
+                if target.health < 0:
+                    target.health = 0
 
     def draw(self, screen):
         """Affiche l'unité sur l'écran."""
-        color = BLUE if self.team == 'good' else RED
+        if self.team == "good":
+            color = GREEN
+            match self.hierarchy:
+                case "royal":
+                    appearance = pygame.image.load("Textures/DragonQueen_Sketch.png").convert_alpha()
+                case "soldier":
+                    appearance = pygame.image.load("Textures/Amphiptere_Sketch.png").convert_alpha()
+                case "pauper":
+                    appearance = pygame.image.load("Textures/Lindwurm_Sketch.png").convert_alpha()
+        elif self.team == "evil":
+            color = RED
+            match self.hierarchy:
+                case "royal":
+                    appearance = pygame.image.load("Textures/DracolichKing_Sketch.png").convert_alpha()
+                case "soldier":
+                    appearance = pygame.image.load("Textures/Gargouille_Sketch.png").convert_alpha()
+                case "pauper":
+                    appearance = pygame.image.load("Textures/Larva_Sketch.png").convert_alpha()
+        else:
+            raise ValueError("No other alignment yet!")
+        appearance = pygame.transform.scale(appearance, (CELL_SIZE, CELL_SIZE))
+        WINDOW.blit(appearance, (self.x * CELL_SIZE, self.y * CELL_SIZE))
         if self.is_selected:
-            pygame.draw.rect(screen, GREEN, (self.x * CELL_SIZE,
-                             self.y * CELL_SIZE, CELL_SIZE, CELL_SIZE))
-        pygame.draw.circle(screen, color, (self.x * CELL_SIZE + CELL_SIZE //
-                           2, self.y * CELL_SIZE + CELL_SIZE // 2), CELL_SIZE // 3)
+            pygame.draw.rect(WINDOW, BLUE, (self.x * CELL_SIZE, self.y * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2*CELL_SIZE//CELL_SIZE)
