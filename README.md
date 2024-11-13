@@ -38,6 +38,7 @@ Fonctionnalités du jeu:
 
 Fonctionnalités supplémentaires:
 - Système de ramassage d'objets et d'utilisation de ces objets.
+- Easter Egg (seul cas où les 2 joueurs gagnent)
 
 **Date limite de fin du Projet: 13 décembre 2024**
 
