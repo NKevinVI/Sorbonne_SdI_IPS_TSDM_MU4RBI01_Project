@@ -110,20 +110,20 @@ class Unit:
             color = GREEN
             match self.hierarchy:
                 case "royal":
-                    appearance = pygame.image.load("Textures/DragonQueen_Sketch.png").convert_alpha()
+                    appearance = pygame.image.load("../Textures/DragonQueen_Sketch.png").convert_alpha()
                 case "soldier":
-                    appearance = pygame.image.load("Textures/Amphiptere_Sketch.png").convert_alpha()
+                    appearance = pygame.image.load("../Textures/Amphiptere_Sketch.png").convert_alpha()
                 case "pauper":
-                    appearance = pygame.image.load("Textures/Lindwurm_Sketch.png").convert_alpha()
+                    appearance = pygame.image.load("../Textures/Lindwurm_Sketch.png").convert_alpha()
         elif self.team == "evil":
             color = RED
             match self.hierarchy:
                 case "royal":
-                    appearance = pygame.image.load("Textures/DracolichKing_Sketch.png").convert_alpha()
+                    appearance = pygame.image.load("../Textures/DracolichKing_Sketch.png").convert_alpha()
                 case "soldier":
-                    appearance = pygame.image.load("Textures/Gargouille_Sketch.png").convert_alpha()
+                    appearance = pygame.image.load("../Textures/Gargouille_Sketch.png").convert_alpha()
                 case "pauper":
-                    appearance = pygame.image.load("Textures/Larva_Sketch.png").convert_alpha()
+                    appearance = pygame.image.load("../Textures/Larva_Sketch.png").convert_alpha()
         else:
             raise ValueError("No other alignment yet!")
         appearance = pygame.transform.scale(appearance, (CELL_SIZE, CELL_SIZE))
