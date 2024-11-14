@@ -73,6 +73,7 @@ class Unit:
         self.hierarchy = hierarchy
         self.team = team
         self.is_selected = False
+        self.move_count = 0
         match self.hierarchy:
             case "royal":
                 self.health = 180
@@ -83,7 +84,7 @@ class Unit:
                 self.health = 32
                 self.attack_power = 16
                 self.resistance = 12
-                self.speed = 7
+                self.speed = 5
             case "pauper":
                 self.health = 60
                 self.attack_power = 6

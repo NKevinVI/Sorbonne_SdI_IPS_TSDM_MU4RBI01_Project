@@ -66,28 +66,36 @@ class Game:
 
                         # Déplacement (touches fléchées)
                         dx, dy = 0, 0
-                        if event.key == pygame.K_LEFT:
+                        if event.key == pygame.K_LEFT and selected_unit.move_count < selected_unit.speed:
                             dx = -1
-                        elif event.key == pygame.K_RIGHT:
+                            selected_unit.move_count += 1
+                        elif event.key == pygame.K_RIGHT and selected_unit.move_count < selected_unit.speed:
                             dx = 1
-                        elif event.key == pygame.K_UP:
+                            selected_unit.move_count += 1
+                        elif event.key == pygame.K_UP and selected_unit.move_count < selected_unit.speed:
                             dy = -1
-                        elif event.key == pygame.K_DOWN:
+                            selected_unit.move_count += 1
+                        elif event.key == pygame.K_DOWN and selected_unit.move_count < selected_unit.speed:
                             dy = 1
+                            selected_unit.move_count += 1
 
                         selected_unit.move(dx, dy)
                         self.flip_display()
 
                         # Attaque (touche espace) met fin au tour
-                        if event.key == pygame.K_SPACE:
-                            for evil in self.evil_units:
-                                if abs(selected_unit.x - evil.x) <= 1 and abs(selected_unit.y - evil.y) <= 1:
-                                    selected_unit.attack(evil)
-                                    if evil.health <= 0:
-                                        self.evil_units.remove(evil)
+                        # if event.key == pygame.K_SPACE:
+                        #     for good in self.good_units:
+                        #         if abs(selected_unit.x - good.x) <= 1 and abs(selected_unit.y - good.y) <= 1:
+                        #             selected_unit.attack(good)
+                        #             if good.health <= 0:
+                        #                 self.good_units.remove(good)
 
+                        # End of turn
+                        if event.key == pygame.K_RETURN:
                             has_acted = True
                             selected_unit.is_selected = False
+                            selected_unit.move_count = 0
+                            break
 
     def handle_evil_turn(self):
         """Tour du joueur 'evil'"""
@@ -112,28 +120,36 @@ class Game:
 
                         # Déplacement (touches fléchées)
                         dx, dy = 0, 0
-                        if event.key == pygame.K_LEFT:
+                        if event.key == pygame.K_LEFT and selected_unit.move_count < selected_unit.speed:
                             dx = -1
-                        elif event.key == pygame.K_RIGHT:
+                            selected_unit.move_count += 1
+                        elif event.key == pygame.K_RIGHT and selected_unit.move_count < selected_unit.speed:
                             dx = 1
-                        elif event.key == pygame.K_UP:
+                            selected_unit.move_count += 1
+                        elif event.key == pygame.K_UP and selected_unit.move_count < selected_unit.speed:
                             dy = -1
-                        elif event.key == pygame.K_DOWN:
+                            selected_unit.move_count += 1
+                        elif event.key == pygame.K_DOWN and selected_unit.move_count < selected_unit.speed:
                             dy = 1
+                            selected_unit.move_count += 1
 
                         selected_unit.move(dx, dy)
                         self.flip_display()
 
                         # Attaque (touche espace) met fin au tour
-                        if event.key == pygame.K_SPACE:
-                            for good in self.good_units:
-                                if abs(selected_unit.x - good.x) <= 1 and abs(selected_unit.y - good.y) <= 1:
-                                    selected_unit.attack(good)
-                                    if good.health <= 0:
-                                        self.good_units.remove(good)
+                        # if event.key == pygame.K_SPACE:
+                        #     for good in self.good_units:
+                        #         if abs(selected_unit.x - good.x) <= 1 and abs(selected_unit.y - good.y) <= 1:
+                        #             selected_unit.attack(good)
+                        #             if good.health <= 0:
+                        #                 self.good_units.remove(good)
 
+                        # End of turn
+                        if event.key == pygame.K_RETURN:
                             has_acted = True
                             selected_unit.is_selected = False
+                            selected_unit.move_count = 0
+                            break
 
     # def handle_enemy_turn(self):
     #     """IA très simple pour les ennemis."""
