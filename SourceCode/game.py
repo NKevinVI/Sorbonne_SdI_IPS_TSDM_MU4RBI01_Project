@@ -29,19 +29,19 @@ class Game:
             La surface de la fenêtre du jeu.
         """
         self.screen = screen
-        self.good_units = [Unit(4, 2, "good", "royal"),
-                             Unit(4, 1, "good", "soldier"),
-                             Unit(4, 3, "good", "soldier"),
-                             Unit(3, 1, "good", "pauper"),
-                             Unit(3, 2, "good", "pauper"),
-                             Unit(3, 3, "good", "pauper")]
+        self.good_units = [Unit(6, 3, "good", "royal"),
+                             Unit(6, 2, "good", "soldier"),
+                             Unit(6, 4, "good", "soldier"),
+                             Unit(5, 2, "good", "pauper"),
+                             Unit(5, 3, "good", "pauper"),
+                             Unit(5, 4, "good", "pauper")]
 
-        self.evil_units = [Unit(0, 2, "evil", "royal"),
-                             Unit(0, 1, "evil", "soldier"),
-                             Unit(0, 3, "evil", "soldier"),
-                             Unit(1, 1, "evil", "pauper"),
+        self.evil_units = [Unit(0, 3, "evil", "royal"),
+                             Unit(0, 2, "evil", "soldier"),
+                             Unit(0, 4, "evil", "soldier"),
                              Unit(1, 2, "evil", "pauper"),
-                             Unit(1, 3, "evil", "pauper")]
+                             Unit(1, 3, "evil", "pauper"),
+                             Unit(1, 4, "evil", "pauper")]
 
     def handle_good_turn(self):
         """Tour du joueur 'good'"""

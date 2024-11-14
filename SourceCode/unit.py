@@ -2,7 +2,7 @@ import pygame
 import random
 
 # Constantes
-GRID_SIZE = 5
+GRID_SIZE = 7
 CELL_SIZE = 128 # Default
 WIDTH = GRID_SIZE * CELL_SIZE
 HEIGHT = GRID_SIZE * CELL_SIZE
