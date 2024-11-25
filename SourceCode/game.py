@@ -55,6 +55,7 @@ class Game:
 
                 # Important: cette boucle permet de gérer les événements Pygame
                 for event in pygame.event.get():
+                    Deplacer = False # L'unité a-t-elle bougée?
 
                     # Gestion de la fermeture de la fenêtre
                     if event.type == pygame.QUIT:
@@ -69,15 +70,19 @@ class Game:
                         if event.key == pygame.K_LEFT and selected_unit.move_count < selected_unit.speed:
                             dx = -1
                             selected_unit.move_count += 1
+                            Deplacer = True
                         elif event.key == pygame.K_RIGHT and selected_unit.move_count < selected_unit.speed:
                             dx = 1
                             selected_unit.move_count += 1
+                            Deplacer = True
                         elif event.key == pygame.K_UP and selected_unit.move_count < selected_unit.speed:
                             dy = -1
                             selected_unit.move_count += 1
+                            Deplacer = True
                         elif event.key == pygame.K_DOWN and selected_unit.move_count < selected_unit.speed:
                             dy = 1
                             selected_unit.move_count += 1
+                            Deplacer = True
 
                         selected_unit.move(dx, dy)
                         self.flip_display()
@@ -90,7 +95,7 @@ class Game:
                         #             if good.health <= 0:
                         #                 self.good_units.remove(good)
 
-                        # End of turn
+                        # Fin de tour
                         if event.key == pygame.K_RETURN:
                             has_acted = True
                             selected_unit.is_selected = False
@@ -109,6 +114,7 @@ class Game:
 
                 # Important: cette boucle permet de gérer les événements Pygame
                 for event in pygame.event.get():
+                    Deplacer = False # L'unité a-t-elle bougée?
 
                     # Gestion de la fermeture de la fenêtre
                     if event.type == pygame.QUIT:
@@ -123,49 +129,46 @@ class Game:
                         if event.key == pygame.K_LEFT and selected_unit.move_count < selected_unit.speed:
                             dx = -1
                             selected_unit.move_count += 1
+                            Deplacer = True
                         elif event.key == pygame.K_RIGHT and selected_unit.move_count < selected_unit.speed:
                             dx = 1
                             selected_unit.move_count += 1
+                            Deplacer = True
                         elif event.key == pygame.K_UP and selected_unit.move_count < selected_unit.speed:
                             dy = -1
                             selected_unit.move_count += 1
+                            Deplacer = True
                         elif event.key == pygame.K_DOWN and selected_unit.move_count < selected_unit.speed:
                             dy = 1
                             selected_unit.move_count += 1
+                            Deplacer = True
 
                         selected_unit.move(dx, dy)
                         self.flip_display()
 
-                        # Attaque (touche espace) met fin au tour
-                        # if event.key == pygame.K_SPACE:
-                        #     for good in self.good_units:
-                        #         if abs(selected_unit.x - good.x) <= 1 and abs(selected_unit.y - good.y) <= 1:
-                        #             selected_unit.attack(good)
-                        #             if good.health <= 0:
-                        #                 self.good_units.remove(good)
+                        # Attaque (simple ou berserk)
 
-                        # End of turn
+                        if not(Deplacer) and event.key == pygame.K_z:
+                            target = [selected_unit.x, selected_unit.y - 1]
+                            pygame.draw.rect(WINDOW, GREEN, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE))
+                        elif not(Deplacer) and event.key == pygame.K_q:
+                            target = [selected_unit.x - 1, selected_unit.y]
+                            pygame.draw.rect(WINDOW, GREEN, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE))
+                        elif not(Deplacer) and event.key == pygame.K_s:
+                            target = [selected_unit.x, selected_unit.y + 1]
+                            pygame.draw.rect(WINDOW, GREEN, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE))
+                        elif not(Deplacer) and event.key == pygame.K_d:
+                            target = [selected_unit.x + 1, selected_unit.y]
+                            pygame.draw.rect(WINDOW, GREEN, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE))
+
+                        pygame.display.update()
+
+                        # Fin de tour
                         if event.key == pygame.K_RETURN:
                             has_acted = True
                             selected_unit.is_selected = False
                             selected_unit.move_count = 0
                             break
-
-    # def handle_enemy_turn(self):
-    #     """IA très simple pour les ennemis."""
-    #     for enemy in self.enemy_units:
-    #
-    #         # Déplacement aléatoire
-    #         target = random.choice(self.player_units)
-    #         dx = 1 if enemy.x < target.x else -1 if enemy.x > target.x else 0
-    #         dy = 1 if enemy.y < target.y else -1 if enemy.y > target.y else 0
-    #         enemy.move(dx, dy)
-    #
-    #         # Attaque si possible
-    #         if abs(enemy.x - target.x) <= 1 and abs(enemy.y - target.y) <= 1:
-    #             enemy.attack(target)
-    #             if target.health <= 0:
-    #                 self.player_units.remove(target)
 
     def flip_display(self):
         """Affiche le jeu."""
