@@ -29,6 +29,12 @@ class Game:
             La surface de la fenêtre du jeu.
         """
         self.screen = screen
+        
+        # Grille de jeu
+        self.grid_size = WIDTH // CELL_SIZE
+        self.grid = [[None for _ in range(self.grid_size)] for _ in range(self.grid_size)]
+
+
         self.good_units = [Unit(6, 3, "good", "royal"),
                              Unit(6, 2, "good", "soldier"),
                              Unit(6, 4, "good", "soldier"),
@@ -42,6 +48,11 @@ class Game:
                              Unit(1, 2, "evil", "pauper"),
                              Unit(1, 3, "evil", "pauper"),
                              Unit(1, 4, "evil", "pauper")]
+        
+        # Positionner les unités dans la grille
+        for unit in self.good_units + self.evil_units:
+            self.grid[unit.y][unit.x] = unit
+
 
     def handle_good_turn(self):
         """Tour du joueur 'good'"""
@@ -166,6 +177,33 @@ class Game:
     #             enemy.attack(target)
     #             if target.health <= 0:
     #                 self.player_units.remove(target)
+    
+    def is_cell_free(self, x, y):
+        """Vérifie si une case est libre."""
+        if not (0 <= x < WIDTH // CELL_SIZE and 0 <= y < HEIGHT // CELL_SIZE):
+            return False  # En dehors des limites
+        for unit in self.good_units + self.evil_units:
+            if unit.x == x and unit.y == y:
+                return False  # Une unité occupe déjà cette case
+        return True
+
+    def move_unit(self, unit, dx, dy):
+        """Déplace une unité si la case cible est libre."""
+        new_x = unit.x + dx
+        new_y = unit.y + dy
+
+        if self.is_cell_free(new_x, new_y):
+            # Libérer la case actuelle
+            self.grid[unit.y][unit.x] = None
+
+            # Déplacer l'unité
+            unit.x = new_x
+            unit.y = new_y
+
+            # Occuper la nouvelle case
+            self.grid[new_y][new_x] = unit
+            return True
+        return False
 
     def flip_display(self):
         """Affiche le jeu."""
@@ -183,6 +221,63 @@ class Game:
 
         # Rafraîchit l'écran
         pygame.display.flip()
+        
+        
+    def check_victory(game):
+        """
+        Vérifie les conditions de victoire.
+        Retourne le gagnant : 'good', 'evil', ou None si la partie continue.
+        """
+        if not game.evil_units:  # Tous les ennemis sont éliminés
+            return "good"
+        if not game.good_units:  # Tous les alliés sont éliminés
+            return "evil"
+        return None
+
+
+def show_victory_screen(screen, winner):
+        """
+        Affiche l'écran de victoire.
+        
+        Paramètres
+        ----------
+        screen : pygame.Surface
+            La surface de la fenêtre du jeu.
+        winner : str
+            Le gagnant ('good' ou 'evil').
+        """
+        # Couleur de fond
+        screen.fill(BLACK)
+    
+        # Message de victoire
+        font = pygame.font.Font(None, 74)
+        message = f"Victoire des {'bons' if winner == 'good' else 'mauvais'}!"
+        text = font.render(message, True, WHITE)
+        text_rect = text.get_rect(center=(WIDTH // 2, HEIGHT // 3))
+        screen.blit(text, text_rect)
+    
+        # Instructions
+        small_font = pygame.font.Font(None, 36)
+        instructions = small_font.render("Appuyez sur R pour rejouer ou Q pour quitter", True, WHITE)
+        instructions_rect = instructions.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+        screen.blit(instructions, instructions_rect)
+    
+        # Met à jour l'affichage
+        pygame.display.flip()
+    
+        # Attendre l'entrée de l'utilisateur
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    exit()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_r:  # Rejouer
+                        return "restart"
+                    if event.key == pygame.K_q:  # Quitter
+                        pygame.quit()
+                        exit()
+
 
 
 def main():
@@ -201,6 +296,13 @@ def main():
     while True:
         game.handle_evil_turn()
         game.handle_good_turn()
+        
+        # Vérifier la victoire
+        winner = check_victory(game)
+        if winner:
+            action = show_victory_screen(screen, winner)
+            if action == "restart":
+                break  # Redémarre la partie
 
 
 if __name__ == "__main__":
