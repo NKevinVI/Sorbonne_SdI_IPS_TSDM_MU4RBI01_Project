@@ -192,7 +192,7 @@ def main():
 
     # Instanciation de la fenêtre
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    pygame.display.set_caption("Le Territoire des Dragons")
+    pygame.display.set_caption("Draconic Generations")
 
     # Instanciation du jeu
     game = Game(screen)

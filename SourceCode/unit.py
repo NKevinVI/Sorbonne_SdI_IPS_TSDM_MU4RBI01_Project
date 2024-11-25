@@ -129,5 +129,10 @@ class Unit:
             raise ValueError("No other alignment yet!")
         appearance = pygame.transform.scale(appearance, (CELL_SIZE, CELL_SIZE))
         WINDOW.blit(appearance, (self.x * CELL_SIZE, self.y * CELL_SIZE))
+
+        # Affiche self.health à l'écran.
+        pygame.draw.rect(WINDOW, RED, (int(CELL_SIZE * (self.x + 11/12)), int(self.y * CELL_SIZE), int(CELL_SIZE * 1/12), int(CELL_SIZE)))
+        pygame.draw.rect(WINDOW, GREEN, (int(CELL_SIZE * (self.x + 11/12)), int(CELL_SIZE * (self.y + 1 - self.health / 180)), int(CELL_SIZE * 1/12), int(CELL_SIZE * self.health / 180)))
+
         if self.is_selected:
-            pygame.draw.rect(WINDOW, BLUE, (self.x * CELL_SIZE, self.y * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2*CELL_SIZE//CELL_SIZE)
+            pygame.draw.rect(WINDOW, BLUE, (self.x * CELL_SIZE, self.y * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
