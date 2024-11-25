@@ -97,13 +97,29 @@ class Unit:
             self.x += dx
             self.y += dy
 
-    def attack(self, target):
+    def attack_simple(self, target):
         """Attaque une unité cible."""
-        if abs(self.x - target.x) <= 1 and abs(self.y - target.y) <= 1:
-            if target.resistance <= self.attack_power:
-                target.health -= self.attack_power - target.resistance
-                if target.health < 0:
-                    target.health = 0
+        if target.team != self.team:
+            target.health -= self.attack_power
+        if target.health < 0:
+            target.health = 0
+
+    def attack_zone(self, target):
+        """Attaque les unités d'une zone."""
+        if targer.team != self.team:
+            target.health -= self.attack_power // 2
+        if target.health < 0:
+            target.health = 0
+
+    def attack_berserk(self, target):
+        """Attaque une unité cible, tout en infligeant des dégâts à l'attaquant."""
+        if target.team != self.team:
+            target.health -= 3 * self.attack_power
+            self.health -= 2 * self.attack_power
+        if target.health < 0:
+            target.health = 0
+        if self.health < 0:
+            self.health = 0
 
     def draw(self, screen):
         """Affiche l'unité sur l'écran."""
