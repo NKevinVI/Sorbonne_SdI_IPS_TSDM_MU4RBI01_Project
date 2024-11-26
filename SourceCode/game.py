@@ -44,131 +44,167 @@ class Game:
                              Unit(1, 4, "evil", "pauper")]
 
     def handle_good_turn(self):
-        """Tour du joueur 'good'"""
-        for selected_unit in self.good_units:
-
-            # Tant que l'unité n'a pas terminé son tour
-            has_acted = False
-            selected_unit.is_selected = True
-            self.flip_display()
-            while not has_acted:
-
-                # Important: cette boucle permet de gérer les événements Pygame
-                for event in pygame.event.get():
-                    Deplacer = False # L'unité a-t-elle bougée?
-
-                    # Gestion de la fermeture de la fenêtre
-                    if event.type == pygame.QUIT:
-                        pygame.quit()
-                        exit()
-
-                    # Gestion des touches du clavier
-                    if event.type == pygame.KEYDOWN:
-
-                        # Déplacement (touches fléchées)
-                        dx, dy = 0, 0
-                        if event.key == pygame.K_LEFT and selected_unit.move_count < selected_unit.speed:
-                            dx = -1
-                            selected_unit.move_count += 1
-                            Deplacer = True
-                        elif event.key == pygame.K_RIGHT and selected_unit.move_count < selected_unit.speed:
-                            dx = 1
-                            selected_unit.move_count += 1
-                            Deplacer = True
-                        elif event.key == pygame.K_UP and selected_unit.move_count < selected_unit.speed:
-                            dy = -1
-                            selected_unit.move_count += 1
-                            Deplacer = True
-                        elif event.key == pygame.K_DOWN and selected_unit.move_count < selected_unit.speed:
-                            dy = 1
-                            selected_unit.move_count += 1
-                            Deplacer = True
-
-                        selected_unit.move(dx, dy)
-                        self.flip_display()
-
-                        # Attaque (touche espace) met fin au tour
-                        # if event.key == pygame.K_SPACE:
-                        #     for good in self.good_units:
-                        #         if abs(selected_unit.x - good.x) <= 1 and abs(selected_unit.y - good.y) <= 1:
-                        #             selected_unit.attack(good)
-                        #             if good.health <= 0:
-                        #                 self.good_units.remove(good)
-
-                        # Fin de tour
-                        if event.key == pygame.K_RETURN:
-                            has_acted = True
-                            selected_unit.is_selected = False
-                            selected_unit.move_count = 0
+        """Tour du joueur 'evil'"""
+        # Sélection de l'unité à jouer.
+        self.flip_display()
+        selectionMade = False
+        while not selectionMade:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    exit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    click_pos = pygame.mouse.get_pos()
+                    print(click_pos)
+                    for unit in self.good_units:
+                        if unit.rect.collidepoint(click_pos):
+                            selected_unit = unit
+                            selectionMade = True
+                            selected_unit.is_selected = True
+                            self.flip_display()
                             break
+
+        # Tant que l'unité n'a pas terminé son tour
+        has_acted = False
+        while not has_acted:
+            # Important: cette boucle permet de gérer les événements Pygame
+            for event in pygame.event.get():
+                Deplacer = False # L'unité a-t-elle bougée?
+
+                # Gestion de la fermeture de la fenêtre
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    exit()
+
+                # Gestion des touches du clavier
+                if event.type == pygame.KEYDOWN:
+
+                    # Déplacement (touches fléchées)
+                    dx, dy = 0, 0
+                    if event.key == pygame.K_LEFT and selected_unit.move_count < selected_unit.speed:
+                        dx = -1
+                        selected_unit.move_count += 1
+                        Deplacer = True
+                    elif event.key == pygame.K_RIGHT and selected_unit.move_count < selected_unit.speed:
+                        dx = 1
+                        selected_unit.move_count += 1
+                        Deplacer = True
+                    elif event.key == pygame.K_UP and selected_unit.move_count < selected_unit.speed:
+                        dy = -1
+                        selected_unit.move_count += 1
+                        Deplacer = True
+                    elif event.key == pygame.K_DOWN and selected_unit.move_count < selected_unit.speed:
+                        dy = 1
+                        selected_unit.move_count += 1
+                        Deplacer = True
+
+                    selected_unit.move(dx, dy)
+                    self.flip_display()
+
+                    # Attaque (simple ou berserk, d'une case)
+
+                    if not(Deplacer) and event.key == pygame.K_z:
+                        target = [selected_unit.x, selected_unit.y - 1]
+                        pygame.draw.rect(WINDOW, GREEN, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE))
+                    elif not(Deplacer) and event.key == pygame.K_q:
+                        target = [selected_unit.x - 1, selected_unit.y]
+                        pygame.draw.rect(WINDOW, GREEN, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE))
+                    elif not(Deplacer) and event.key == pygame.K_s:
+                        target = [selected_unit.x, selected_unit.y + 1]
+                        pygame.draw.rect(WINDOW, GREEN, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE))
+                    elif not(Deplacer) and event.key == pygame.K_d:
+                        target = [selected_unit.x + 1, selected_unit.y]
+                        pygame.draw.rect(WINDOW, GREEN, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE))
+
+                    pygame.display.update()
+
+                    # Fin de tour
+                    if event.key == pygame.K_RETURN:
+                        has_acted = True
+                        selected_unit.is_selected = False
+                        selected_unit.move_count = 0
+                        break
 
     def handle_evil_turn(self):
         """Tour du joueur 'evil'"""
-        for selected_unit in self.evil_units:
-
-            # Tant que l'unité n'a pas terminé son tour
-            has_acted = False
-            selected_unit.is_selected = True
-            self.flip_display()
-            while not has_acted:
-
-                # Important: cette boucle permet de gérer les événements Pygame
-                for event in pygame.event.get():
-                    Deplacer = False # L'unité a-t-elle bougée?
-
-                    # Gestion de la fermeture de la fenêtre
-                    if event.type == pygame.QUIT:
-                        pygame.quit()
-                        exit()
-
-                    # Gestion des touches du clavier
-                    if event.type == pygame.KEYDOWN:
-
-                        # Déplacement (touches fléchées)
-                        dx, dy = 0, 0
-                        if event.key == pygame.K_LEFT and selected_unit.move_count < selected_unit.speed:
-                            dx = -1
-                            selected_unit.move_count += 1
-                            Deplacer = True
-                        elif event.key == pygame.K_RIGHT and selected_unit.move_count < selected_unit.speed:
-                            dx = 1
-                            selected_unit.move_count += 1
-                            Deplacer = True
-                        elif event.key == pygame.K_UP and selected_unit.move_count < selected_unit.speed:
-                            dy = -1
-                            selected_unit.move_count += 1
-                            Deplacer = True
-                        elif event.key == pygame.K_DOWN and selected_unit.move_count < selected_unit.speed:
-                            dy = 1
-                            selected_unit.move_count += 1
-                            Deplacer = True
-
-                        selected_unit.move(dx, dy)
-                        self.flip_display()
-
-                        # Attaque (simple ou berserk)
-
-                        if not(Deplacer) and event.key == pygame.K_z:
-                            target = [selected_unit.x, selected_unit.y - 1]
-                            pygame.draw.rect(WINDOW, GREEN, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE))
-                        elif not(Deplacer) and event.key == pygame.K_q:
-                            target = [selected_unit.x - 1, selected_unit.y]
-                            pygame.draw.rect(WINDOW, GREEN, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE))
-                        elif not(Deplacer) and event.key == pygame.K_s:
-                            target = [selected_unit.x, selected_unit.y + 1]
-                            pygame.draw.rect(WINDOW, GREEN, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE))
-                        elif not(Deplacer) and event.key == pygame.K_d:
-                            target = [selected_unit.x + 1, selected_unit.y]
-                            pygame.draw.rect(WINDOW, GREEN, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE))
-
-                        pygame.display.update()
-
-                        # Fin de tour
-                        if event.key == pygame.K_RETURN:
-                            has_acted = True
-                            selected_unit.is_selected = False
-                            selected_unit.move_count = 0
+        # Sélection de l'unité à jouer.
+        self.flip_display()
+        selectionMade = False # Le joueur a-t-il sélectionné son unité?
+        while not selectionMade:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    exit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    click_pos = pygame.mouse.get_pos()
+                    for unit in self.evil_units:
+                        if unit.rect.collidepoint(click_pos): # Le joueur a sélectionné son unité.
+                            selected_unit = unit
+                            selectionMade = True
+                            selected_unit.is_selected = True
+                            self.flip_display()
                             break
+
+        # Tant que l'unité n'a pas terminé son tour
+        has_acted = False
+        Deplacer = False # L'unité a-t-elle bougée?
+        while not has_acted:
+            # Important: cette boucle permet de gérer les événements Pygame
+            for event in pygame.event.get():
+
+                # Gestion de la fermeture de la fenêtre
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    exit()
+
+                # Gestion des touches du clavier
+                if event.type == pygame.KEYDOWN:
+
+                    # Déplacement (touches fléchées)
+                    dx, dy = 0, 0
+                    if event.key == pygame.K_LEFT and selected_unit.move_count < selected_unit.speed:
+                        dx = -1
+                        selected_unit.move_count += 1
+                        Deplacer = True
+                    elif event.key == pygame.K_RIGHT and selected_unit.move_count < selected_unit.speed:
+                        dx = 1
+                        selected_unit.move_count += 1
+                        Deplacer = True
+                    elif event.key == pygame.K_UP and selected_unit.move_count < selected_unit.speed:
+                        dy = -1
+                        selected_unit.move_count += 1
+                        Deplacer = True
+                    elif event.key == pygame.K_DOWN and selected_unit.move_count < selected_unit.speed:
+                        dy = 1
+                        selected_unit.move_count += 1
+                        Deplacer = True
+
+                    selected_unit.move(dx, dy)
+                    self.flip_display()
+
+                    # Attaque (simple ou berserk, d'une case)
+
+                    if not(Deplacer) and event.key == pygame.K_z:
+                        target = [selected_unit.x, selected_unit.y - 1]
+                        pygame.draw.rect(WINDOW, GREEN, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE))
+                    elif not(Deplacer) and event.key == pygame.K_q:
+                        target = [selected_unit.x - 1, selected_unit.y]
+                        pygame.draw.rect(WINDOW, GREEN, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE))
+                    elif not(Deplacer) and event.key == pygame.K_s:
+                        target = [selected_unit.x, selected_unit.y + 1]
+                        pygame.draw.rect(WINDOW, GREEN, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE))
+                    elif not(Deplacer) and event.key == pygame.K_d:
+                        target = [selected_unit.x + 1, selected_unit.y]
+                        pygame.draw.rect(WINDOW, GREEN, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE))
+
+                    pygame.display.update()
+
+                    # Fin de tour
+                    if event.key == pygame.K_RETURN:
+                        has_acted = True
+                        selected_unit.is_selected = False
+                        selected_unit.move_count = 0
+                        break
 
     def flip_display(self):
         """Affiche le jeu."""
@@ -203,7 +239,7 @@ def main():
     # Boucle principale du jeu
     while True:
         game.handle_evil_turn()
-        game.handle_good_turn()
+        # game.handle_good_turn()
 
 
 if __name__ == "__main__":

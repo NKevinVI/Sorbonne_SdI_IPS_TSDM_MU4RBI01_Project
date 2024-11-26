@@ -73,6 +73,7 @@ class Unit:
         """
         self.x = x
         self.y = y
+        self.rect = pygame.Rect(self.x * CELL_SIZE, self.y * CELL_SIZE, CELL_SIZE, CELL_SIZE)
         self.hierarchy = hierarchy
         self.team = team
         self.is_selected = False
@@ -99,6 +100,7 @@ class Unit:
         if 0 <= self.x + dx < GRID_SIZE and 0 <= self.y + dy < GRID_SIZE:
             self.x += dx
             self.y += dy
+        self.rect = pygame.Rect(self.x * CELL_SIZE, self.y * CELL_SIZE, CELL_SIZE, CELL_SIZE)
 
     def attack_simple(self, target):
         """Attaque une unité cible."""
