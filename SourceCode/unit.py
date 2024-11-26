@@ -49,51 +49,16 @@ class Unit:
         Dessine l'unité sur la grille.
     """
 
-    def __init__(self, x, y, team, hierarchy):
+    def __init__(self, x, y, team):
         """
         Construit une unité avec une position, une santé, une puissance d'attaque et une équipe.
-
-        Paramètres
-        ----------
-        x : int
-            La position x de l'unité sur la grille.
-        y : int
-            La position y de l'unité sur la grille.
-        health : int
-            La santé de l'unité.
-        attack_power : int
-            La puissance d'attaque de l'unité.
-        team : str
-            L'équipe de l'unité ('good' ou 'evil').
-        hierarchy: str
-            Il s'agit du type de l'unité.
-                - "royal" => roi ou reine
-                - "soldier" => wyverne ou gargouille
-                - "pauper" => larve ou lindwurm
         """
         self.x = x
         self.y = y
         self.rect = pygame.Rect(self.x * CELL_SIZE, self.y * CELL_SIZE, CELL_SIZE, CELL_SIZE)
-        self.hierarchy = hierarchy
         self.team = team
         self.is_selected = False
         self.move_count = 0
-        match self.hierarchy:
-            case "royal":
-                self.health = 180
-                self.attack_power = 32
-                self.resistance = 26
-                self.speed = 1
-            case "soldier":
-                self.health = 32
-                self.attack_power = 16
-                self.resistance = 12
-                self.speed = 5
-            case "pauper":
-                self.health = 60
-                self.attack_power = 6
-                self.resistance = 0
-                self.speed = 3
 
     def move(self, dx, dy):
         """Déplace l'unité de dx, dy."""
@@ -109,13 +74,6 @@ class Unit:
         if target.health < 0:
             target.health = 0
 
-    def attack_zone(self, target):
-        """Attaque les unités d'une zone."""
-        if targer.team != self.team:
-            target.health -= self.attack_power // 2
-        if target.health < 0:
-            target.health = 0
-
     def attack_berserk(self, target):
         """Attaque une unité cible, tout en infligeant des dégâts à l'attaquant."""
         if target.team != self.team:
@@ -128,24 +86,107 @@ class Unit:
 
     def draw(self, screen):
         """Affiche l'unité sur l'écran."""
+        pass
+
+class Royal(Unit): # L'unité royale, bonne ou mauvaise.
+    def __init__(self, x, y, team):
+        super().__init__(x, y, team)
+        self.hierarchy = "royal"
+        self.health = 180
+        self.attack_power = 32
+        self.resistance = 26
+        self.speed = 1
+
+    def move(self, dx, dy):
+        super().move(dx, dy)
+
+    def attack_simple(self, target):
+        super().attack_simple(target)
+
+    def attack_berserk(self, target):
+        super().attack_berserk(target)
+
+    def draw(self, screen):
         if self.team == "good":
-            color = GREEN
-            match self.hierarchy:
-                case "royal":
-                    appearance = pygame.image.load("../Textures/DragonQueen_Sketch.png").convert_alpha()
-                case "soldier":
-                    appearance = pygame.image.load("../Textures/Amphiptere_Sketch.png").convert_alpha()
-                case "pauper":
-                    appearance = pygame.image.load("../Textures/Lindwurm_Sketch.png").convert_alpha()
+            color = BLUE
+            appearance = pygame.image.load("../Textures/DragonQueen_Sketch.png").convert_alpha()
         elif self.team == "evil":
             color = RED
-            match self.hierarchy:
-                case "royal":
-                    appearance = pygame.image.load("../Textures/DracolichKing_Sketch.png").convert_alpha()
-                case "soldier":
-                    appearance = pygame.image.load("../Textures/Gargouille_Sketch.png").convert_alpha()
-                case "pauper":
-                    appearance = pygame.image.load("../Textures/Larva_Sketch.png").convert_alpha()
+            appearance = pygame.image.load("../Textures/DracolichKing_Sketch.png").convert_alpha()
+        else:
+            raise ValueError("No other alignment yet!")
+        appearance = pygame.transform.scale(appearance, (CELL_SIZE, CELL_SIZE))
+        WINDOW.blit(appearance, (self.x * CELL_SIZE, self.y * CELL_SIZE))
+
+        # Affiche self.health à l'écran.
+        pygame.draw.rect(WINDOW, RED, (int(CELL_SIZE * (self.x + 11/12)), int(self.y * CELL_SIZE), int(CELL_SIZE * 1/12), int(CELL_SIZE)))
+        pygame.draw.rect(WINDOW, GREEN, (int(CELL_SIZE * (self.x + 11/12)), int(CELL_SIZE * (self.y + 1 - self.health / 180)), int(CELL_SIZE * 1/12), int(CELL_SIZE * self.health / 180)))
+
+        if self.is_selected:
+            pygame.draw.rect(WINDOW, BLUE, (self.x * CELL_SIZE, self.y * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
+
+class Soldier(Unit): # L'unité royale, bonne ou mauvaise.
+    def __init__(self, x, y, team):
+        super().__init__(x, y, team)
+        self.hierarchy = "royal"
+        self.health = 32
+        self.attack_power = 16
+        self.resistance = 12
+        self.speed = 5
+
+    def move(self, dx, dy):
+        super().move(dx, dy)
+
+    def attack_simple(self, target):
+        super().attack_simple(target)
+
+    def attack_berserk(self, target):
+        super().attack_berserk(target)
+
+    def draw(self, screen):
+        if self.team == "good":
+            color = BLUE
+            appearance = pygame.image.load("../Textures/Amphiptere_Sketch.png").convert_alpha()
+        elif self.team == "evil":
+            color = RED
+            appearance = pygame.image.load("../Textures/Gargouille_Sketch.png").convert_alpha()
+        else:
+            raise ValueError("No other alignment yet!")
+        appearance = pygame.transform.scale(appearance, (CELL_SIZE, CELL_SIZE))
+        WINDOW.blit(appearance, (self.x * CELL_SIZE, self.y * CELL_SIZE))
+
+        # Affiche self.health à l'écran.
+        pygame.draw.rect(WINDOW, RED, (int(CELL_SIZE * (self.x + 11/12)), int(self.y * CELL_SIZE), int(CELL_SIZE * 1/12), int(CELL_SIZE)))
+        pygame.draw.rect(WINDOW, GREEN, (int(CELL_SIZE * (self.x + 11/12)), int(CELL_SIZE * (self.y + 1 - self.health / 180)), int(CELL_SIZE * 1/12), int(CELL_SIZE * self.health / 180)))
+
+        if self.is_selected:
+            pygame.draw.rect(WINDOW, BLUE, (self.x * CELL_SIZE, self.y * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
+
+class Pauper(Unit): # L'unité royale, bonne ou mauvaise.
+    def __init__(self, x, y, team):
+        super().__init__(x, y, team)
+        self.hierarchy = "royal"
+        self.health = 60
+        self.attack_power = 6
+        self.resistance = 0
+        self.speed = 3
+
+    def move(self, dx, dy):
+        super().move(dx, dy)
+
+    def attack_simple(self, target):
+        super().attack_simple(target)
+
+    def attack_berserk(self, target):
+        super().attack_berserk(target)
+
+    def draw(self, screen):
+        if self.team == "good":
+            color = BLUE
+            appearance = pygame.image.load("../Textures/Lindwurm_Sketch.png").convert_alpha()
+        elif self.team == "evil":
+            color = RED
+            appearance = pygame.image.load("../Textures/Larva_Sketch.png").convert_alpha()
         else:
             raise ValueError("No other alignment yet!")
         appearance = pygame.transform.scale(appearance, (CELL_SIZE, CELL_SIZE))

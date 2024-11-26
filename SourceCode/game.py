@@ -29,25 +29,25 @@ class Game:
             La surface de la fenêtre du jeu.
         """
         self.screen = screen
-        self.good_units = [Unit(6, 3, "good", "royal"),
-                             Unit(6, 2, "good", "soldier"),
-                             Unit(6, 4, "good", "soldier"),
-                             Unit(5, 2, "good", "pauper"),
-                             Unit(5, 3, "good", "pauper"),
-                             Unit(5, 4, "good", "pauper")]
+        self.good_units = [Royal(6, 3, "good"),
+                             Soldier(6, 2, "good"),
+                             Soldier(6, 4, "good"),
+                             Pauper(5, 2, "good"),
+                             Pauper(5, 3, "good"),
+                             Pauper(5, 4, "good")]
 
-        self.evil_units = [Unit(0, 3, "evil", "royal"),
-                             Unit(0, 2, "evil", "soldier"),
-                             Unit(0, 4, "evil", "soldier"),
-                             Unit(1, 2, "evil", "pauper"),
-                             Unit(1, 3, "evil", "pauper"),
-                             Unit(1, 4, "evil", "pauper")]
+        self.evil_units = [Royal(0, 3, "evil"),
+                             Soldier(0, 2, "evil"),
+                             Soldier(0, 4, "evil"),
+                             Pauper(1, 2, "evil"),
+                             Pauper(1, 3, "evil"),
+                             Pauper(1, 4, "evil")]
 
     def handle_good_turn(self):
         """Tour du joueur 'evil'"""
         # Sélection de l'unité à jouer.
         self.flip_display()
-        selectionMade = False
+        selectionMade = False # Le joueur a-t-il sélectionné son unité?
         while not selectionMade:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -55,9 +55,8 @@ class Game:
                     exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     click_pos = pygame.mouse.get_pos()
-                    print(click_pos)
                     for unit in self.good_units:
-                        if unit.rect.collidepoint(click_pos):
+                        if unit.rect.collidepoint(click_pos): # Le joueur a sélectionné son unité.
                             selected_unit = unit
                             selectionMade = True
                             selected_unit.is_selected = True
@@ -66,10 +65,10 @@ class Game:
 
         # Tant que l'unité n'a pas terminé son tour
         has_acted = False
+        Deplacer = False # L'unité a-t-elle bougée?
         while not has_acted:
             # Important: cette boucle permet de gérer les événements Pygame
             for event in pygame.event.get():
-                Deplacer = False # L'unité a-t-elle bougée?
 
                 # Gestion de la fermeture de la fenêtre
                 if event.type == pygame.QUIT:
@@ -239,7 +238,7 @@ def main():
     # Boucle principale du jeu
     while True:
         game.handle_evil_turn()
-        # game.handle_good_turn()
+        game.handle_good_turn()
 
 
 if __name__ == "__main__":
