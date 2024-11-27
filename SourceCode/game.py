@@ -43,8 +43,8 @@ class Game:
                              Pauper(1, 3, "evil"),
                              Pauper(1, 4, "evil")]
 
-    def handle_good_turn(self):
-        """Tour du joueur 'evil'"""
+    def handle_turn(self, unit_set):
+        """Tour du joueur ayant les 'unit_set'."""
         # Sélection de l'unité à jouer.
         self.flip_display()
         selectionMade = False # Le joueur a-t-il sélectionné son unité?
@@ -55,7 +55,7 @@ class Game:
                     exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     click_pos = pygame.mouse.get_pos()
-                    for unit in self.good_units:
+                    for unit in unit_set:
                         if unit.rect.collidepoint(click_pos): # Le joueur a sélectionné son unité.
                             selected_unit = unit
                             selectionMade = True
@@ -80,103 +80,63 @@ class Game:
 
                     # Déplacement (touches fléchées)
                     dx, dy = 0, 0
+                    collide = False # L'unité va-t-elle percuter une autre unité?
                     if event.key == pygame.K_LEFT and selected_unit.move_count < selected_unit.speed:
                         dx = -1
-                        selected_unit.move_count += 1
-                        Deplacer = True
+                        if selected_unit.x + dx > GRID_SIZE or selected_unit.x + dx < 0 or selected_unit.y + dy > GRID_SIZE or selected_unit.y + dy < 0:
+                            collide = True
+                        else:
+                            for unit in self.good_units + self.evil_units:
+                                if unit.x == selected_unit.x + dx and unit.y == selected_unit.y + dy:
+                                    collide = True
+                        if not collide:
+                            selected_unit.move_count += 1
+                            Deplacer = True
+                        else:
+                            dx = 0
+                            dy = 0
                     elif event.key == pygame.K_RIGHT and selected_unit.move_count < selected_unit.speed:
                         dx = 1
-                        selected_unit.move_count += 1
-                        Deplacer = True
+                        if selected_unit.x + dx > GRID_SIZE or selected_unit.x + dx < 0 or selected_unit.y + dy > GRID_SIZE or selected_unit.y + dy < 0:
+                            collide = True
+                        else:
+                            for unit in self.good_units + self.evil_units:
+                                if unit.x == selected_unit.x + dx and unit.y == selected_unit.y + dy:
+                                    collide = True
+                        if not collide:
+                            selected_unit.move_count += 1
+                            Deplacer = True
+                        else:
+                            dx = 0
+                            dy = 0
                     elif event.key == pygame.K_UP and selected_unit.move_count < selected_unit.speed:
                         dy = -1
-                        selected_unit.move_count += 1
-                        Deplacer = True
+                        if selected_unit.x + dx > GRID_SIZE or selected_unit.x + dx < 0 or selected_unit.y + dy > GRID_SIZE or selected_unit.y + dy < 0:
+                            collide = True
+                        else:
+                            for unit in self.good_units + self.evil_units:
+                                if unit.x == selected_unit.x + dx and unit.y == selected_unit.y + dy:
+                                    collide = True
+                        if not collide:
+                            selected_unit.move_count += 1
+                            Deplacer = True
+                        else:
+                            dx = 0
+                            dy = 0
                     elif event.key == pygame.K_DOWN and selected_unit.move_count < selected_unit.speed:
                         dy = 1
-                        selected_unit.move_count += 1
-                        Deplacer = True
-
-                    selected_unit.move(dx, dy)
-                    self.flip_display()
-
-                    # Attaque (simple ou berserk, d'une case)
-
-                    if not(Deplacer) and event.key == pygame.K_z:
-                        target = [selected_unit.x, selected_unit.y - 1]
-                        pygame.draw.rect(WINDOW, GREEN, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE))
-                    elif not(Deplacer) and event.key == pygame.K_q:
-                        target = [selected_unit.x - 1, selected_unit.y]
-                        pygame.draw.rect(WINDOW, GREEN, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE))
-                    elif not(Deplacer) and event.key == pygame.K_s:
-                        target = [selected_unit.x, selected_unit.y + 1]
-                        pygame.draw.rect(WINDOW, GREEN, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE))
-                    elif not(Deplacer) and event.key == pygame.K_d:
-                        target = [selected_unit.x + 1, selected_unit.y]
-                        pygame.draw.rect(WINDOW, GREEN, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE))
-
-                    pygame.display.update()
-
-                    # Fin de tour
-                    if event.key == pygame.K_RETURN:
-                        has_acted = True
-                        selected_unit.is_selected = False
-                        selected_unit.move_count = 0
-                        break
-
-    def handle_evil_turn(self):
-        """Tour du joueur 'evil'"""
-        # Sélection de l'unité à jouer.
-        self.flip_display()
-        selectionMade = False # Le joueur a-t-il sélectionné son unité?
-        while not selectionMade:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    exit()
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    click_pos = pygame.mouse.get_pos()
-                    for unit in self.evil_units:
-                        if unit.rect.collidepoint(click_pos): # Le joueur a sélectionné son unité.
-                            selected_unit = unit
-                            selectionMade = True
-                            selected_unit.is_selected = True
-                            self.flip_display()
-                            break
-
-        # Tant que l'unité n'a pas terminé son tour
-        has_acted = False
-        Deplacer = False # L'unité a-t-elle bougée?
-        while not has_acted:
-            # Important: cette boucle permet de gérer les événements Pygame
-            for event in pygame.event.get():
-
-                # Gestion de la fermeture de la fenêtre
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    exit()
-
-                # Gestion des touches du clavier
-                if event.type == pygame.KEYDOWN:
-
-                    # Déplacement (touches fléchées)
-                    dx, dy = 0, 0
-                    if event.key == pygame.K_LEFT and selected_unit.move_count < selected_unit.speed:
-                        dx = -1
-                        selected_unit.move_count += 1
-                        Deplacer = True
-                    elif event.key == pygame.K_RIGHT and selected_unit.move_count < selected_unit.speed:
-                        dx = 1
-                        selected_unit.move_count += 1
-                        Deplacer = True
-                    elif event.key == pygame.K_UP and selected_unit.move_count < selected_unit.speed:
-                        dy = -1
-                        selected_unit.move_count += 1
-                        Deplacer = True
-                    elif event.key == pygame.K_DOWN and selected_unit.move_count < selected_unit.speed:
-                        dy = 1
-                        selected_unit.move_count += 1
-                        Deplacer = True
+                        if selected_unit.x + dx > GRID_SIZE or selected_unit.x + dx < 0 or selected_unit.y + dy > GRID_SIZE or selected_unit.y + dy < 0:
+                            collide = True
+                        else:
+                            for unit in self.good_units + self.evil_units:
+                                if unit.x == selected_unit.x + dx and unit.y == selected_unit.y + dy:
+                                    collide = True
+                        if not collide:
+                            selected_unit.move_count += 1
+                            Deplacer = True
+                        else:
+                            dx = 0
+                            dy = 0
 
                     selected_unit.move(dx, dy)
                     self.flip_display()
@@ -237,8 +197,8 @@ def main():
 
     # Boucle principale du jeu
     while True:
-        game.handle_evil_turn()
-        game.handle_good_turn()
+        game.handle_turn(game.evil_units)
+        game.handle_turn(game.good_units)
 
 
 if __name__ == "__main__":
