@@ -83,7 +83,7 @@ class Game:
                     collide = False # L'unité va-t-elle percuter une autre unité?
                     if event.key == pygame.K_LEFT and selected_unit.move_count < selected_unit.speed:
                         dx = -1
-                        if selected_unit.x + dx > GRID_SIZE or selected_unit.x + dx < 0 or selected_unit.y + dy > GRID_SIZE or selected_unit.y + dy < 0:
+                        if selected_unit.x + dx > GRID_SIZE - 1 or selected_unit.x + dx < 0 or selected_unit.y + dy > GRID_SIZE - 1 or selected_unit.y + dy < 0:
                             collide = True
                         else:
                             for unit in self.good_units + self.evil_units:
@@ -97,7 +97,7 @@ class Game:
                             dy = 0
                     elif event.key == pygame.K_RIGHT and selected_unit.move_count < selected_unit.speed:
                         dx = 1
-                        if selected_unit.x + dx > GRID_SIZE or selected_unit.x + dx < 0 or selected_unit.y + dy > GRID_SIZE or selected_unit.y + dy < 0:
+                        if selected_unit.x + dx > GRID_SIZE - 1 or selected_unit.x + dx < 0 or selected_unit.y + dy > GRID_SIZE - 1 or selected_unit.y + dy < 0:
                             collide = True
                         else:
                             for unit in self.good_units + self.evil_units:
@@ -111,7 +111,7 @@ class Game:
                             dy = 0
                     elif event.key == pygame.K_UP and selected_unit.move_count < selected_unit.speed:
                         dy = -1
-                        if selected_unit.x + dx > GRID_SIZE or selected_unit.x + dx < 0 or selected_unit.y + dy > GRID_SIZE or selected_unit.y + dy < 0:
+                        if selected_unit.x + dx > GRID_SIZE - 1 or selected_unit.x + dx < 0 or selected_unit.y + dy > GRID_SIZE - 1 or selected_unit.y + dy < 0:
                             collide = True
                         else:
                             for unit in self.good_units + self.evil_units:
@@ -125,7 +125,7 @@ class Game:
                             dy = 0
                     elif event.key == pygame.K_DOWN and selected_unit.move_count < selected_unit.speed:
                         dy = 1
-                        if selected_unit.x + dx > GRID_SIZE or selected_unit.x + dx < 0 or selected_unit.y + dy > GRID_SIZE or selected_unit.y + dy < 0:
+                        if selected_unit.x + dx > GRID_SIZE - 1 or selected_unit.x + dx < 0 or selected_unit.y + dy > GRID_SIZE - 1 or selected_unit.y + dy < 0:
                             collide = True
                         else:
                             for unit in self.good_units + self.evil_units:
@@ -184,7 +184,6 @@ class Game:
 
 
 def main():
-
     # Initialisation de Pygame
     pygame.init()
 
@@ -197,8 +196,8 @@ def main():
 
     # Boucle principale du jeu
     while True:
-        game.handle_turn(game.evil_units)
-        game.handle_turn(game.good_units)
+        game.handle_turn(game.evil_units) # Tour des méchants pas beaux!
+        game.handle_turn(game.good_units) # Tour des gentils.
 
 
 if __name__ == "__main__":
