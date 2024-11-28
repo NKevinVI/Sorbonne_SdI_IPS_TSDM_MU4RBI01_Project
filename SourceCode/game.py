@@ -147,18 +147,18 @@ class Game:
                     self.flip_display()
 
                     # Attaque (simple): visée.
-                    if not(Deplacer) and event.key == pygame.K_z:
+                    if not(Deplacer) and event.key == pygame.K_z and not(Attaque):
                         target = [selected_unit.x, selected_unit.y - 1]
-                        pygame.draw.rect(WINDOW, GREEN, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE))
-                    elif not(Deplacer) and event.key == pygame.K_q:
+                        pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
+                    elif not(Deplacer) and event.key == pygame.K_q and not(Attaque):
                         target = [selected_unit.x - 1, selected_unit.y]
-                        pygame.draw.rect(WINDOW, GREEN, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE))
-                    elif not(Deplacer) and event.key == pygame.K_s:
+                        pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
+                    elif not(Deplacer) and event.key == pygame.K_s and not(Attaque):
                         target = [selected_unit.x, selected_unit.y + 1]
-                        pygame.draw.rect(WINDOW, GREEN, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE))
-                    elif not(Deplacer) and event.key == pygame.K_d:
+                        pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
+                    elif not(Deplacer) and event.key == pygame.K_d and not(Attaque):
                         target = [selected_unit.x + 1, selected_unit.y]
-                        pygame.draw.rect(WINDOW, GREEN, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE))
+                        pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
 
                     # Attaque (simple): échange de dégâts.
                     unit_target = None

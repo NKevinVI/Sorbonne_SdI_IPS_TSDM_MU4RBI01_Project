@@ -70,7 +70,7 @@ class Unit:
 
     def attack_simple(self, target):
         """Attaque une unité cible."""
-        target.health -= self.attack_power
+        target.health -= self.attack_power - target.resistance
         if target.health <= 0:
             target.health = 0
             target.is_alive = False
@@ -83,9 +83,9 @@ class Royal(Unit): # L'unité royale, bonne ou mauvaise.
     def __init__(self, x, y, team):
         super().__init__(x, y, team)
         self.hierarchy = "royal"
-        self.health = 180
+        self.health = 60
         self.attack_power = 32
-        self.resistance = 26
+        self.resistance = 16
         self.speed = 1
 
     def draw(self, screen):
@@ -103,7 +103,7 @@ class Royal(Unit): # L'unité royale, bonne ou mauvaise.
 
             # Affiche self.health à l'écran.
             pygame.draw.rect(WINDOW, RED, (int(CELL_SIZE * (self.x + 11/12)), int(self.y * CELL_SIZE), int(CELL_SIZE * 1/12), int(CELL_SIZE)))
-            pygame.draw.rect(WINDOW, GREEN, (int(CELL_SIZE * (self.x + 11/12)), int(CELL_SIZE * (self.y + 1 - self.health / 180)), int(CELL_SIZE * 1/12), int(CELL_SIZE * self.health / 180)))
+            pygame.draw.rect(WINDOW, GREEN, (int(CELL_SIZE * (self.x + 11/12)), int(CELL_SIZE * (self.y + 1 - self.health / 60)), int(CELL_SIZE * 1/12), int(CELL_SIZE * self.health / 60)))
 
             if self.is_selected:
                 pygame.draw.rect(WINDOW, BLUE, (self.x * CELL_SIZE, self.y * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
@@ -112,10 +112,10 @@ class Soldier(Unit): # L'unité royale, bonne ou mauvaise.
     def __init__(self, x, y, team):
         super().__init__(x, y, team)
         self.hierarchy = "royal"
-        self.health = 32
-        self.attack_power = 16
-        self.resistance = 12
-        self.speed = 5
+        self.health = 36
+        self.attack_power = 23
+        self.resistance = 13
+        self.speed = 4
 
     def draw(self, screen):
         if self.is_alive:
@@ -132,7 +132,7 @@ class Soldier(Unit): # L'unité royale, bonne ou mauvaise.
 
             # Affiche self.health à l'écran.
             pygame.draw.rect(WINDOW, RED, (int(CELL_SIZE * (self.x + 11/12)), int(self.y * CELL_SIZE), int(CELL_SIZE * 1/12), int(CELL_SIZE)))
-            pygame.draw.rect(WINDOW, GREEN, (int(CELL_SIZE * (self.x + 11/12)), int(CELL_SIZE * (self.y + 1 - self.health / 180)), int(CELL_SIZE * 1/12), int(CELL_SIZE * self.health / 180)))
+            pygame.draw.rect(WINDOW, GREEN, (int(CELL_SIZE * (self.x + 11/12)), int(CELL_SIZE * (self.y + 1 - self.health / 60)), int(CELL_SIZE * 1/12), int(CELL_SIZE * self.health / 60)))
 
             if self.is_selected:
                 pygame.draw.rect(WINDOW, BLUE, (self.x * CELL_SIZE, self.y * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
@@ -141,10 +141,10 @@ class Pauper(Unit): # L'unité royale, bonne ou mauvaise.
     def __init__(self, x, y, team):
         super().__init__(x, y, team)
         self.hierarchy = "royal"
-        self.health = 60
-        self.attack_power = 6
-        self.resistance = 0
-        self.speed = 3
+        self.health = 23
+        self.attack_power = 16
+        self.resistance = 6
+        self.speed = 2
 
     def draw(self, screen):
         if self.is_alive:
@@ -161,7 +161,7 @@ class Pauper(Unit): # L'unité royale, bonne ou mauvaise.
 
             # Affiche self.health à l'écran.
             pygame.draw.rect(WINDOW, RED, (int(CELL_SIZE * (self.x + 11/12)), int(self.y * CELL_SIZE), int(CELL_SIZE * 1/12), int(CELL_SIZE)))
-            pygame.draw.rect(WINDOW, GREEN, (int(CELL_SIZE * (self.x + 11/12)), int(CELL_SIZE * (self.y + 1 - self.health / 180)), int(CELL_SIZE * 1/12), int(CELL_SIZE * self.health / 180)))
+            pygame.draw.rect(WINDOW, GREEN, (int(CELL_SIZE * (self.x + 11/12)), int(CELL_SIZE * (self.y + 1 - self.health / 60)), int(CELL_SIZE * 1/12), int(CELL_SIZE * self.health / 60)))
 
             if self.is_selected:
                 pygame.draw.rect(WINDOW, BLUE, (self.x * CELL_SIZE, self.y * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
