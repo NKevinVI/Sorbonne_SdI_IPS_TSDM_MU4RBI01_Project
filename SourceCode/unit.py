@@ -74,16 +74,6 @@ class Unit:
         if target.health < 0:
             target.health = 0
 
-    def attack_berserk(self, target):
-        """Attaque une unité cible, tout en infligeant des dégâts à l'attaquant."""
-        if target.team != self.team:
-            target.health -= 3 * self.attack_power
-            self.health -= 2 * self.attack_power
-        if target.health < 0:
-            target.health = 0
-        if self.health < 0:
-            self.health = 0
-
     def draw(self, screen):
         """Affiche l'unité sur l'écran."""
         pass
@@ -96,15 +86,6 @@ class Royal(Unit): # L'unité royale, bonne ou mauvaise.
         self.attack_power = 32
         self.resistance = 26
         self.speed = 1
-
-    def move(self, dx, dy):
-        super().move(dx, dy)
-
-    def attack_simple(self, target):
-        super().attack_simple(target)
-
-    def attack_berserk(self, target):
-        super().attack_berserk(target)
 
     def draw(self, screen):
         if self.team == "good":
@@ -134,15 +115,6 @@ class Soldier(Unit): # L'unité royale, bonne ou mauvaise.
         self.resistance = 12
         self.speed = 5
 
-    def move(self, dx, dy):
-        super().move(dx, dy)
-
-    def attack_simple(self, target):
-        super().attack_simple(target)
-
-    def attack_berserk(self, target):
-        super().attack_berserk(target)
-
     def draw(self, screen):
         if self.team == "good":
             color = BLUE
@@ -170,15 +142,6 @@ class Pauper(Unit): # L'unité royale, bonne ou mauvaise.
         self.attack_power = 6
         self.resistance = 0
         self.speed = 3
-
-    def move(self, dx, dy):
-        super().move(dx, dy)
-
-    def attack_simple(self, target):
-        super().attack_simple(target)
-
-    def attack_berserk(self, target):
-        super().attack_berserk(target)
 
     def draw(self, screen):
         if self.team == "good":
