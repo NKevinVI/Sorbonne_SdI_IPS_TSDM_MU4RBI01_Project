@@ -59,6 +59,7 @@ class Unit:
         self.team = team
         self.is_selected = False
         self.move_count = 0
+        self.is_alive = True
 
     def move(self, dx, dy):
         """Déplace l'unité de dx, dy."""
@@ -69,10 +70,10 @@ class Unit:
 
     def attack_simple(self, target):
         """Attaque une unité cible."""
-        if target.team != self.team:
-            target.health -= self.attack_power
-        if target.health < 0:
+        target.health -= self.attack_power
+        if target.health <= 0:
             target.health = 0
+            target.is_alive = False
 
     def draw(self, screen):
         """Affiche l'unité sur l'écran."""
@@ -88,23 +89,24 @@ class Royal(Unit): # L'unité royale, bonne ou mauvaise.
         self.speed = 1
 
     def draw(self, screen):
-        if self.team == "good":
-            color = BLUE
-            appearance = pygame.image.load("../Textures/DragonQueen_Sketch.png").convert_alpha()
-        elif self.team == "evil":
-            color = RED
-            appearance = pygame.image.load("../Textures/DracolichKing_Sketch.png").convert_alpha()
-        else:
-            raise ValueError("No other alignment yet!")
-        appearance = pygame.transform.scale(appearance, (CELL_SIZE, CELL_SIZE))
-        WINDOW.blit(appearance, (self.x * CELL_SIZE, self.y * CELL_SIZE))
+        if self.is_alive:
+            if self.team == "good":
+                color = BLUE
+                appearance = pygame.image.load("../Textures/DragonQueen_Sketch.png").convert_alpha()
+            elif self.team == "evil":
+                color = RED
+                appearance = pygame.image.load("../Textures/DracolichKing_Sketch.png").convert_alpha()
+            else:
+                raise ValueError("No other alignment yet!")
+            appearance = pygame.transform.scale(appearance, (CELL_SIZE, CELL_SIZE))
+            WINDOW.blit(appearance, (self.x * CELL_SIZE, self.y * CELL_SIZE))
 
-        # Affiche self.health à l'écran.
-        pygame.draw.rect(WINDOW, RED, (int(CELL_SIZE * (self.x + 11/12)), int(self.y * CELL_SIZE), int(CELL_SIZE * 1/12), int(CELL_SIZE)))
-        pygame.draw.rect(WINDOW, GREEN, (int(CELL_SIZE * (self.x + 11/12)), int(CELL_SIZE * (self.y + 1 - self.health / 180)), int(CELL_SIZE * 1/12), int(CELL_SIZE * self.health / 180)))
+            # Affiche self.health à l'écran.
+            pygame.draw.rect(WINDOW, RED, (int(CELL_SIZE * (self.x + 11/12)), int(self.y * CELL_SIZE), int(CELL_SIZE * 1/12), int(CELL_SIZE)))
+            pygame.draw.rect(WINDOW, GREEN, (int(CELL_SIZE * (self.x + 11/12)), int(CELL_SIZE * (self.y + 1 - self.health / 180)), int(CELL_SIZE * 1/12), int(CELL_SIZE * self.health / 180)))
 
-        if self.is_selected:
-            pygame.draw.rect(WINDOW, BLUE, (self.x * CELL_SIZE, self.y * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
+            if self.is_selected:
+                pygame.draw.rect(WINDOW, BLUE, (self.x * CELL_SIZE, self.y * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
 
 class Soldier(Unit): # L'unité royale, bonne ou mauvaise.
     def __init__(self, x, y, team):
@@ -116,23 +118,24 @@ class Soldier(Unit): # L'unité royale, bonne ou mauvaise.
         self.speed = 5
 
     def draw(self, screen):
-        if self.team == "good":
-            color = BLUE
-            appearance = pygame.image.load("../Textures/Amphiptere_Sketch.png").convert_alpha()
-        elif self.team == "evil":
-            color = RED
-            appearance = pygame.image.load("../Textures/Gargouille_Sketch.png").convert_alpha()
-        else:
-            raise ValueError("No other alignment yet!")
-        appearance = pygame.transform.scale(appearance, (CELL_SIZE, CELL_SIZE))
-        WINDOW.blit(appearance, (self.x * CELL_SIZE, self.y * CELL_SIZE))
+        if self.is_alive:
+            if self.team == "good":
+                color = BLUE
+                appearance = pygame.image.load("../Textures/Amphiptere_Sketch.png").convert_alpha()
+            elif self.team == "evil":
+                color = RED
+                appearance = pygame.image.load("../Textures/Gargouille_Sketch.png").convert_alpha()
+            else:
+                raise ValueError("No other alignment yet!")
+            appearance = pygame.transform.scale(appearance, (CELL_SIZE, CELL_SIZE))
+            WINDOW.blit(appearance, (self.x * CELL_SIZE, self.y * CELL_SIZE))
 
-        # Affiche self.health à l'écran.
-        pygame.draw.rect(WINDOW, RED, (int(CELL_SIZE * (self.x + 11/12)), int(self.y * CELL_SIZE), int(CELL_SIZE * 1/12), int(CELL_SIZE)))
-        pygame.draw.rect(WINDOW, GREEN, (int(CELL_SIZE * (self.x + 11/12)), int(CELL_SIZE * (self.y + 1 - self.health / 180)), int(CELL_SIZE * 1/12), int(CELL_SIZE * self.health / 180)))
+            # Affiche self.health à l'écran.
+            pygame.draw.rect(WINDOW, RED, (int(CELL_SIZE * (self.x + 11/12)), int(self.y * CELL_SIZE), int(CELL_SIZE * 1/12), int(CELL_SIZE)))
+            pygame.draw.rect(WINDOW, GREEN, (int(CELL_SIZE * (self.x + 11/12)), int(CELL_SIZE * (self.y + 1 - self.health / 180)), int(CELL_SIZE * 1/12), int(CELL_SIZE * self.health / 180)))
 
-        if self.is_selected:
-            pygame.draw.rect(WINDOW, BLUE, (self.x * CELL_SIZE, self.y * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
+            if self.is_selected:
+                pygame.draw.rect(WINDOW, BLUE, (self.x * CELL_SIZE, self.y * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
 
 class Pauper(Unit): # L'unité royale, bonne ou mauvaise.
     def __init__(self, x, y, team):
@@ -144,20 +147,21 @@ class Pauper(Unit): # L'unité royale, bonne ou mauvaise.
         self.speed = 3
 
     def draw(self, screen):
-        if self.team == "good":
-            color = BLUE
-            appearance = pygame.image.load("../Textures/Lindwurm_Sketch.png").convert_alpha()
-        elif self.team == "evil":
-            color = RED
-            appearance = pygame.image.load("../Textures/Larva_Sketch.png").convert_alpha()
-        else:
-            raise ValueError("No other alignment yet!")
-        appearance = pygame.transform.scale(appearance, (CELL_SIZE, CELL_SIZE))
-        WINDOW.blit(appearance, (self.x * CELL_SIZE, self.y * CELL_SIZE))
+        if self.is_alive:
+            if self.team == "good":
+                color = BLUE
+                appearance = pygame.image.load("../Textures/Lindwurm_Sketch.png").convert_alpha()
+            elif self.team == "evil":
+                color = RED
+                appearance = pygame.image.load("../Textures/Larva_Sketch.png").convert_alpha()
+            else:
+                raise ValueError("No other alignment yet!")
+            appearance = pygame.transform.scale(appearance, (CELL_SIZE, CELL_SIZE))
+            WINDOW.blit(appearance, (self.x * CELL_SIZE, self.y * CELL_SIZE))
 
-        # Affiche self.health à l'écran.
-        pygame.draw.rect(WINDOW, RED, (int(CELL_SIZE * (self.x + 11/12)), int(self.y * CELL_SIZE), int(CELL_SIZE * 1/12), int(CELL_SIZE)))
-        pygame.draw.rect(WINDOW, GREEN, (int(CELL_SIZE * (self.x + 11/12)), int(CELL_SIZE * (self.y + 1 - self.health / 180)), int(CELL_SIZE * 1/12), int(CELL_SIZE * self.health / 180)))
+            # Affiche self.health à l'écran.
+            pygame.draw.rect(WINDOW, RED, (int(CELL_SIZE * (self.x + 11/12)), int(self.y * CELL_SIZE), int(CELL_SIZE * 1/12), int(CELL_SIZE)))
+            pygame.draw.rect(WINDOW, GREEN, (int(CELL_SIZE * (self.x + 11/12)), int(CELL_SIZE * (self.y + 1 - self.health / 180)), int(CELL_SIZE * 1/12), int(CELL_SIZE * self.health / 180)))
 
-        if self.is_selected:
-            pygame.draw.rect(WINDOW, BLUE, (self.x * CELL_SIZE, self.y * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
+            if self.is_selected:
+                pygame.draw.rect(WINDOW, BLUE, (self.x * CELL_SIZE, self.y * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)

@@ -66,6 +66,8 @@ class Game:
         # Tant que l'unité n'a pas terminé son tour
         has_acted = False # L'unité a-t-elle joué?
         Deplacer = False # L'unité a-t-elle bougée?
+        Attaque = False # L'unité a-t-elle attaquée?
+        target = [selected_unit.x, selected_unit.y] # Cible par défaut: soi-même.
         while not has_acted:
             # Important: cette boucle permet de gérer les événements Pygame
             for event in pygame.event.get():
@@ -84,7 +86,7 @@ class Game:
                     collide = False # L'unité va-t-elle percuter une autre unité?
 
                     # Gestion des déplacements.
-                    if event.key == pygame.K_LEFT and selected_unit.move_count < selected_unit.speed:
+                    if event.key == pygame.K_LEFT and selected_unit.move_count < selected_unit.speed and not(Attaque):
                         dx = -1
                         if selected_unit.x + dx > GRID_SIZE - 1 or selected_unit.x + dx < 0 or selected_unit.y + dy > GRID_SIZE - 1 or selected_unit.y + dy < 0:
                             collide = True
@@ -98,7 +100,7 @@ class Game:
                         else:
                             dx = 0
                             dy = 0
-                    elif event.key == pygame.K_RIGHT and selected_unit.move_count < selected_unit.speed:
+                    elif event.key == pygame.K_RIGHT and selected_unit.move_count < selected_unit.speed and not(Attaque):
                         dx = 1
                         if selected_unit.x + dx > GRID_SIZE - 1 or selected_unit.x + dx < 0 or selected_unit.y + dy > GRID_SIZE - 1 or selected_unit.y + dy < 0:
                             collide = True
@@ -112,7 +114,7 @@ class Game:
                         else:
                             dx = 0
                             dy = 0
-                    elif event.key == pygame.K_UP and selected_unit.move_count < selected_unit.speed:
+                    elif event.key == pygame.K_UP and selected_unit.move_count < selected_unit.speed and not(Attaque):
                         dy = -1
                         if selected_unit.x + dx > GRID_SIZE - 1 or selected_unit.x + dx < 0 or selected_unit.y + dy > GRID_SIZE - 1 or selected_unit.y + dy < 0:
                             collide = True
@@ -126,7 +128,7 @@ class Game:
                         else:
                             dx = 0
                             dy = 0
-                    elif event.key == pygame.K_DOWN and selected_unit.move_count < selected_unit.speed:
+                    elif event.key == pygame.K_DOWN and selected_unit.move_count < selected_unit.speed and not(Attaque):
                         dy = 1
                         if selected_unit.x + dx > GRID_SIZE - 1 or selected_unit.x + dx < 0 or selected_unit.y + dy > GRID_SIZE - 1 or selected_unit.y + dy < 0:
                             collide = True
@@ -144,7 +146,7 @@ class Game:
                     selected_unit.move(dx, dy)
                     self.flip_display()
 
-                    # Attaque (simple).
+                    # Attaque (simple): visée.
                     if not(Deplacer) and event.key == pygame.K_z:
                         target = [selected_unit.x, selected_unit.y - 1]
                         pygame.draw.rect(WINDOW, GREEN, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE))
@@ -158,6 +160,18 @@ class Game:
                         target = [selected_unit.x + 1, selected_unit.y]
                         pygame.draw.rect(WINDOW, GREEN, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE))
 
+                    # Attaque (simple): échange de dégâts.
+                    unit_target = None
+                    if not(Deplacer) and event.key == pygame.K_SPACE and target != [selected_unit.x, selected_unit.y] and not(Attaque):
+                        for unit in self.evil_units + self.good_units:
+                            if unit.x == target[0] and unit.y == target[1]:
+                                unit_target = unit
+                                break
+                        if isinstance(unit_target, Unit): # Vise-t-on une unité?
+                            selected_unit.attack_simple(unit_target)
+                            Attaque = True # L'unité a attaqué.
+                            self.flip_display() # On met à jour l'écran immédiatement.
+
                     # On met à jour l'impression écran.
                     pygame.display.update()
 
@@ -165,8 +179,13 @@ class Game:
                     if event.key == pygame.K_RETURN:
                         has_acted = True
                         selected_unit.is_selected = False
+                        Attaque = False
                         selected_unit.move_count = 0
                         break
+
+    def rmv_dead(self, unit_set):
+        """Renvoie la liste unit_set, mais sans les unités mortes."""
+        return [unit for unit in unit_set if unit.health > 0]
 
     def flip_display(self):
         """Affiche le jeu."""
@@ -200,7 +219,11 @@ def main():
     # Boucle principale du jeu
     while True:
         game.handle_turn(game.evil_units) # Tour des méchants pas beaux!
+        game.evil_units = game.rmv_dead(game.evil_units) # Supprimer les macchabées!
+        game.good_units = game.rmv_dead(game.good_units) # Supprimer les macchabées!
         game.handle_turn(game.good_units) # Tour des gentils.
+        game.evil_units = game.rmv_dead(game.evil_units) # Supprimer les macchabées!
+        game.good_units = game.rmv_dead(game.good_units) # Supprimer les macchabées!
 
 
 if __name__ == "__main__":
