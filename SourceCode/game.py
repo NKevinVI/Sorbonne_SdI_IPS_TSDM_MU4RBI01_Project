@@ -50,13 +50,13 @@ class Game:
         selectionMade = False # Le joueur a-t-il sélectionné son unité?
         while not selectionMade:
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:
+                if event.type == pygame.QUIT: # Gestion de la fermeture de la fenêtre.
                     pygame.quit()
                     exit()
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    click_pos = pygame.mouse.get_pos()
+                if event.type == pygame.MOUSEBUTTONDOWN: # Le joueur a-t-il cliqué avec la souris?
+                    click_pos = pygame.mouse.get_pos() # On récupère la position du curseur de la souris.
                     for unit in unit_set:
-                        if unit.rect.collidepoint(click_pos): # Le joueur a sélectionné son unité.
+                        if unit.rect.collidepoint(click_pos): # Le joueur a cliqué sur l'unité, donc l'a sélectionnée.
                             selected_unit = unit
                             selectionMade = True
                             selected_unit.is_selected = True
@@ -64,7 +64,7 @@ class Game:
                             break
 
         # Tant que l'unité n'a pas terminé son tour
-        has_acted = False
+        has_acted = False # L'unité a-t-elle joué?
         Deplacer = False # L'unité a-t-elle bougée?
         while not has_acted:
             # Important: cette boucle permet de gérer les événements Pygame
@@ -80,7 +80,10 @@ class Game:
 
                     # Déplacement (touches fléchées)
                     dx, dy = 0, 0
+
                     collide = False # L'unité va-t-elle percuter une autre unité?
+
+                    # Gestion des déplacements.
                     if event.key == pygame.K_LEFT and selected_unit.move_count < selected_unit.speed:
                         dx = -1
                         if selected_unit.x + dx > GRID_SIZE - 1 or selected_unit.x + dx < 0 or selected_unit.y + dy > GRID_SIZE - 1 or selected_unit.y + dy < 0:
@@ -141,8 +144,7 @@ class Game:
                     selected_unit.move(dx, dy)
                     self.flip_display()
 
-                    # Attaque (simple ou berserk, d'une case)
-
+                    # Attaque (simple).
                     if not(Deplacer) and event.key == pygame.K_z:
                         target = [selected_unit.x, selected_unit.y - 1]
                         pygame.draw.rect(WINDOW, GREEN, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE))
@@ -156,6 +158,7 @@ class Game:
                         target = [selected_unit.x + 1, selected_unit.y]
                         pygame.draw.rect(WINDOW, GREEN, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE))
 
+                    # On met à jour l'impression écran.
                     pygame.display.update()
 
                     # Fin de tour
