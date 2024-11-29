@@ -44,9 +44,9 @@ class Game:
                              Pauper(1, 4, "evil")]
 
     def handle_turn(self, unit_set):
-        """Tour du joueur ayant les 'unit_set'."""
+        """Tour du joueur ayant les 'unit_set' comme unités."""
         # Sélection de l'unité à jouer.
-        self.flip_display()
+        self.flip_display() # On met à jour l'écran.
         selectionMade = False # Le joueur a-t-il sélectionné son unité?
         while not selectionMade:
             for event in pygame.event.get():
@@ -80,24 +80,23 @@ class Game:
                 # Gestion des touches du clavier
                 if event.type == pygame.KEYDOWN:
 
-                    # Déplacement (touches fléchées)
-                    dx, dy = 0, 0
+                    dx, dy = 0, 0 # Les potentiels de déplacement. À chaque déplacement de la part du joueur, l'unité se déplace de dx et dy sur la grille.
 
                     collide = False # L'unité va-t-elle percuter une autre unité?
 
                     # Gestion des déplacements.
-                    if event.key == pygame.K_LEFT and selected_unit.move_count < selected_unit.speed and not(Attaque):
-                        dx = -1
-                        if selected_unit.x + dx > GRID_SIZE - 1 or selected_unit.x + dx < 0 or selected_unit.y + dy > GRID_SIZE - 1 or selected_unit.y + dy < 0:
+                    if event.key == pygame.K_LEFT and selected_unit.move_count < selected_unit.speed and not(Attaque): # Si on veut se déplacer à gauche, qu'on a pas encore usé toute notre capacité de déplacement et qu'on n'a pas encore attaqué.
+                        dx = -1 # Potentiel déplacement de 1 case vers la gauche.
+                        if selected_unit.x + dx > GRID_SIZE - 1 or selected_unit.x + dx < 0 or selected_unit.y + dy > GRID_SIZE - 1 or selected_unit.y + dy < 0: # Sommes-nous en situation de collision avec un mur?
                             collide = True
                         else:
                             for unit in self.good_units + self.evil_units:
-                                if unit.x == selected_unit.x + dx and unit.y == selected_unit.y + dy:
+                                if unit.x == selected_unit.x + dx and unit.y == selected_unit.y + dy: # Sommes-nous en situation de collision avec une autre unité?
                                     collide = True
-                        if not collide:
-                            selected_unit.move_count += 1
-                            Deplacer = True
-                        else:
+                        if not collide: # Si pas de collision.
+                            selected_unit.move_count += 1 # La créature est considérée comme s'étant déplacée de 1.
+                            Deplacer = True # Elle s'est déplacée.
+                        else: # Sinon, on annule le déplacement.
                             dx = 0
                             dy = 0
                     elif event.key == pygame.K_RIGHT and selected_unit.move_count < selected_unit.speed and not(Attaque):
@@ -143,6 +142,7 @@ class Game:
                             dx = 0
                             dy = 0
 
+                    # On effectue les déplacements visuellement.
                     selected_unit.move(dx, dy)
                     self.flip_display()
 
