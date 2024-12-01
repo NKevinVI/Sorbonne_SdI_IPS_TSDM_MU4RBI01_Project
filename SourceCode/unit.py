@@ -146,7 +146,7 @@ class Royal(Unit): # L'unité royale, bonne ou mauvaise.
             if self.is_selected:
                 pygame.draw.rect(WINDOW, BLUE, (self.x * CELL_SIZE, self.y * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
 
-class Soldier(Unit): # L'unité royale, bonne ou mauvaise.
+class Soldier(Unit): # Le soldat.
     def __init__(self, x, y, team):
         super().__init__(x, y, team)
         self.hierarchy = "royal"
@@ -363,7 +363,7 @@ class Soldier(Unit): # L'unité royale, bonne ou mauvaise.
             if self.is_selected:
                 pygame.draw.rect(WINDOW, BLUE, (self.x * CELL_SIZE, self.y * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
 
-class Pauper(Unit): # L'unité royale, bonne ou mauvaise.
+class Pauper(Unit): # Le bas peuple.
     def __init__(self, x, y, team):
         super().__init__(x, y, team)
         self.hierarchy = "royal"
