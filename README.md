@@ -51,7 +51,7 @@ Pour plus d'informations, voir le fichier `Sujet.pdf`.
 Aller dans le dossier `SourceCode` et lancer le fichier `game.py`.
 Une autre possibilité est de taper `python3 game.py` ou `python game.py` dans un terminal *Bash*, dans le dossier `SourceCode/`.
 
-Il est également possible de lancer le jeu via un shell de *Python*, en utilisant la commande `exec(open("SourceCode/game.py").read())`, lorsqu'on est dans le repository.
+Il est également possible de lancer `exec(open("game.py").read())` dans un shell *Python*, depuis le dossier `SourceCode`.
 
 ---
 
