@@ -68,6 +68,7 @@ class Game:
         Deplacer = False # L'unité a-t-elle bougée?
         Attaque = False # L'unité a-t-elle attaquée?
         target = [selected_unit.x, selected_unit.y] # Cible par défaut: soi-même.
+        mouse_pos = [None, None] # Position du curseur.
         while not has_acted:
             # Important: cette boucle permet de gérer les événements Pygame
             for event in pygame.event.get():
@@ -155,13 +156,40 @@ class Game:
                     if isinstance(selected_unit, Pauper):
                         Attaque = selected_unit.heal(Attaque, Deplacer, event, self) # La régénération est traitée comme une attaque. Ne jugez pas, SVP.
 
-                    # # Attaque spéciale (soldier) (maintenir X).
-                    # pressed_keys = pygame.key.get_pressed()
-                    # if pressed_keys[pygame.K_x] and isinstance(selected_unit, Soldier):
-                    #     mouse_pos = pygame.mouse.get_pos()
-                    #     if
-
-                    # On met à jour l'impression écran.
+                    # Attaque de zone, si Soldier. Gérée principalement par Game.
+                    if isinstance(selected_unit, Soldier):
+                        if event.key == pygame.K_x and not(Deplacer) and not(Attaque):
+                            target = [selected_unit.x, selected_unit.y]
+                            atta = True # Being attacking.
+                            while atta:
+                                for event_ in pygame.event.get():
+                                    if event_.type == pygame.QUIT:
+                                        pygame.quit()
+                                        exit()
+                                    if event_.type == pygame.KEYDOWN:
+                                        self.flip_display()
+                                        if event_.key == pygame.K_LEFT:
+                                            target[0] -= 1
+                                        if event_.key == pygame.K_RIGHT:
+                                            target[0] += 1
+                                        if event_.key == pygame.K_UP:
+                                            target[1] -= 1
+                                        if event_.key == pygame.K_DOWN:
+                                            target[1] += 1
+                                        pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
+                                        pygame.draw.rect(WINDOW, RED, ((target[0] + 1) * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
+                                        pygame.draw.rect(WINDOW, RED, ((target[0] - 1) * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
+                                        pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE, (target[1] + 1) * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
+                                        pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE, (target[1] - 1) * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
+                                        pygame.display.update()
+                                        if event_.key == pygame.K_ESCAPE:
+                                            atta = False
+                                        if event_.key == pygame.K_SPACE:
+                                            for unit in self.good_units + self.evil_units:
+                                                selected_unit.attack_special(target, unit)
+                                            atta = False
+                                            Attaque = True
+                            self.flip_display()
 
                     # Fin de tour
                     if event.key == pygame.K_RETURN:
@@ -169,6 +197,7 @@ class Game:
                         selected_unit.is_selected = False
                         Attaque = False
                         selected_unit.move_count = 0
+                        mouse_pos = None
                         break
 
     def rmv_dead(self, unit_set):
