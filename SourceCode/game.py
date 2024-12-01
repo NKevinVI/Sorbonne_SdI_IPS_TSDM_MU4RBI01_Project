@@ -151,6 +151,7 @@ class Game:
                     # Attaque (simple): échange de dégâts.
                     Attaque = selected_unit.attack_simple(self.evil_units, self.good_units, Attaque, Deplacer, event, target, self)
 
+                    # Régénération, si Pauper.
                     if isinstance(selected_unit, Pauper):
                         Attaque = selected_unit.heal(Attaque, Deplacer, event, self) # La régénération est traitée comme une attaque. Ne jugez pas, SVP.
 
