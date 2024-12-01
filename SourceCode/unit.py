@@ -372,11 +372,14 @@ class Pauper(Unit): # L'unité royale, bonne ou mauvaise.
         self.resistance = 11
         self.speed = 2
 
-    def heal(self):
+    def heal(self, Attaque, Deplacer, event, game):
         # Action permettant de s'auto-régénérer.
-        self.health += 10
-        if self.health >= 23:
-            self.health = 23
+        if not(Attaque) and not(Deplacer) and event.key == pygame.K_x:
+            self.health += 10
+            if self.health >= 23:
+                self.health = 23
+            game.flip_display()
+            Attaque = True
 
     def draw(self, screen):
         if self.is_alive:

@@ -144,13 +144,15 @@ class Game:
 
                     # On effectue les déplacements visuellement.
                     selected_unit.move(dx, dy, self)
-                    # pygame.display.update()
 
                     # Attaque (simple): visée.
                     target = selected_unit.attack_show(target, Attaque, Deplacer, event)
 
                     # Attaque (simple): échange de dégâts.
                     Attaque = selected_unit.attack_simple(self.evil_units, self.good_units, Attaque, Deplacer, event, target, self)
+
+                    if isinstance(selected_unit, Pauper):
+                        Attaque = selected_unit.heal(Attaque, Deplacer, event, self) # La régénération est traitée comme une attaque. Ne jugez pas, SVP.
 
                     # # Attaque spéciale (soldier) (maintenir X).
                     # pressed_keys = pygame.key.get_pressed()
