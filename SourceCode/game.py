@@ -176,6 +176,17 @@ class Game:
                                             target[1] -= 1
                                         if event_.key == pygame.K_DOWN:
                                             target[1] += 1
+
+                                        # Vérification qu'on ne se barre pas trop loin.
+                                        if target[0] < 0:
+                                            target[0] = 0
+                                        if target[0] >= GRID_SIZE:
+                                            target[0] = GRID_SIZE - 1
+                                        if target[1] < 0:
+                                            target[1] = 0
+                                        if target[1] >= GRID_SIZE:
+                                            target[1] = GRID_SIZE - 1
+
                                         pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
                                         pygame.draw.rect(WINDOW, RED, ((target[0] + 1) * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
                                         pygame.draw.rect(WINDOW, RED, ((target[0] - 1) * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
