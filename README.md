@@ -29,7 +29,7 @@ Fonctionnalités du jeu:
     - Une statistique d'attaque (`attack_power`)
     - Une statistique de défense (`resistance`)
     - Une statistique de vitesse (`speed`)
-- Les unités auront différentes compétences (au moins trois différentes par type d'unité).
+- Les unités auront différentes compétences (au moins trois différentes).
 - Le terrain aura au minimum trois types de cases différentes (neutre, naturel, mort). Chaque type de case peut être un "sous-type" d'une autre classe (la forêt est naturelle, un vieux champ de bataille mort).
 - Le calcul des HP doit dépendre:
     - La puissance de la compétence subie (si une compétence a été utilisée)
