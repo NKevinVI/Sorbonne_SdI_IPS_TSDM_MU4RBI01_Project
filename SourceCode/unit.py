@@ -61,19 +61,57 @@ class Unit:
         self.move_count = 0
         self.is_alive = True
 
-    def move(self, dx, dy):
+    def move(self, dx, dy, game):
         """Déplace l'unité de dx, dy."""
         if 0 <= self.x + dx < GRID_SIZE and 0 <= self.y + dy < GRID_SIZE:
             self.x += dx
             self.y += dy
         self.rect = pygame.Rect(self.x * CELL_SIZE, self.y * CELL_SIZE, CELL_SIZE, CELL_SIZE)
+        game.flip_display()
 
-    def attack_simple(self, target):
-        """Attaque une unité cible."""
-        target.health -= self.attack_power - target.resistance
-        if target.health <= 0:
-            target.health = 0
-            target.is_alive = False
+    def attack_simple(self, evils, goods, Attaque, Deplacer, event, target, game):
+        """Attaque une unité cible adjacente à l'unité principale."""
+        if not(Deplacer) and event.key == pygame.K_SPACE and target != [self.x, self.y] and not(Attaque):
+            for unit in evils + goods:
+                if unit.x == target[0] and unit.y == target[1]:
+                    target = unit
+                    break
+            if isinstance(target, Unit):
+                target.health -= self.attack_power - target.resistance
+                if target.health <= 0:
+                    target.health = 0
+                    target.is_alive = False
+                Attaque = True # L'unité a attaqué.
+                game.flip_display()
+
+        return Attaque
+
+    def attack_show(self, target, Attaque, Deplacer, event):
+        """
+        Indique ce qu'on s'apprête à attaquer (case adjacente).
+
+        Attaque -> A-t-on déjà attaqué?
+        Deplacer -> Nous sommes-nous déjà déplacés?
+        game -> L'instance gérant le jeu entier.
+        event -> pygame event.
+        """
+        # Attaque simple:
+        if not(Deplacer) and event.key == pygame.K_z and not(Attaque):
+            target = [self.x, self.y - 1]
+            pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
+        elif not(Deplacer) and event.key == pygame.K_q and not(Attaque):
+            target = [self.x - 1, self.y]
+            pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
+        elif not(Deplacer) and event.key == pygame.K_s and not(Attaque):
+            target = [self.x, self.y + 1]
+            pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
+        elif not(Deplacer) and event.key == pygame.K_d and not(Attaque):
+            target = [self.x + 1, self.y]
+            pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
+
+        pygame.display.flip()
+
+        return target
 
     def draw(self, screen):
         """Affiche l'unité sur l'écran."""
@@ -117,6 +155,194 @@ class Soldier(Unit): # L'unité royale, bonne ou mauvaise.
         self.resistance = 13
         self.speed = 4
 
+    def attack_special(self, area, foe):
+        """
+        Attaque sur une surface area particulière.
+        L'argument area est une liste [x,y], représentant une surface telle que:
+        _ X _
+        X O X
+        _ X _
+        avec le "O" étant aux coordonnées [x,y].
+        Le foe est un ennemi potentiel.
+        """
+        if area[0] == 0:
+            if area[1] == 0:
+                if foe.rect.recollidepoint(area[0] * CELL_SIZE, area[1] * CELL_SIZE):
+                    foe.health -= self.attack_power - 10
+                    if foe.health <= 0:
+                        foe.health = 0
+                        foe.is_alive = False
+                if foe.rect.recollidepoint((area[0] + 1) * CELL_SIZE, area[1] * CELL_SIZE):
+                    foe.health -= self.attack_power - 10
+                    if foe.health <= 0:
+                        foe.health = 0
+                        foe.is_alive = False
+                if foe.rect.recollidepoint(area[0] * CELL_SIZE, (area[1] + 1) * CELL_SIZE):
+                    foe.health -= self.attack_power - 10
+                    if foe.health <= 0:
+                        foe.health = 0
+                        foe.is_alive = False
+            elif area[1] == int(HIGHT/GRID_SIZE) - 1:
+                if foe.rect.recollidepoint(area[0] * CELL_SIZE, area[1] * CELL_SIZE):
+                    foe.health -= self.attack_power - 10
+                    if foe.health <= 0:
+                        foe.health = 0
+                        foe.is_alive = False
+                if foe.rect.recollidepoint((area[0] + 1) * CELL_SIZE, area[1] * CELL_SIZE):
+                    foe.health -= self.attack_power - 10
+                    if foe.health <= 0:
+                        foe.health = 0
+                        foe.is_alive = False
+                if foe.rect.recollidepoint(area[0] * CELL_SIZE, (area[1] - 1) * CELL_SIZE):
+                    foe.health -= self.attack_power - 10
+                    if foe.health <= 0:
+                        foe.health = 0
+                        foe.is_alive = False
+            else:
+                if foe.rect.recollidepoint(area[0] * CELL_SIZE, area[1] * CELL_SIZE):
+                    foe.health -= self.attack_power - 10
+                    if foe.health <= 0:
+                        foe.health = 0
+                        foe.is_alive = False
+                if foe.rect.recollidepoint((area[0] + 1) * CELL_SIZE, area[1] * CELL_SIZE):
+                    foe.health -= self.attack_power - 10
+                    if foe.health <= 0:
+                        foe.health = 0
+                        foe.is_alive = False
+                if foe.rect.recollidepoint(area[0] * CELL_SIZE, (area[1] + 1) * CELL_SIZE):
+                    foe.health -= self.attack_power - 10
+                    if foe.health <= 0:
+                        foe.health = 0
+                        foe.is_alive = False
+                if foe.rect.recollidepoint(area[0] * CELL_SIZE, (area[1] - 1) * CELL_SIZE):
+                    foe.health -= self.attack_power - 10
+                    if foe.health <= 0:
+                        foe.health = 0
+                        foe.is_alive = False
+        elif area[0] == int(WIDTH/GRID_SIZE) - 1:
+            if area[1] == 0:
+                if foe.rect.recollidepoint(area[0] * CELL_SIZE, area[1] * CELL_SIZE):
+                    foe.health -= self.attack_power - 10
+                    if foe.health <= 0:
+                        foe.health = 0
+                        foe.is_alive = False
+                if foe.rect.recollidepoint((area[0] - 1) * CELL_SIZE, area[1] * CELL_SIZE):
+                    foe.health -= self.attack_power - 10
+                    if foe.health <= 0:
+                        foe.health = 0
+                        foe.is_alive = False
+                if foe.rect.recollidepoint(area[0] * CELL_SIZE, (area[1] + 1) * CELL_SIZE):
+                    foe.health -= self.attack_power - 10
+                    if foe.health <= 0:
+                        foe.health = 0
+                        foe.is_alive = False
+            elif area[1] == int(HIGHT/GRID_SIZE) - 1:
+                if foe.rect.recollidepoint(area[0] * CELL_SIZE, area[1] * CELL_SIZE):
+                    foe.health -= self.attack_power - 10
+                    if foe.health <= 0:
+                        foe.health = 0
+                        foe.is_alive = False
+                if foe.rect.recollidepoint((area[0] - 1) * CELL_SIZE, area[1] * CELL_SIZE):
+                    foe.health -= self.attack_power - 10
+                    if foe.health <= 0:
+                        foe.health = 0
+                        foe.is_alive = False
+                if foe.rect.recollidepoint(area[0] * CELL_SIZE, (area[1] - 1) * CELL_SIZE):
+                    foe.health -= self.attack_power - 10
+                    if foe.health <= 0:
+                        foe.health = 0
+                        foe.is_alive = False
+            else:
+                if foe.rect.recollidepoint(area[0] * CELL_SIZE, area[1] * CELL_SIZE):
+                    foe.health -= self.attack_power - 10
+                    if foe.health <= 0:
+                        foe.health = 0
+                        foe.is_alive = False
+                if foe.rect.recollidepoint((area[0] - 1) * CELL_SIZE, area[1] * CELL_SIZE):
+                    foe.health -= self.attack_power - 10
+                    if foe.health <= 0:
+                        foe.health = 0
+                        foe.is_alive = False
+                if foe.rect.recollidepoint(area[0] * CELL_SIZE, (area[1] + 1) * CELL_SIZE):
+                    foe.health -= self.attack_power - 10
+                    if foe.health <= 0:
+                        foe.health = 0
+                        foe.is_alive = False
+                if foe.rect.recollidepoint(area[0] * CELL_SIZE, (area[1] - 1) * CELL_SIZE):
+                    foe.health -= self.attack_power - 10
+                    if foe.health <= 0:
+                        foe.health = 0
+                        foe.is_alive = False
+        else:
+            if area[1] == 0:
+                if foe.rect.recollidepoint(area[0] * CELL_SIZE, area[1] * CELL_SIZE):
+                    foe.health -= self.attack_power - 10
+                    if foe.health <= 0:
+                        foe.health = 0
+                        foe.is_alive = False
+                if foe.rect.recollidepoint((area[0] - 1) * CELL_SIZE, area[1] * CELL_SIZE):
+                    foe.health -= self.attack_power - 10
+                    if foe.health <= 0:
+                        foe.health = 0
+                        foe.is_alive = False
+                if foe.rect.recollidepoint((area[0] + 1) * CELL_SIZE, area[1] * CELL_SIZE):
+                    foe.health -= self.attack_power - 10
+                    if foe.health <= 0:
+                        foe.health = 0
+                        foe.is_alive = False
+                if foe.rect.recollidepoint(area[0] * CELL_SIZE, (area[1] + 1) * CELL_SIZE):
+                    foe.health -= self.attack_power - 10
+                    if foe.health <= 0:
+                        foe.health = 0
+                        foe.is_alive = False
+            elif area[1] == int(HIGHT/GRID_SIZE) - 1:
+                if foe.rect.recollidepoint(area[0] * CELL_SIZE, area[1] * CELL_SIZE):
+                    foe.health -= self.attack_power - 10
+                    if foe.health <= 0:
+                        foe.health = 0
+                        foe.is_alive = False
+                if foe.rect.recollidepoint((area[0] - 1) * CELL_SIZE, area[1] * CELL_SIZE):
+                    foe.health -= self.attack_power - 10
+                    if foe.health <= 0:
+                        foe.health = 0
+                        foe.is_alive = False
+                if foe.rect.recollidepoint((area[0] + 1) * CELL_SIZE, area[1] * CELL_SIZE):
+                    foe.health -= self.attack_power - 10
+                    if foe.health <= 0:
+                        foe.health = 0
+                        foe.is_alive = False
+                if foe.rect.recollidepoint(area[0] * CELL_SIZE, (area[1] - 1) * CELL_SIZE):
+                    foe.health -= self.attack_power - 10
+                    if foe.health <= 0:
+                        foe.health = 0
+                        foe.is_alive = False
+            else:
+                if foe.rect.recollidepoint(area[0] * CELL_SIZE, area[1] * CELL_SIZE):
+                    foe.health -= self.attack_power - 10
+                    if foe.health <= 0:
+                        foe.health = 0
+                        foe.is_alive = False
+                if foe.rect.recollidepoint((area[0] - 1) * CELL_SIZE, area[1] * CELL_SIZE):
+                    foe.health -= self.attack_power - 10
+                    if foe.health <= 0:
+                        foe.health = 0
+                        foe.is_alive = False
+                if foe.rect.recollidepoint((area[0] + 1) * CELL_SIZE, area[1] * CELL_SIZE):
+                    foe.health -= self.attack_power - 10
+                    if foe.health <= 0:
+                        foe.health = 0
+                        foe.is_alive = False
+                if foe.rect.recollidepoint(area[0] * CELL_SIZE, (area[1] + 1) * CELL_SIZE):
+                    foe.health -= self.attack_power - 10
+                    if foe.health <= 0:
+                        foe.health = 0
+                        foe.is_alive = False
+                if foe.rect.recollidepoint(area[0] * CELL_SIZE, (area[1] - 1) * CELL_SIZE):
+                    foe.health -= self.attack_power - 10
+                    if foe.health <= 0:
+                        foe.health = 0
+                        foe.is_alive = False
+
     def draw(self, screen):
         if self.is_alive:
             if self.team == "good":
@@ -143,8 +369,14 @@ class Pauper(Unit): # L'unité royale, bonne ou mauvaise.
         self.hierarchy = "royal"
         self.health = 23
         self.attack_power = 16
-        self.resistance = 6
+        self.resistance = 11
         self.speed = 2
+
+    def heal(self):
+        # Action permettant de s'auto-régénérer.
+        self.health += 10
+        if self.health >= 23:
+            self.health = 23
 
     def draw(self, screen):
         if self.is_alive:

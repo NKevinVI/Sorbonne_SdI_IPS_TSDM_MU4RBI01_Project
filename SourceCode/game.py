@@ -143,37 +143,22 @@ class Game:
                             dy = 0
 
                     # On effectue les déplacements visuellement.
-                    selected_unit.move(dx, dy)
-                    self.flip_display()
+                    selected_unit.move(dx, dy, self)
+                    # pygame.display.update()
 
                     # Attaque (simple): visée.
-                    if not(Deplacer) and event.key == pygame.K_z and not(Attaque):
-                        target = [selected_unit.x, selected_unit.y - 1]
-                        pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
-                    elif not(Deplacer) and event.key == pygame.K_q and not(Attaque):
-                        target = [selected_unit.x - 1, selected_unit.y]
-                        pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
-                    elif not(Deplacer) and event.key == pygame.K_s and not(Attaque):
-                        target = [selected_unit.x, selected_unit.y + 1]
-                        pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
-                    elif not(Deplacer) and event.key == pygame.K_d and not(Attaque):
-                        target = [selected_unit.x + 1, selected_unit.y]
-                        pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
+                    target = selected_unit.attack_show(target, Attaque, Deplacer, event)
 
                     # Attaque (simple): échange de dégâts.
-                    unit_target = None
-                    if not(Deplacer) and event.key == pygame.K_SPACE and target != [selected_unit.x, selected_unit.y] and not(Attaque):
-                        for unit in self.evil_units + self.good_units:
-                            if unit.x == target[0] and unit.y == target[1]:
-                                unit_target = unit
-                                break
-                        if isinstance(unit_target, Unit): # Vise-t-on une unité?
-                            selected_unit.attack_simple(unit_target)
-                            Attaque = True # L'unité a attaqué.
-                            self.flip_display() # On met à jour l'écran immédiatement.
+                    Attaque = selected_unit.attack_simple(self.evil_units, self.good_units, Attaque, Deplacer, event, target, self)
+
+                    # # Attaque spéciale (soldier) (maintenir X).
+                    # pressed_keys = pygame.key.get_pressed()
+                    # if pressed_keys[pygame.K_x] and isinstance(selected_unit, Soldier):
+                    #     mouse_pos = pygame.mouse.get_pos()
+                    #     if
 
                     # On met à jour l'impression écran.
-                    pygame.display.update()
 
                     # Fin de tour
                     if event.key == pygame.K_RETURN:
