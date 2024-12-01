@@ -5,7 +5,7 @@ import random
 GRID_SIZE = 7
 CELL_SIZE = 128 # Default
 WIDTH = GRID_SIZE * CELL_SIZE
-HEIGHT = GRID_SIZE * CELL_SIZE
+HEIGHT = WIDTH # On est forcément dans un carré!
 FPS = 30
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
