@@ -46,7 +46,7 @@ Fonctionnalités du jeu:
     - La résistance (`resistance`) de l'*unité* cible
 
 Fonctionnalités supplémentaires:
-- Système de ramassage d'objets et d'utilisation de ces objets.
+- Système de ramassage de mana, améliorant la capacité d'attaque d'une unité.
 - Easter Egg (seul cas où les 2 joueurs gagnent)
 
 **Date limite de fin du Projet: 13 décembre 2024**
@@ -77,6 +77,7 @@ Voici donc son mode d'emploi:
 | Espace | Une fois l'attaque simple dirigée sur une unité, permet d'attaquer. |
 | X | Action spéciale de l'unité. |
 | Échap | Dans certains cas, annule le coup spéciale de l'unité. |
+| Control | Rafraîchit la fenêtre (d'autres boutons peuvent fonctionner, mais on conseille à ceux allergiques à l'informatique d'utiliser celui-ci). |
 
 À chaque tour, le joueur choisit une unité, peut **ou** la déplacer, **ou** la faire attaquer, **ou** encore lui faire faire son attaque spéciale.
 
