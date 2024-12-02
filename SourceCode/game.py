@@ -2,6 +2,7 @@ import pygame
 import random
 
 from unit import *
+from mana import *
 
 
 class Game:
@@ -43,6 +44,8 @@ class Game:
                              Pauper(1, 3, "evil"),
                              Pauper(1, 4, "evil")]
 
+        self.mana_src = [Mana(0, 0), Mana(6, 0), Mana(0, 6), Mana(6, 6), Mana(3, 0), Mana(3, 6)]
+
     def handle_turn(self, unit_set):
         """Tour du joueur ayant les 'unit_set' comme unités."""
         # Sélection de l'unité à jouer.
@@ -53,6 +56,10 @@ class Game:
                 if event.type == pygame.QUIT: # Gestion de la fermeture de la fenêtre.
                     pygame.quit()
                     exit()
+                if event.type == pygame.KEYDOWN:
+                    # Mise à jour de l'écran.
+                    if event.key == pygame.K_LCTRL or event.key == pygame.K_RCTRL:
+                        pygame.display.update()
                 if event.type == pygame.MOUSEBUTTONDOWN: # Le joueur a-t-il cliqué avec la souris?
                     click_pos = pygame.mouse.get_pos() # On récupère la position du curseur de la souris.
                     for unit in unit_set:
@@ -80,6 +87,8 @@ class Game:
 
                 # Gestion des touches du clavier
                 if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_LCTRL or event.key == pygame.K_RCTRL:
+                        pygame.display.update()
 
                     dx, dy = 0, 0 # Les potentiels de déplacement. À chaque déplacement de la part du joueur, l'unité se déplace de dx et dy sur la grille.
 
@@ -238,6 +247,9 @@ class Game:
         # Affiche les unités
         for unit in self.good_units + self.evil_units:
             unit.draw(self.screen)
+
+        for mana_src in self.mana_src:
+            mana_src.draw(self.screen)
 
         # Rafraîchit l'écran
         pygame.display.flip()
