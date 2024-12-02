@@ -62,12 +62,12 @@ Voici donc son mode d'emploi:
 
 | Touche(s) | Action effectué. |
 | --- | --- |
-| Clique Souris | Permet de choisir l'unité à jouer. Une fois l'unité sélectionnée, on joue sans retour en arrière! |
+| Clique droit Souris | Permet de choisir l'unité à jouer. Une fois l'unité sélectionnée, on joue sans retour en arrière! |
 | Touches directionnelles | Pour déplacer l'unité que vous avez choisie. |
 | Z, Q, S, D | Permettent de diriger une attaque simple. |
 | Espace | Une fois l'attaque simple dirigée sur une unité, permet d'attaquer. |
 | X | Action spéciale de l'unité. |
-| Échape | Dans certains cas, annule le coup spéciale de l'unité. |
+| Échap | Dans certains cas, annule le coup spéciale de l'unité. |
 
 À chaque tour, le joueur choisit une unité, peut **ou** la déplacer, **ou** la faire attaquer, **ou** encore lui faire faire son attaque spéciale.
 
