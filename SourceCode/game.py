@@ -97,7 +97,7 @@ class Game:
                     # Gestion des déplacements.
                     if event.key == pygame.K_LEFT and selected_unit.move_count < selected_unit.speed and not(Attaque): # Si on veut se déplacer à gauche, qu'on a pas encore usé toute notre capacité de déplacement et qu'on n'a pas encore attaqué.
                         dx = -1 # Potentiel déplacement de 1 case vers la gauche.
-                        if selected_unit.x + dx > GRID_SIZE - 1 or selected_unit.x + dx < 0 or selected_unit.y + dy > GRID_SIZE - 1 or selected_unit.y + dy < 0: # Sommes-nous en situation de collision avec un mur?
+                        if selected_unit.x + dx < 0: # Sommes-nous en situation de collision avec un mur?
                             collide = True
                         else:
                             for unit in self.good_units + self.evil_units:
@@ -111,7 +111,7 @@ class Game:
                             dy = 0
                     elif event.key == pygame.K_RIGHT and selected_unit.move_count < selected_unit.speed and not(Attaque):
                         dx = 1
-                        if selected_unit.x + dx > GRID_SIZE - 1 or selected_unit.x + dx < 0 or selected_unit.y + dy > GRID_SIZE - 1 or selected_unit.y + dy < 0:
+                        if selected_unit.x + dx > GRID_SIZE - 1:
                             collide = True
                         else:
                             for unit in self.good_units + self.evil_units:
@@ -125,7 +125,7 @@ class Game:
                             dy = 0
                     elif event.key == pygame.K_UP and selected_unit.move_count < selected_unit.speed and not(Attaque):
                         dy = -1
-                        if selected_unit.x + dx > GRID_SIZE - 1 or selected_unit.x + dx < 0 or selected_unit.y + dy > GRID_SIZE - 1 or selected_unit.y + dy < 0:
+                        if selected_unit.y + dy < 0:
                             collide = True
                         else:
                             for unit in self.good_units + self.evil_units:
@@ -139,7 +139,7 @@ class Game:
                             dy = 0
                     elif event.key == pygame.K_DOWN and selected_unit.move_count < selected_unit.speed and not(Attaque):
                         dy = 1
-                        if selected_unit.x + dx > GRID_SIZE - 1 or selected_unit.x + dx < 0 or selected_unit.y + dy > GRID_SIZE - 1 or selected_unit.y + dy < 0:
+                        if selected_unit.y + dy > GRID_SIZE - 1:
                             collide = True
                         else:
                             for unit in self.good_units + self.evil_units:
@@ -232,7 +232,7 @@ class Game:
 
     def rmv_dead(self, unit_set):
         """Renvoie la liste unit_set, mais sans les unités mortes."""
-        return [unit for unit in unit_set if unit.health > 0]
+        return [unit for unit in unit_set if unit.is_alive]
 
     def flip_display(self):
         """Affiche le jeu."""
@@ -276,7 +276,7 @@ class Game:
                     pygame.quit()
                     exit()
 
-            print("Goodness won!") # Teste.
+            print("Goodness won!") # À MODIFIER POUR AFFICHER UN TEXTE PROPRE DE VICTOIRE SUR LA FENÊTRE.
 
     def Evil_won(self):
         while True:
@@ -285,7 +285,7 @@ class Game:
                     pygame.quit()
                     exit()
 
-            print("Evilness won!") # Teste.
+            print("Evilness won!") # À MODIFIER POUR AFFICHER UN TEXTE PROPRE DE VICTOIRE SUR LA FENÊTRE.
 
 def main():
     # Initialisation de Pygame
@@ -293,7 +293,7 @@ def main():
 
     # Instanciation de la fenêtre
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    pygame.display.set_caption("Draconic Generations")
+    pygame.display.set_caption("Draconic Generations") # Titre de la fenêtre.
 
     # Instanciation du jeu
     game = Game(screen)

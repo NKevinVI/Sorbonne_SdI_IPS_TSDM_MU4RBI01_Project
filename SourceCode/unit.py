@@ -141,7 +141,7 @@ class Royal(Unit): # L'unité royale, bonne ou mauvaise.
                     break
             if isinstance(target, Unit):
                 target.dmg(int(1.5 * self.attack_power) + target.resistance)
-                self.dmg(int(0.5 * self.attack_power))
+                self.dmg(int(0.5 * self.attack_power + 16))
                 Attaque = True # L'unité a attaqué.
                 game.flip_display()
 
