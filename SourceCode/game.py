@@ -56,10 +56,6 @@ class Game:
                 if event.type == pygame.QUIT: # Gestion de la fermeture de la fenêtre.
                     pygame.quit()
                     exit()
-                if event.type == pygame.KEYDOWN:
-                    # Mise à jour de l'écran.
-                    if event.key == pygame.K_LCTRL or event.key == pygame.K_RCTRL:
-                        pygame.display.update()
                 if event.type == pygame.MOUSEBUTTONDOWN: # Le joueur a-t-il cliqué avec la souris?
                     click_pos = pygame.mouse.get_pos() # On récupère la position du curseur de la souris.
                     for unit in unit_set:
@@ -87,9 +83,6 @@ class Game:
 
                 # Gestion des touches du clavier
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_LCTRL or event.key == pygame.K_RCTRL:
-                        pygame.display.update()
-
                     dx, dy = 0, 0 # Les potentiels de déplacement. À chaque déplacement de la part du joueur, l'unité se déplace de dx et dy sur la grille.
 
                     collide = False # L'unité va-t-elle percuter une autre unité?
