@@ -202,6 +202,10 @@ class Game:
                                             Attaque = True
                             self.flip_display()
 
+                    # Attaque berserk, si Royal.
+                    if isinstance(selected_unit, Royal):
+                        Attaque = selected_unit.attack_berserk(self.evil_units, self.good_units, Attaque, Deplacer, event, target, self)
+
                     # Fin de tour
                     if event.key == pygame.K_RETURN:
                         has_acted = True

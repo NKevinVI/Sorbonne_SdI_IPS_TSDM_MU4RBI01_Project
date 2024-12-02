@@ -69,6 +69,16 @@ class Unit:
         self.rect = pygame.Rect(self.x * CELL_SIZE, self.y * CELL_SIZE, CELL_SIZE, CELL_SIZE)
         game.flip_display()
 
+    def dmg(self, dmg):
+        # Quand l'unité reçoit des dégâts.
+        if dmg <= self.resistance:
+            return
+        else:
+            self.health -= dmg - self.resistance
+            if self.health <= 0:
+                self.health = 0
+                self.is_alive = False
+
     def attack_simple(self, evils, goods, Attaque, Deplacer, event, target, game):
         """Attaque une unité cible adjacente à l'unité principale."""
         if not(Deplacer) and event.key == pygame.K_SPACE and target != [self.x, self.y] and not(Attaque):
@@ -77,10 +87,7 @@ class Unit:
                     target = unit
                     break
             if isinstance(target, Unit):
-                target.health -= self.attack_power - target.resistance
-                if target.health <= 0:
-                    target.health = 0
-                    target.is_alive = False
+                target.dmg(self.attack_power)
                 Attaque = True # L'unité a attaqué.
                 game.flip_display()
 
@@ -120,11 +127,25 @@ class Unit:
 class Royal(Unit): # L'unité royale, bonne ou mauvaise.
     def __init__(self, x, y, team):
         super().__init__(x, y, team)
-        self.hierarchy = "royal"
         self.health = 60
         self.attack_power = 32
         self.resistance = 16
         self.speed = 1
+
+    def attack_berserk(self, evils, goods, Attaque, Deplacer, event, target, game):
+        # Attaque une unité target en mode berserk.
+        if not(Deplacer) and event.key == pygame.K_x and target != [self.x, self.y] and not(Attaque):
+            for unit in evils + goods:
+                if unit.x == target[0] and unit.y == target[1]:
+                    target = unit
+                    break
+            if isinstance(target, Unit):
+                target.dmg(int(1.5 * self.attack_power) + target.resistance)
+                self.dmg(int(0.5 * self.attack_power))
+                Attaque = True # L'unité a attaqué.
+                game.flip_display()
+
+        return Attaque
 
     def draw(self, screen):
         if self.is_alive:
@@ -149,7 +170,6 @@ class Royal(Unit): # L'unité royale, bonne ou mauvaise.
 class Soldier(Unit): # Le soldat.
     def __init__(self, x, y, team):
         super().__init__(x, y, team)
-        self.hierarchy = "royal"
         self.health = 36
         self.attack_power = 23
         self.resistance = 13
@@ -168,180 +188,81 @@ class Soldier(Unit): # Le soldat.
         if area[0] == 0:
             if area[1] == 0:
                 if foe.rect.collidepoint(area[0] * CELL_SIZE, area[1] * CELL_SIZE):
-                    foe.health -= self.attack_power - 10
-                    if foe.health <= 0:
-                        foe.health = 0
-                        foe.is_alive = False
+                    foe.dmg(self.attack_power - 4)
                 if foe.rect.collidepoint((area[0] + 1) * CELL_SIZE, area[1] * CELL_SIZE):
-                    foe.health -= self.attack_power - 10
-                    if foe.health <= 0:
-                        foe.health = 0
-                        foe.is_alive = False
+                    foe.dmg(self.attack_power - 4)
                 if foe.rect.collidepoint(area[0] * CELL_SIZE, (area[1] + 1) * CELL_SIZE):
-                    foe.health -= self.attack_power - 10
-                    if foe.health <= 0:
-                        foe.health = 0
-                        foe.is_alive = False
+                    foe.dmg(self.attack_power - 4)
             elif area[1] == int(HEIGHT/GRID_SIZE) - 1:
                 if foe.rect.collidepoint(area[0] * CELL_SIZE, area[1] * CELL_SIZE):
-                    foe.health -= self.attack_power - 10
-                    if foe.health <= 0:
-                        foe.health = 0
-                        foe.is_alive = False
+                    foe.dmg(self.attack_power - 4)
                 if foe.rect.collidepoint((area[0] + 1) * CELL_SIZE, area[1] * CELL_SIZE):
-                    foe.health -= self.attack_power - 10
-                    if foe.health <= 0:
-                        foe.health = 0
-                        foe.is_alive = False
+                    foe.dmg(self.attack_power - 4)
                 if foe.rect.collidepoint(area[0] * CELL_SIZE, (area[1] - 1) * CELL_SIZE):
-                    foe.health -= self.attack_power - 10
-                    if foe.health <= 0:
-                        foe.health = 0
-                        foe.is_alive = False
+                    foe.dmg(self.attack_power - 4)
             else:
                 if foe.rect.collidepoint(area[0] * CELL_SIZE, area[1] * CELL_SIZE):
-                    foe.health -= self.attack_power - 10
-                    if foe.health <= 0:
-                        foe.health = 0
-                        foe.is_alive = False
+                    foe.dmg(self.attack_power - 4)
                 if foe.rect.collidepoint((area[0] + 1) * CELL_SIZE, area[1] * CELL_SIZE):
-                    foe.health -= self.attack_power - 10
-                    if foe.health <= 0:
-                        foe.health = 0
-                        foe.is_alive = False
+                    foe.dmg(self.attack_power - 4)
                 if foe.rect.collidepoint(area[0] * CELL_SIZE, (area[1] + 1) * CELL_SIZE):
-                    foe.health -= self.attack_power - 10
-                    if foe.health <= 0:
-                        foe.health = 0
-                        foe.is_alive = False
+                    foe.dmg(self.attack_power - 4)
                 if foe.rect.collidepoint(area[0] * CELL_SIZE, (area[1] - 1) * CELL_SIZE):
-                    foe.health -= self.attack_power - 10
-                    if foe.health <= 0:
-                        foe.health = 0
-                        foe.is_alive = False
+                    foe.dmg(self.attack_power - 4)
         elif area[0] == int(WIDTH/GRID_SIZE) - 1:
             if area[1] == 0:
                 if foe.rect.collidepoint(area[0] * CELL_SIZE, area[1] * CELL_SIZE):
-                    foe.health -= self.attack_power - 10
-                    if foe.health <= 0:
-                        foe.health = 0
-                        foe.is_alive = False
+                    foe.dmg(self.attack_power - 4)
                 if foe.rect.collidepoint((area[0] - 1) * CELL_SIZE, area[1] * CELL_SIZE):
-                    foe.health -= self.attack_power - 10
-                    if foe.health <= 0:
-                        foe.health = 0
-                        foe.is_alive = False
+                    foe.dmg(self.attack_power - 4)
                 if foe.rect.collidepoint(area[0] * CELL_SIZE, (area[1] + 1) * CELL_SIZE):
-                    foe.health -= self.attack_power - 10
-                    if foe.health <= 0:
-                        foe.health = 0
-                        foe.is_alive = False
+                    foe.dmg(self.attack_power - 4)
             elif area[1] == int(HEIGHT/GRID_SIZE) - 1:
                 if foe.rect.collidepoint(area[0] * CELL_SIZE, area[1] * CELL_SIZE):
-                    foe.health -= self.attack_power - 10
-                    if foe.health <= 0:
-                        foe.health = 0
-                        foe.is_alive = False
+                    foe.dmg(self.attack_power - 4)
                 if foe.rect.collidepoint((area[0] - 1) * CELL_SIZE, area[1] * CELL_SIZE):
-                    foe.health -= self.attack_power - 10
-                    if foe.health <= 0:
-                        foe.health = 0
-                        foe.is_alive = False
+                    foe.dmg(self.attack_power - 4)
                 if foe.rect.collidepoint(area[0] * CELL_SIZE, (area[1] - 1) * CELL_SIZE):
-                    foe.health -= self.attack_power - 10
-                    if foe.health <= 0:
-                        foe.health = 0
-                        foe.is_alive = False
+                    foe.dmg(self.attack_power - 4)
             else:
                 if foe.rect.collidepoint(area[0] * CELL_SIZE, area[1] * CELL_SIZE):
-                    foe.health -= self.attack_power - 10
-                    if foe.health <= 0:
-                        foe.health = 0
-                        foe.is_alive = False
+                    foe.dmg(self.attack_power - 4)
                 if foe.rect.collidepoint((area[0] - 1) * CELL_SIZE, area[1] * CELL_SIZE):
-                    foe.health -= self.attack_power - 10
-                    if foe.health <= 0:
-                        foe.health = 0
-                        foe.is_alive = False
+                    foe.dmg(self.attack_power - 4)
                 if foe.rect.collidepoint(area[0] * CELL_SIZE, (area[1] + 1) * CELL_SIZE):
-                    foe.health -= self.attack_power - 10
-                    if foe.health <= 0:
-                        foe.health = 0
-                        foe.is_alive = False
+                    foe.dmg(self.attack_power - 4)
                 if foe.rect.collidepoint(area[0] * CELL_SIZE, (area[1] - 1) * CELL_SIZE):
-                    foe.health -= self.attack_power - 10
-                    if foe.health <= 0:
-                        foe.health = 0
-                        foe.is_alive = False
+                    foe.dmg(self.attack_power - 4)
         else:
             if area[1] == 0:
                 if foe.rect.collidepoint(area[0] * CELL_SIZE, area[1] * CELL_SIZE):
-                    foe.health -= self.attack_power - 10
-                    if foe.health <= 0:
-                        foe.health = 0
-                        foe.is_alive = False
+                    foe.dmg(self.attack_power - 4)
                 if foe.rect.collidepoint((area[0] - 1) * CELL_SIZE, area[1] * CELL_SIZE):
-                    foe.health -= self.attack_power - 10
-                    if foe.health <= 0:
-                        foe.health = 0
-                        foe.is_alive = False
+                    foe.dmg(self.attack_power - 4)
                 if foe.rect.collidepoint((area[0] + 1) * CELL_SIZE, area[1] * CELL_SIZE):
-                    foe.health -= self.attack_power - 10
-                    if foe.health <= 0:
-                        foe.health = 0
-                        foe.is_alive = False
+                    foe.dmg(self.attack_power - 4)
                 if foe.rect.collidepoint(area[0] * CELL_SIZE, (area[1] + 1) * CELL_SIZE):
-                    foe.health -= self.attack_power - 10
-                    if foe.health <= 0:
-                        foe.health = 0
-                        foe.is_alive = False
+                    foe.dmg(self.attack_power - 4)
             elif area[1] == int(HEIGHT/GRID_SIZE) - 1:
                 if foe.rect.collidepoint(area[0] * CELL_SIZE, area[1] * CELL_SIZE):
-                    foe.health -= self.attack_power - 10
-                    if foe.health <= 0:
-                        foe.health = 0
-                        foe.is_alive = False
+                    foe.dmg(self.attack_power - 4)
                 if foe.rect.collidepoint((area[0] - 1) * CELL_SIZE, area[1] * CELL_SIZE):
-                    foe.health -= self.attack_power - 10
-                    if foe.health <= 0:
-                        foe.health = 0
-                        foe.is_alive = False
+                    foe.dmg(self.attack_power - 4)
                 if foe.rect.collidepoint((area[0] + 1) * CELL_SIZE, area[1] * CELL_SIZE):
-                    foe.health -= self.attack_power - 10
-                    if foe.health <= 0:
-                        foe.health = 0
-                        foe.is_alive = False
+                    foe.dmg(self.attack_power - 4)
                 if foe.rect.collidepoint(area[0] * CELL_SIZE, (area[1] - 1) * CELL_SIZE):
-                    foe.health -= self.attack_power - 10
-                    if foe.health <= 0:
-                        foe.health = 0
-                        foe.is_alive = False
+                    foe.dmg(self.attack_power - 4)
             else:
                 if foe.rect.collidepoint(area[0] * CELL_SIZE, area[1] * CELL_SIZE):
-                    foe.health -= self.attack_power - 10
-                    if foe.health <= 0:
-                        foe.health = 0
-                        foe.is_alive = False
+                    foe.dmg(self.attack_power - 4)
                 if foe.rect.collidepoint((area[0] - 1) * CELL_SIZE, area[1] * CELL_SIZE):
-                    foe.health -= self.attack_power - 10
-                    if foe.health <= 0:
-                        foe.health = 0
-                        foe.is_alive = False
+                    foe.dmg(self.attack_power - 4)
                 if foe.rect.collidepoint((area[0] + 1) * CELL_SIZE, area[1] * CELL_SIZE):
-                    foe.health -= self.attack_power - 10
-                    if foe.health <= 0:
-                        foe.health = 0
-                        foe.is_alive = False
+                    foe.dmg(self.attack_power - 4)
                 if foe.rect.collidepoint(area[0] * CELL_SIZE, (area[1] + 1) * CELL_SIZE):
-                    foe.health -= self.attack_power - 10
-                    if foe.health <= 0:
-                        foe.health = 0
-                        foe.is_alive = False
+                    foe.dmg(self.attack_power - 4)
                 if foe.rect.collidepoint(area[0] * CELL_SIZE, (area[1] - 1) * CELL_SIZE):
-                    foe.health -= self.attack_power - 10
-                    if foe.health <= 0:
-                        foe.health = 0
-                        foe.is_alive = False
+                    foe.dmg(self.attack_power - 4)
 
     def draw(self, screen):
         if self.is_alive:
@@ -366,7 +287,6 @@ class Soldier(Unit): # Le soldat.
 class Pauper(Unit): # Le bas peuple.
     def __init__(self, x, y, team):
         super().__init__(x, y, team)
-        self.hierarchy = "royal"
         self.health = 23
         self.attack_power = 16
         self.resistance = 11
