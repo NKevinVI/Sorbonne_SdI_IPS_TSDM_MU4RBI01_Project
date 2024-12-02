@@ -113,6 +113,24 @@ class Unit:
 
         return target
 
+
+    def color(self):
+        # Définir des couleurs pour les équipes
+        GOOD_TEAM_COLOR = (255, 255, 255)  # Blanc pour les gentils
+        BAD_TEAM_COLOR = (128, 128, 128)   # Gris pour les méchants
+        
+        # Déterminer la couleur en fonction de l'équipe
+        if self.team == "good":
+            team_color = GOOD_TEAM_COLOR
+        elif self.team == "bad":
+            team_color = BAD_TEAM_COLOR
+    
+        
+        # Dessiner un rectangle couvrant toute la cellule avec la couleur de l'équipe
+        pygame.draw.rect(WINDOW, team_color, (int(CELL_SIZE * self.x), int(CELL_SIZE * self.y), int(CELL_SIZE), int(CELL_SIZE)))
+
+            
+
     def draw(self, screen):
         """Affiche l'unité sur l'écran."""
         pass
