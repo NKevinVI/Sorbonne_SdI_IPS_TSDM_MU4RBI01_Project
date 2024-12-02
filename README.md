@@ -73,7 +73,7 @@ Voici donc son mode d'emploi:
 
 Il existe trois types de classes, communes et identiques pour chaque camp:
 
-- Le _Gueux_: Son attaque spéciale est simplement sa régénration de points de vie. Il se déplace de 2 cases.
+- Le _Gueux_: Son attaque spéciale est simplement sa régénération de points de vie. Il se déplace de 2 cases.
 - Le _Soldat_: Son attaque spéciale est une attaque de zone à distance. Il se déplace de 4 cases.
 - Le _Royal_: Son attaque spéciale est une attaque berserk, qui multiplie les dégâts mais engendre des dommages à celui qui les donnent. Il se déplace d'une seule case.
 
