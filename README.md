@@ -10,6 +10,15 @@
 
 ---
 
+## Table des Matières
+
+1. [But du Projet](## But du Projet)
+2. [Comment lancer le jeu?](## Comment lancer le jeu?)
+3. [Comment jouer?](## Comment jouer?)
+4. [Licence](## Licence)
+
+---
+
 ## But du Projet
 
 Création d'un simple jeu de tactique en 2D à deux joueurs, dans lequel chaque joueur incarne un clan de dragons.
