@@ -24,7 +24,7 @@
 Création d'un simple jeu de tactique en 2D à deux joueurs, dans lequel chaque joueur incarne un clan de dragons.
 
 À faire:
-- Un rapport de 2 pages présentant les fonctionnalités implémentées dans le Projet, et la justifications des choix de conception du diagramme de classes UML.
+- Un rapport de 2 pages présentant les fonctionnalités implémentées dans le Projet, et la justification des choix de conception du diagramme de classes UML.
 - Un diagramme des classes UML modélisant le Projet.
 
 Fonctionnalités du jeu:
@@ -69,7 +69,7 @@ Il est également possible de lancer `exec(open("game.py").read())` dans un shel
 Le jeu n'est effectivement pas simple si on a pas les touches basiques avec lesquelles jouer.
 Voici donc son mode d'emploi:
 
-| Touche(s) | Action effectué. |
+| Touche(s) | Action effectuée. |
 | --- | --- |
 | Clique droit Souris | Permet de choisir l'unité à jouer. Une fois l'unité sélectionnée, on joue sans retour en arrière! |
 | Touches directionnelles | Pour déplacer l'unité que vous avez choisie. |
