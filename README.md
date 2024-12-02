@@ -12,10 +12,10 @@
 
 ## Table des Matières
 
-[But du Projet](## But du Projet)
-[Comment lancer le jeu?](## Comment lancer le jeu?)
-[Comment jouer?](## Comment jouer?)
-[Licence](## Licence)
+* [But du Projet](## But du Projet)
+* [Comment lancer le jeu?](## Comment lancer le jeu?)
+* [Comment jouer?](## Comment jouer?)
+* [Licence](## Licence)
 
 ---
 
