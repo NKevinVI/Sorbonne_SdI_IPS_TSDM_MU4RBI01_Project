@@ -60,7 +60,7 @@ Il est également possible de lancer `exec(open("game.py").read())` dans un shel
 Le jeu n'est effectivement pas simple si on a pas les touches basiques avec lesquelles jouer.
 Voici donc son mode d'emploi:
 
-| --- | --- |
+| Touche(s) | Action effectué. |
 | Clique Souris | Permet de choisir l'unité à jouer. Une fois l'unité sélectionnée, on joue sans retour en arrière! |
 | --- | --- |
 | Touches directionnelles | Pour déplacer l'unité que vous avez choisie. |
