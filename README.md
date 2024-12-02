@@ -55,6 +55,33 @@ Il est également possible de lancer `exec(open("game.py").read())` dans un shel
 
 ---
 
+## Comment jouer?
+
+Le jeu n'est effectivement pas simple si on a pas les touches basiques avec lesquelles jouer.
+Voici donc son mode d'emploi:
+
+| --- | --- |
+| Clique Souris | Permet de choisir l'unité à jouer. Une fois l'unité sélectionnée, on joue sans retour en arrière! |
+| --- | --- |
+| Touches directionnelles | Pour déplacer l'unité que vous avez choisie. |
+| --- | --- |
+| Z, Q, S, D | Permettent de diriger une attaque simple. |
+| Espace | Une fois l'attaque simple dirigée sur une unité, permet d'attaquer. |
+| --- | --- |
+| X | Action spéciale de l'unité. |
+| Échape | Dans certains cas, annule le coup spéciale de l'unité. |
+| --- | --- |
+
+À chaque tour, le joueur choisit une unité, peut **ou** la déplacer, **ou** la faire attaquer, **ou** encore lui faire faire son attaque spéciale.
+
+Il existe trois types de classes, communes et identiques pour chaque camp:
+
+- Le _Gueux_: Son attaque spéciale est simplement sa régénration de points de vie. Il se déplace de 2 cases.
+- Le _Soldat_: Son attaque spéciale est une attaque de zone à distance. Il se déplace de 4 cases.
+- Le _Royal_: Son attaque spéciale est une attaque berserk, qui multiplie les dégâts mais engendre des dommages à celui qui les donnent. Il se déplace d'une seule case.
+
+---
+
 ## Licence
 
 **Tous droits réservés.**
