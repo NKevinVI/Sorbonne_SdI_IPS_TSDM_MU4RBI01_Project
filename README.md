@@ -12,10 +12,10 @@
 
 ## Table des Matières
 
-* [But du Projet](##butduprojet)
-* [Comment lancer le jeu?](##commentlancerlejeu?)
-* [Comment jouer?](##commentjouer?)
-* [Licence](##licence)
+* [But du Projet](https://github.com/NKevinVI/Sorbonne_SdI_IPS_TSDM_MU4RBI01_Project?tab=readme-ov-file#but-du-projet)
+* [Comment lancer le jeu?](https://github.com/NKevinVI/Sorbonne_SdI_IPS_TSDM_MU4RBI01_Project?tab=readme-ov-file#comment-lancer-le-jeu)
+* [Comment jouer?](https://github.com/NKevinVI/Sorbonne_SdI_IPS_TSDM_MU4RBI01_Project?tab=readme-ov-file#comment-jouer)
+* [Licence](https://github.com/NKevinVI/Sorbonne_SdI_IPS_TSDM_MU4RBI01_Project?tab=readme-ov-file#licence)
 
 ---
 
