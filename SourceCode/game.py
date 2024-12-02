@@ -161,6 +161,12 @@ class Game:
                         if event.key == pygame.K_x and not(Deplacer) and not(Attaque):
                             target = [selected_unit.x, selected_unit.y]
                             atta = True # Being attacking.
+                            pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
+                            pygame.draw.rect(WINDOW, RED, ((target[0] + 1) * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
+                            pygame.draw.rect(WINDOW, RED, ((target[0] - 1) * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
+                            pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE, (target[1] + 1) * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
+                            pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE, (target[1] - 1) * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
+                            pygame.display.update()
                             while atta:
                                 for event_ in pygame.event.get():
                                     if event_.type == pygame.QUIT:
@@ -236,6 +242,38 @@ class Game:
         # Rafraîchit l'écran
         pygame.display.flip()
 
+    def GameOver(self, unit_set):
+        # Renvoie True si un des camps est éliminé, et un str indiquant quel joueur a gagné.
+        Good_alive = False # Les gentils sont-ils en vie?
+        Evil_alive = False # Les méchants sont-ils en vie?
+        for unit in unit_set:
+            if unit.team == "evil":
+                Evil_alive = True
+            if unit.team == "good":
+                Good_alive = True
+        if not Good_alive:
+            return True, "evil"
+        if not Evil_alive:
+            return True, "good"
+        return False, None
+
+    def Good_won(self):
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    exit()
+
+            print("Goodness won!") # Teste.
+
+    def Evil_won(self):
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    exit()
+
+            print("Evilness won!") # Teste.
 
 def main():
     # Initialisation de Pygame
@@ -251,11 +289,31 @@ def main():
     # Boucle principale du jeu
     while True:
         game.handle_turn(game.evil_units) # Tour des méchants pas beaux!
+
         game.evil_units = game.rmv_dead(game.evil_units) # Supprimer les macchabées!
         game.good_units = game.rmv_dead(game.good_units) # Supprimer les macchabées!
+
+        check = game.GameOver(game.evil_units + game.good_units)
+        if check[0]:
+            match check[1]:
+                case "good":
+                    game.Good_won()
+                case "evil":
+                    game.Evil_won()
+
+
         game.handle_turn(game.good_units) # Tour des gentils.
+
         game.evil_units = game.rmv_dead(game.evil_units) # Supprimer les macchabées!
         game.good_units = game.rmv_dead(game.good_units) # Supprimer les macchabées!
+
+        check = game.GameOver(game.evil_units + game.good_units)
+        if check[0]:
+            match check[1]:
+                case "good":
+                    game.Good_won()
+                case "evil":
+                    game.Evil_won()
 
 
 if __name__ == "__main__":

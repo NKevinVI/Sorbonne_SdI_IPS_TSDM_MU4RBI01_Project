@@ -288,7 +288,7 @@ class Pauper(Unit): # Le bas peuple.
     def __init__(self, x, y, team):
         super().__init__(x, y, team)
         self.health = 23
-        self.attack_power = 16
+        self.attack_power = 17
         self.resistance = 11
         self.speed = 2
 
