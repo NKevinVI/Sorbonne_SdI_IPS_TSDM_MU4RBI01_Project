@@ -30,7 +30,7 @@ class VictoryDisplay:
 
     def show_good_won(self):
         """Affiche 'Les Dragons de Lumière ont vaincu!' en vert avec de la musique."""
-        self.play_music("you_win.mp3")
+        self.play_music("../Assets/you_win.mp3")
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -41,7 +41,7 @@ class VictoryDisplay:
 
     def show_evil_won(self):
         """Affiche 'Les Dragons de l'Ombre ont vaincu!' en rouge avec de la musique."""
-        self.play_music("you_win.mp3")
+        self.play_music("../Assets/you_win.mp3")
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -52,7 +52,7 @@ class VictoryDisplay:
 
     def show_tie(self):
         """Affiche 'Les Dragons de l'Ombre ont vaincu!' en rouge avec de la musique."""
-        self.play_music("you_win.mp3")
+        self.play_music("../Assets/you_win.mp3")
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

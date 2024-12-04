@@ -17,7 +17,7 @@ class Menu:
 
         # Charger l'image de fond
         try:
-            path = os.path.join("background.jpg")  # Chemin attendu
+            path = os.path.join("..", "Assets", "background.jpg")  # Chemin attendu
             self.background = pygame.image.load(path)
             self.background = pygame.transform.scale(self.background, (WIDTH[0], HEIGHT[0]))
         except FileNotFoundError:
@@ -27,7 +27,7 @@ class Menu:
 
         # Charger la musique de fond
         try:
-            pygame.mixer.music.load(os.path.join("menu_music.mp3"))
+            pygame.mixer.music.load(os.path.join("..", "Assets", "menu_music.mp3"))
             pygame.mixer.music.play(-1)  # Lecture en boucle
         except FileNotFoundError:
             print("Erreur : La musique 'menu_music.mp3' est introuvable.")
