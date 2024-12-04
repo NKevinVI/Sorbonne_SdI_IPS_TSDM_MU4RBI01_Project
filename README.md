@@ -87,6 +87,8 @@ Il existe trois types de classes, communes et identiques pour chaque camp:
 - Le _Soldat_: Son attaque spéciale est une attaque de zone à distance. Il se déplace de 4 cases.
 - Le _Royal_: Son attaque spéciale est une attaque berserk, qui multiplie les dégâts mais engendre des dommages à celui qui les donnent. Il se déplace d'une seule case.
 
+Le mana (représenté par des carrés cyans), une fois récupéré, permet d'augmenter la puissance d'attaque de l'unité l'ayant ramassé.
+
 ---
 
 ## Licence
