@@ -1,11 +1,11 @@
 import pygame
 import random
 
-# Constantes
+# Constantes et valeurs par défaut.
 GRID_SIZE = 7
-CELL_SIZE = 128 # Default
-WIDTH = GRID_SIZE * CELL_SIZE
-HEIGHT = WIDTH # On est forcément dans un carré!
+CELL_SIZE = [128] # Default
+WIDTH = [GRID_SIZE * CELL_SIZE[0]]
+HEIGHT = [WIDTH[0]] # On est forcément dans un carré!
 FPS = 30
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -16,7 +16,7 @@ YELLOW = (255, 255, 0)
 MAGENTA = (255, 0, 255)
 CYAN = (0, 255, 255)
 
-WINDOW = pygame.display.set_mode((CELL_SIZE, CELL_SIZE))
+WINDOW = pygame.display.set_mode((CELL_SIZE[0], CELL_SIZE[0]))
 
 
 class Unit:
@@ -55,7 +55,7 @@ class Unit:
         """
         self.x = x
         self.y = y
-        self.rect = pygame.Rect(self.x * CELL_SIZE, self.y * CELL_SIZE, CELL_SIZE, CELL_SIZE)
+        self.rect = pygame.Rect(self.x * CELL_SIZE[0], self.y * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0])
         self.team = team
         self.is_selected = False
         self.move_count = 0
@@ -66,7 +66,7 @@ class Unit:
         if 0 <= self.x + dx < GRID_SIZE and 0 <= self.y + dy < GRID_SIZE:
             self.x += dx
             self.y += dy
-        self.rect = pygame.Rect(self.x * CELL_SIZE, self.y * CELL_SIZE, CELL_SIZE, CELL_SIZE)
+        self.rect = pygame.Rect(self.x * CELL_SIZE[0], self.y * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0])
         game.flip_display()
 
     def dmg(self, dmg):
@@ -105,16 +105,16 @@ class Unit:
         # Attaque simple:
         if not(Deplacer) and event.key == pygame.K_z and not(Attaque):
             target = [self.x, self.y - 1]
-            pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
+            pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE[0], target[1] * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
         elif not(Deplacer) and event.key == pygame.K_q and not(Attaque):
             target = [self.x - 1, self.y]
-            pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
+            pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE[0], target[1] * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
         elif not(Deplacer) and event.key == pygame.K_s and not(Attaque):
             target = [self.x, self.y + 1]
-            pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
+            pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE[0], target[1] * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
         elif not(Deplacer) and event.key == pygame.K_d and not(Attaque):
             target = [self.x + 1, self.y]
-            pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
+            pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE[0], target[1] * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
 
         pygame.display.flip()
 
@@ -148,6 +148,7 @@ class Royal(Unit): # L'unité royale, bonne ou mauvaise.
         return Attaque
 
     def draw(self, screen):
+        self.rect = pygame.Rect(self.x * CELL_SIZE[0], self.y * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0])
         if self.is_alive:
             if self.team == "good":
                 color = BLUE
@@ -157,15 +158,15 @@ class Royal(Unit): # L'unité royale, bonne ou mauvaise.
                 appearance = pygame.image.load("../Textures/DracolichKing_Sketch.png").convert_alpha()
             else:
                 raise ValueError("No other alignment yet!")
-            appearance = pygame.transform.scale(appearance, (CELL_SIZE, CELL_SIZE))
-            WINDOW.blit(appearance, (self.x * CELL_SIZE, self.y * CELL_SIZE))
+            appearance = pygame.transform.scale(appearance, (CELL_SIZE[0], CELL_SIZE[0]))
+            WINDOW.blit(appearance, (self.x * CELL_SIZE[0], self.y * CELL_SIZE[0]))
 
             # Affiche self.health à l'écran.
-            pygame.draw.rect(WINDOW, RED, (int(CELL_SIZE * (self.x + 11/12)), int(self.y * CELL_SIZE), int(CELL_SIZE * 1/12), int(CELL_SIZE)))
-            pygame.draw.rect(WINDOW, GREEN, (int(CELL_SIZE * (self.x + 11/12)), int(CELL_SIZE * (self.y + 1 - self.health / 60)), int(CELL_SIZE * 1/12), int(CELL_SIZE * self.health / 60)))
+            pygame.draw.rect(WINDOW, RED, (int(CELL_SIZE[0] * (self.x + 11/12)), int(self.y * CELL_SIZE[0]), int(CELL_SIZE[0] * 1/12), int(CELL_SIZE[0])))
+            pygame.draw.rect(WINDOW, GREEN, (int(CELL_SIZE[0] * (self.x + 11/12)), int(CELL_SIZE[0] * (self.y + 1 - self.health / 60)), int(CELL_SIZE[0] * 1/12), int(CELL_SIZE[0] * self.health / 60)))
 
             if self.is_selected:
-                pygame.draw.rect(WINDOW, BLUE, (self.x * CELL_SIZE, self.y * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
+                pygame.draw.rect(WINDOW, BLUE, (self.x * CELL_SIZE[0], self.y * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
 
 class Soldier(Unit): # Le soldat.
     def __init__(self, x, y, team):
@@ -187,84 +188,85 @@ class Soldier(Unit): # Le soldat.
         """
         if area[0] == 0:
             if area[1] == 0:
-                if foe.rect.collidepoint(area[0] * CELL_SIZE, area[1] * CELL_SIZE):
+                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
                     foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint((area[0] + 1) * CELL_SIZE, area[1] * CELL_SIZE):
+                if foe.rect.collidepoint((area[0] + 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
                     foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint(area[0] * CELL_SIZE, (area[1] + 1) * CELL_SIZE):
+                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] + 1) * CELL_SIZE[0]):
                     foe.dmg(self.attack_power - 4)
-            elif area[1] == int(HEIGHT/GRID_SIZE) - 1:
-                if foe.rect.collidepoint(area[0] * CELL_SIZE, area[1] * CELL_SIZE):
+            elif area[1] == int(HEIGHT[0]/GRID_SIZE) - 1:
+                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
                     foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint((area[0] + 1) * CELL_SIZE, area[1] * CELL_SIZE):
+                if foe.rect.collidepoint((area[0] + 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
                     foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint(area[0] * CELL_SIZE, (area[1] - 1) * CELL_SIZE):
+                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] - 1) * CELL_SIZE[0]):
                     foe.dmg(self.attack_power - 4)
             else:
-                if foe.rect.collidepoint(area[0] * CELL_SIZE, area[1] * CELL_SIZE):
+                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
                     foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint((area[0] + 1) * CELL_SIZE, area[1] * CELL_SIZE):
+                if foe.rect.collidepoint((area[0] + 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
                     foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint(area[0] * CELL_SIZE, (area[1] + 1) * CELL_SIZE):
+                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] + 1) * CELL_SIZE[0]):
                     foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint(area[0] * CELL_SIZE, (area[1] - 1) * CELL_SIZE):
+                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] - 1) * CELL_SIZE[0]):
                     foe.dmg(self.attack_power - 4)
-        elif area[0] == int(WIDTH/GRID_SIZE) - 1:
+        elif area[0] == int(WIDTH[0]/GRID_SIZE) - 1:
             if area[1] == 0:
-                if foe.rect.collidepoint(area[0] * CELL_SIZE, area[1] * CELL_SIZE):
+                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
                     foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint((area[0] - 1) * CELL_SIZE, area[1] * CELL_SIZE):
+                if foe.rect.collidepoint((area[0] - 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
                     foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint(area[0] * CELL_SIZE, (area[1] + 1) * CELL_SIZE):
+                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] + 1) * CELL_SIZE[0]):
                     foe.dmg(self.attack_power - 4)
-            elif area[1] == int(HEIGHT/GRID_SIZE) - 1:
-                if foe.rect.collidepoint(area[0] * CELL_SIZE, area[1] * CELL_SIZE):
+            elif area[1] == int(HEIGHT[0]/GRID_SIZE) - 1:
+                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
                     foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint((area[0] - 1) * CELL_SIZE, area[1] * CELL_SIZE):
+                if foe.rect.collidepoint((area[0] - 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
                     foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint(area[0] * CELL_SIZE, (area[1] - 1) * CELL_SIZE):
+                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] - 1) * CELL_SIZE[0]):
                     foe.dmg(self.attack_power - 4)
             else:
-                if foe.rect.collidepoint(area[0] * CELL_SIZE, area[1] * CELL_SIZE):
+                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
                     foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint((area[0] - 1) * CELL_SIZE, area[1] * CELL_SIZE):
+                if foe.rect.collidepoint((area[0] - 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
                     foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint(area[0] * CELL_SIZE, (area[1] + 1) * CELL_SIZE):
+                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] + 1) * CELL_SIZE[0]):
                     foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint(area[0] * CELL_SIZE, (area[1] - 1) * CELL_SIZE):
+                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] - 1) * CELL_SIZE[0]):
                     foe.dmg(self.attack_power - 4)
         else:
             if area[1] == 0:
-                if foe.rect.collidepoint(area[0] * CELL_SIZE, area[1] * CELL_SIZE):
+                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
                     foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint((area[0] - 1) * CELL_SIZE, area[1] * CELL_SIZE):
+                if foe.rect.collidepoint((area[0] - 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
                     foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint((area[0] + 1) * CELL_SIZE, area[1] * CELL_SIZE):
+                if foe.rect.collidepoint((area[0] + 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
                     foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint(area[0] * CELL_SIZE, (area[1] + 1) * CELL_SIZE):
+                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] + 1) * CELL_SIZE[0]):
                     foe.dmg(self.attack_power - 4)
-            elif area[1] == int(HEIGHT/GRID_SIZE) - 1:
-                if foe.rect.collidepoint(area[0] * CELL_SIZE, area[1] * CELL_SIZE):
+            elif area[1] == int(HEIGHT[0]/GRID_SIZE) - 1:
+                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
                     foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint((area[0] - 1) * CELL_SIZE, area[1] * CELL_SIZE):
+                if foe.rect.collidepoint((area[0] - 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
                     foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint((area[0] + 1) * CELL_SIZE, area[1] * CELL_SIZE):
+                if foe.rect.collidepoint((area[0] + 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
                     foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint(area[0] * CELL_SIZE, (area[1] - 1) * CELL_SIZE):
+                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] - 1) * CELL_SIZE[0]):
                     foe.dmg(self.attack_power - 4)
             else:
-                if foe.rect.collidepoint(area[0] * CELL_SIZE, area[1] * CELL_SIZE):
+                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
                     foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint((area[0] - 1) * CELL_SIZE, area[1] * CELL_SIZE):
+                if foe.rect.collidepoint((area[0] - 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
                     foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint((area[0] + 1) * CELL_SIZE, area[1] * CELL_SIZE):
+                if foe.rect.collidepoint((area[0] + 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
                     foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint(area[0] * CELL_SIZE, (area[1] + 1) * CELL_SIZE):
+                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] + 1) * CELL_SIZE[0]):
                     foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint(area[0] * CELL_SIZE, (area[1] - 1) * CELL_SIZE):
+                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] - 1) * CELL_SIZE[0]):
                     foe.dmg(self.attack_power - 4)
 
     def draw(self, screen):
+        self.rect = pygame.Rect(self.x * CELL_SIZE[0], self.y * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0])
         if self.is_alive:
             if self.team == "good":
                 color = BLUE
@@ -274,15 +276,15 @@ class Soldier(Unit): # Le soldat.
                 appearance = pygame.image.load("../Textures/Gargouille_Sketch.png").convert_alpha()
             else:
                 raise ValueError("No other alignment yet!")
-            appearance = pygame.transform.scale(appearance, (CELL_SIZE, CELL_SIZE))
-            WINDOW.blit(appearance, (self.x * CELL_SIZE, self.y * CELL_SIZE))
+            appearance = pygame.transform.scale(appearance, (CELL_SIZE[0], CELL_SIZE[0]))
+            WINDOW.blit(appearance, (self.x * CELL_SIZE[0], self.y * CELL_SIZE[0]))
 
             # Affiche self.health à l'écran.
-            pygame.draw.rect(WINDOW, RED, (int(CELL_SIZE * (self.x + 11/12)), int(self.y * CELL_SIZE), int(CELL_SIZE * 1/12), int(CELL_SIZE)))
-            pygame.draw.rect(WINDOW, GREEN, (int(CELL_SIZE * (self.x + 11/12)), int(CELL_SIZE * (self.y + 1 - self.health / 60)), int(CELL_SIZE * 1/12), int(CELL_SIZE * self.health / 60)))
+            pygame.draw.rect(WINDOW, RED, (int(CELL_SIZE[0] * (self.x + 11/12)), int(self.y * CELL_SIZE[0]), int(CELL_SIZE[0] * 1/12), int(CELL_SIZE[0])))
+            pygame.draw.rect(WINDOW, GREEN, (int(CELL_SIZE[0] * (self.x + 11/12)), int(CELL_SIZE[0] * (self.y + 1 - self.health / 60)), int(CELL_SIZE[0] * 1/12), int(CELL_SIZE[0] * self.health / 60)))
 
             if self.is_selected:
-                pygame.draw.rect(WINDOW, BLUE, (self.x * CELL_SIZE, self.y * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
+                pygame.draw.rect(WINDOW, BLUE, (self.x * CELL_SIZE[0], self.y * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
 
 class Pauper(Unit): # Le bas peuple.
     def __init__(self, x, y, team):
@@ -303,6 +305,7 @@ class Pauper(Unit): # Le bas peuple.
         return Attaque
 
     def draw(self, screen):
+        self.rect = pygame.Rect(self.x * CELL_SIZE[0], self.y * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0])
         if self.is_alive:
             if self.team == "good":
                 color = BLUE
@@ -312,12 +315,12 @@ class Pauper(Unit): # Le bas peuple.
                 appearance = pygame.image.load("../Textures/Larva_Sketch.png").convert_alpha()
             else:
                 raise ValueError("No other alignment yet!")
-            appearance = pygame.transform.scale(appearance, (CELL_SIZE, CELL_SIZE))
-            WINDOW.blit(appearance, (self.x * CELL_SIZE, self.y * CELL_SIZE))
+            appearance = pygame.transform.scale(appearance, (CELL_SIZE[0], CELL_SIZE[0]))
+            WINDOW.blit(appearance, (self.x * CELL_SIZE[0], self.y * CELL_SIZE[0]))
 
             # Affiche self.health à l'écran.
-            pygame.draw.rect(WINDOW, RED, (int(CELL_SIZE * (self.x + 11/12)), int(self.y * CELL_SIZE), int(CELL_SIZE * 1/12), int(CELL_SIZE)))
-            pygame.draw.rect(WINDOW, GREEN, (int(CELL_SIZE * (self.x + 11/12)), int(CELL_SIZE * (self.y + 1 - self.health / 60)), int(CELL_SIZE * 1/12), int(CELL_SIZE * self.health / 60)))
+            pygame.draw.rect(WINDOW, RED, (int(CELL_SIZE[0] * (self.x + 11/12)), int(self.y * CELL_SIZE[0]), int(CELL_SIZE[0] * 1/12), int(CELL_SIZE[0])))
+            pygame.draw.rect(WINDOW, GREEN, (int(CELL_SIZE[0] * (self.x + 11/12)), int(CELL_SIZE[0] * (self.y + 1 - self.health / 60)), int(CELL_SIZE[0] * 1/12), int(CELL_SIZE[0] * self.health / 60)))
 
             if self.is_selected:
-                pygame.draw.rect(WINDOW, BLUE, (self.x * CELL_SIZE, self.y * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
+                pygame.draw.rect(WINDOW, BLUE, (self.x * CELL_SIZE[0], self.y * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)

@@ -56,6 +56,11 @@ class Game:
                 if event.type == pygame.QUIT: # Gestion de la fermeture de la fenêtre.
                     pygame.quit()
                     exit()
+                if event.type == pygame.VIDEORESIZE:
+                    self.screen = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
+                    self.flip_display()
+                if event.type == pygame.KEYDOWN:
+                    self.flip_display() # Met à jour l'écran.
                 if event.type == pygame.MOUSEBUTTONDOWN: # Le joueur a-t-il cliqué avec la souris?
                     click_pos = pygame.mouse.get_pos() # On récupère la position du curseur de la souris.
                     for unit in unit_set:
@@ -80,6 +85,10 @@ class Game:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     exit()
+
+                if event.type == pygame.VIDEORESIZE:
+                    self.screen = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
+                    self.flip_display()
 
                 # Gestion des touches du clavier
                 if event.type == pygame.KEYDOWN:
@@ -163,11 +172,11 @@ class Game:
                         if event.key == pygame.K_x and not(Deplacer) and not(Attaque):
                             target = [selected_unit.x, selected_unit.y]
                             atta = True # Being attacking.
-                            pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
-                            pygame.draw.rect(WINDOW, RED, ((target[0] + 1) * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
-                            pygame.draw.rect(WINDOW, RED, ((target[0] - 1) * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
-                            pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE, (target[1] + 1) * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
-                            pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE, (target[1] - 1) * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
+                            pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE[0], target[1] * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
+                            pygame.draw.rect(WINDOW, RED, ((target[0] + 1) * CELL_SIZE[0], target[1] * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
+                            pygame.draw.rect(WINDOW, RED, ((target[0] - 1) * CELL_SIZE[0], target[1] * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
+                            pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE[0], (target[1] + 1) * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
+                            pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE[0], (target[1] - 1) * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
                             pygame.display.update()
                             while atta:
                                 for event_ in pygame.event.get():
@@ -195,11 +204,11 @@ class Game:
                                         if target[1] >= GRID_SIZE:
                                             target[1] = GRID_SIZE - 1
 
-                                        pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
-                                        pygame.draw.rect(WINDOW, RED, ((target[0] + 1) * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
-                                        pygame.draw.rect(WINDOW, RED, ((target[0] - 1) * CELL_SIZE, target[1] * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
-                                        pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE, (target[1] + 1) * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
-                                        pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE, (target[1] - 1) * CELL_SIZE, CELL_SIZE, CELL_SIZE), 2)
+                                        pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE[0], target[1] * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
+                                        pygame.draw.rect(WINDOW, RED, ((target[0] + 1) * CELL_SIZE[0], target[1] * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
+                                        pygame.draw.rect(WINDOW, RED, ((target[0] - 1) * CELL_SIZE[0], target[1] * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
+                                        pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE[0], (target[1] + 1) * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
+                                        pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE[0], (target[1] - 1) * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
                                         pygame.display.update()
                                         if event_.key == pygame.K_ESCAPE:
                                             atta = False
@@ -232,9 +241,12 @@ class Game:
 
         # Affiche la grille
         self.screen.fill(BLACK)
-        for x in range(0, WIDTH, CELL_SIZE):
-            for y in range(0, HEIGHT, CELL_SIZE):
-                rect = pygame.Rect(x, y, CELL_SIZE, CELL_SIZE)
+        CELL_SIZE[0] = min(self.screen.get_width() // GRID_SIZE, self.screen.get_height() // GRID_SIZE)
+        WIDTH[0] = GRID_SIZE * CELL_SIZE[0]
+        HEIGHT[0] = WIDTH[0]
+        for x in range(0, GRID_SIZE):
+            for y in range(0, GRID_SIZE):
+                rect = pygame.Rect(x * CELL_SIZE[0], y * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0])
                 pygame.draw.rect(self.screen, WHITE, rect, 1)
 
         # Affiche les unités
@@ -285,7 +297,7 @@ def main():
     pygame.init()
 
     # Instanciation de la fenêtre
-    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    screen = pygame.display.set_mode((WIDTH[0], HEIGHT[0]), pygame.RESIZABLE)
     pygame.display.set_caption("Draconic Generations") # Titre de la fenêtre.
 
     # Instanciation du jeu
