@@ -290,10 +290,10 @@ class Game:
         if not(Good_alive) and not(Evil_alive):
             Tie = VictoryDisplay(self.screen)
             Tie.show_tie()
-        elif not Good_alive:
+        elif not Evil_alive:
             GoodWon = VictoryDisplay(self.screen)
             GoodWon.show_good_won()
-        elif not Evil_alive:
+        elif not Good_alive:
             EvilWon = VictoryDisplay(self.screen)
             EvilWon.show_evil_won()
 
