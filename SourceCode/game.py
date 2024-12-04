@@ -180,10 +180,14 @@ class Game:
                             target = [selected_unit.x, selected_unit.y]
                             atta = True # Being attacking.
                             pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE[0], target[1] * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
-                            pygame.draw.rect(WINDOW, RED, ((target[0] + 1) * CELL_SIZE[0], target[1] * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
-                            pygame.draw.rect(WINDOW, RED, ((target[0] - 1) * CELL_SIZE[0], target[1] * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
-                            pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE[0], (target[1] + 1) * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
-                            pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE[0], (target[1] - 1) * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
+                            if (target[0] + 1) * CELL_SIZE[0] < WIDTH[0]:
+                                pygame.draw.rect(WINDOW, RED, ((target[0] + 1) * CELL_SIZE[0], target[1] * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
+                            if (target[0] - 1) * CELL_SIZE[0] >= 0:
+                                pygame.draw.rect(WINDOW, RED, ((target[0] - 1) * CELL_SIZE[0], target[1] * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
+                            if (target[1] + 1) * CELL_SIZE[0] < HEIGHT[0]:
+                                pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE[0], (target[1] + 1) * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
+                            if (target[1] - 1) * CELL_SIZE[0] >= 0:
+                                pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE[0], (target[1] - 1) * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
                             pygame.display.update()
                             while atta:
                                 for event_ in pygame.event.get():
@@ -212,10 +216,14 @@ class Game:
                                             target[1] = GRID_SIZE - 1
 
                                         pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE[0], target[1] * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
-                                        pygame.draw.rect(WINDOW, RED, ((target[0] + 1) * CELL_SIZE[0], target[1] * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
-                                        pygame.draw.rect(WINDOW, RED, ((target[0] - 1) * CELL_SIZE[0], target[1] * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
-                                        pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE[0], (target[1] + 1) * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
-                                        pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE[0], (target[1] - 1) * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
+                                        if (target[0] + 1) * CELL_SIZE[0] < WIDTH[0]:
+                                            pygame.draw.rect(WINDOW, RED, ((target[0] + 1) * CELL_SIZE[0], target[1] * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
+                                        if (target[0] - 1) * CELL_SIZE[0] >= 0:
+                                            pygame.draw.rect(WINDOW, RED, ((target[0] - 1) * CELL_SIZE[0], target[1] * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
+                                        if (target[1] + 1) * CELL_SIZE[0] < HEIGHT[0]:
+                                            pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE[0], (target[1] + 1) * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
+                                        if (target[1] - 1) * CELL_SIZE[0] >= 0:
+                                            pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE[0], (target[1] - 1) * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
                                         pygame.display.update()
                                         if event_.key == pygame.K_ESCAPE:
                                             atta = False
