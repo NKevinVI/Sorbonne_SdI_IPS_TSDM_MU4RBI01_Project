@@ -95,6 +95,8 @@ Le mana (représenté par des carrés cyans), une fois récupéré, permet d'aug
 
 **Tous droits réservés.**
 
+### Pour la branche *main*
+
 Les musiques proviennent de *Sergey Cheremisinov*, et sont sous licence CC BY-NC 4.0.
 L'image de début de jeu vient de l'artiste Anne Stokes, et peut être retrouvée sur son [site](https://annestokes.com/).
 
