@@ -297,7 +297,7 @@ class Pauper(Unit): # Le bas peuple.
     def heal(self, Attaque, Deplacer, event, game):
         # Action permettant de s'auto-régénérer.
         if not(Attaque) and not(Deplacer) and event.key == pygame.K_x and self.health < 23:
-            self.health += 10
+            self.health += int(self.attaqck_power / 2)
             if self.health >= 23:
                 self.health = 23
             game.flip_display()

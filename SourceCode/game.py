@@ -157,6 +157,13 @@ class Game:
                     # On effectue les déplacements visuellement.
                     selected_unit.move(dx, dy, self)
 
+                    # Le mana!
+                    if dx != 0 or dy != 0:
+                        for mana in self.mana_src:
+                            if selected_unit.x == mana.x and selected_unit.y == mana.y:
+                                mana.absorbed(selected_unit)
+                                self.flip_display()
+
                     # Attaque (simple): visée.
                     target = selected_unit.attack_show(target, Attaque, Deplacer, event)
 

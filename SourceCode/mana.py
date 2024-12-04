@@ -12,6 +12,11 @@ class Mana:
         self.here = True # La source est-elle encore viable? (Équivalent de is_alive.)
         self.rect = pygame.Rect(self.x * CELL_SIZE[0], self.y * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0])
 
+    def absorbed(self, owner):
+        # Améliore la force d'attaque de celui qui l'a ramassé.
+        self.here = False
+        owner.attack_power += 4
+
     def draw(self, screen):
         # Imprime le mana sur la grille du jeu.
         if self.here:
