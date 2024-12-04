@@ -71,7 +71,7 @@ Voici donc son mode d'emploi:
 
 | Touche(s) | Action effectuée. |
 | --- | --- |
-| Clique droit Souris | Permet de choisir l'unité à jouer. Une fois l'unité sélectionnée, on joue sans retour en arrière! |
+| Clique gauche Souris | Permet de choisir l'unité à jouer. Une fois l'unité sélectionnée, on joue sans retour en arrière! |
 | Touches directionnelles | Pour déplacer l'unité que vous avez choisie. |
 | Z, Q, S, D | Permettent de diriger une attaque simple. |
 | Espace | Une fois l'attaque simple dirigée sur une unité, permet d'attaquer. |
