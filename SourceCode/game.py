@@ -3,46 +3,27 @@ import random
 
 from unit import *
 from mana import *
-
+from menu import Menu  # Import du menu
 
 class Game:
     """
     Classe pour représenter le jeu.
-
-    ...
-    Attributs
-    ---------
-    screen: pygame.Surface
-        La surface de la fenêtre du jeu.
-    good_units : list[Unit]
-        La liste des unités du second joueur.
-    evil_units : list[Unit]
-        La liste des unités de premier joueur.
     """
-
     def __init__(self, screen):
-        """
-        Construit le jeu avec la surface de la fenêtre.
-
-        Paramètres
-        ----------
-        screen : pygame.Surface
-            La surface de la fenêtre du jeu.
-        """
         self.screen = screen
         self.good_units = [Royal(6, 3, "good"),
-                             Soldier(6, 2, "good"),
-                             Soldier(6, 4, "good"),
-                             Pauper(5, 2, "good"),
-                             Pauper(5, 3, "good"),
-                             Pauper(5, 4, "good")]
+                           Soldier(6, 2, "good"),
+                           Soldier(6, 4, "good"),
+                           Pauper(5, 2, "good"),
+                           Pauper(5, 3, "good"),
+                           Pauper(5, 4, "good")]
 
         self.evil_units = [Royal(0, 3, "evil"),
-                             Soldier(0, 2, "evil"),
-                             Soldier(0, 4, "evil"),
-                             Pauper(1, 2, "evil"),
-                             Pauper(1, 3, "evil"),
-                             Pauper(1, 4, "evil")]
+                           Soldier(0, 2, "evil"),
+                           Soldier(0, 4, "evil"),
+                           Pauper(1, 2, "evil"),
+                           Pauper(1, 3, "evil"),
+                           Pauper(1, 4, "evil")]
 
         self.mana_src = [Mana(0, 0), Mana(6, 0), Mana(0, 6), Mana(6, 6), Mana(3, 0), Mana(3, 6)]
 
@@ -232,9 +213,12 @@ class Game:
 
         # Affiche la grille
         self.screen.fill(BLACK)
-        for x in range(0, WIDTH, CELL_SIZE):
-            for y in range(0, HEIGHT, CELL_SIZE):
-                rect = pygame.Rect(x, y, CELL_SIZE, CELL_SIZE)
+        CELL_SIZE[0] = min(self.screen.get_width() // GRID_SIZE, self.screen.get_height() // GRID_SIZE)
+        WIDTH[0] = GRID_SIZE * CELL_SIZE[0]
+        HEIGHT[0] = WIDTH[0]
+        for x in range(0, GRID_SIZE):
+            for y in range(0, GRID_SIZE):
+                rect = pygame.Rect(x * CELL_SIZE[0], y * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0])
                 pygame.draw.rect(self.screen, WHITE, rect, 1)
 
         # Affiche les unités
@@ -280,13 +264,21 @@ class Game:
 
             print("Evilness won!") # À MODIFIER POUR AFFICHER UN TEXTE PROPRE DE VICTOIRE SUR LA FENÊTRE.
 
+
+
 def main():
     # Initialisation de Pygame
     pygame.init()
 
     # Instanciation de la fenêtre
-    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    screen = pygame.display.set_mode((WIDTH[0], HEIGHT[0]), pygame.RESIZABLE)
     pygame.display.set_caption("Draconic Generations") # Titre de la fenêtre.
+    
+    # Appeler le menu avant de lancer le jeu
+    menu = Menu(screen)
+    if not menu.show_menu():
+        return
+
 
     # Instanciation du jeu
     game = Game(screen)
