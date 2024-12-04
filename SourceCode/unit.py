@@ -1,5 +1,7 @@
 import pygame
 import random
+import os
+import sys
 
 # Constantes et valeurs par défaut.
 GRID_SIZE = 7

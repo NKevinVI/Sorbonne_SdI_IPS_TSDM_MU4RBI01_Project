@@ -1,8 +1,12 @@
 import pygame
 import random
+import os
+import sys
 
 from unit import *
 from mana import *
+from menu import *
+from VictoryDisplay import *
 
 
 class Game:
@@ -87,7 +91,7 @@ class Game:
                     exit()
 
                 if event.type == pygame.VIDEORESIZE:
-                    self.screen = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
+                    # self.screen = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
                     self.flip_display()
 
                 # Gestion des touches du clavier
@@ -254,7 +258,7 @@ class Game:
     def flip_display(self):
         """Affiche le jeu."""
 
-        # Affiche la grille
+        # Affiche la grille et met à jour les dimensions de la fenêtre.
         self.screen.fill(BLACK)
         CELL_SIZE[0] = min(self.screen.get_width() // GRID_SIZE, self.screen.get_height() // GRID_SIZE)
         WIDTH[0] = GRID_SIZE * CELL_SIZE[0]
@@ -283,29 +287,15 @@ class Game:
                 Evil_alive = True
             if unit.team == "good":
                 Good_alive = True
-        if not Good_alive:
-            return True, "evil"
-        if not Evil_alive:
-            return True, "good"
-        return False, None
-
-    def Good_won(self):
-        while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    exit()
-
-            print("Goodness won!") # À MODIFIER POUR AFFICHER UN TEXTE PROPRE DE VICTOIRE SUR LA FENÊTRE.
-
-    def Evil_won(self):
-        while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    exit()
-
-            print("Evilness won!") # À MODIFIER POUR AFFICHER UN TEXTE PROPRE DE VICTOIRE SUR LA FENÊTRE.
+        if not(Good_alive) and not(Evil_alive):
+            Tie = VictoryDisplay(self.screen)
+            Tie.show_tie()
+        elif not Good_alive:
+            GoodWon = VictoryDisplay(self.screen)
+            GoodWon.show_good_won()
+        elif not Evil_alive:
+            EvilWon = VictoryDisplay(self.screen)
+            EvilWon.show_evil_won()
 
 def main():
     # Initialisation de Pygame
@@ -315,23 +305,24 @@ def main():
     screen = pygame.display.set_mode((WIDTH[0], HEIGHT[0]), pygame.RESIZABLE)
     pygame.display.set_caption("Draconic Generations") # Titre de la fenêtre.
 
+    # Gestion du menu de départ.
+    menu = Menu(screen)
+    menu.display()
+    # if not menu.show_menu():
+    #     return
+
     # Instanciation du jeu
     game = Game(screen)
 
     # Boucle principale du jeu
     while True:
+        game.GameOver(game.evil_units + game.good_units)
         game.handle_turn(game.evil_units) # Tour des méchants pas beaux!
 
         game.evil_units = game.rmv_dead(game.evil_units) # Supprimer les macchabées!
         game.good_units = game.rmv_dead(game.good_units) # Supprimer les macchabées!
 
-        check = game.GameOver(game.evil_units + game.good_units)
-        if check[0]:
-            match check[1]:
-                case "good":
-                    game.Good_won()
-                case "evil":
-                    game.Evil_won()
+        game.GameOver(game.evil_units + game.good_units)
 
 
         game.handle_turn(game.good_units) # Tour des gentils.
@@ -339,13 +330,7 @@ def main():
         game.evil_units = game.rmv_dead(game.evil_units) # Supprimer les macchabées!
         game.good_units = game.rmv_dead(game.good_units) # Supprimer les macchabées!
 
-        check = game.GameOver(game.evil_units + game.good_units)
-        if check[0]:
-            match check[1]:
-                case "good":
-                    game.Good_won()
-                case "evil":
-                    game.Evil_won()
+        game.GameOver(game.evil_units + game.good_units)
 
 
 if __name__ == "__main__":

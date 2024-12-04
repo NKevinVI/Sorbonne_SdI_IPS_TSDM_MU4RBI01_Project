@@ -95,6 +95,9 @@ Le mana (représenté par des carrés cyans), une fois récupéré, permet d'aug
 
 **Tous droits réservés.**
 
+Les musiques proviennent de *Sergey Cheremisinov*, et sont sous licence CC BY-NC 4.0.
+L'image de début de jeu vient de l'artiste Anne Stokes, et peut être retrouvé sur ce [son site](https://annestokes.com/).
+
 > Les outils utilisés ici sont fournis par _Sorbonne Université_ et les bibliothèques _Python_; l'univers est le produit des collaborateurs (toute ressemblance avec une marque ou un fait réel est une pure coïncidence). Le but de ce projet est en tout premier lieu éducatif.
 
 ![](SdI.png)
