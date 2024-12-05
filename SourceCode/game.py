@@ -177,7 +177,7 @@ class Game:
                     # On effectue les déplacements visuellement.
                     selected_unit.move(dx, dy, self)
 
-                    # On vérifie directement après le déplacement la condition de protection des attaques à distance.
+                    # On vérifie la condition de protection des attaques à distance.
                     for unit in self.evil_units + self.good_units:
                         if BOARD[unit.y][unit.x] == self.team(unit):
                             unit.protected = True
@@ -305,6 +305,8 @@ class Game:
         pygame.display.flip()
 
     def GameOver(self):
+        EvilWon = VictoryDisplay(self.screen)
+        EvilWon.show_evil_won()
         # Renvoie True si un des camps est éliminé, et un str indiquant quel joueur a gagné.
         Good_alive = False # Les gentils sont-ils en vie?
         Evil_alive = False # Les méchants sont-ils en vie?
