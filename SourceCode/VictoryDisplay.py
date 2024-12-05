@@ -2,6 +2,7 @@ import pygame
 import random
 import os
 import sys
+import numpy as np
 
 from unit import *
 
@@ -88,7 +89,7 @@ class VictoryDisplay:
                     y = HEIGHT[0] // 2 - 200 # Hauteur initiale du message.
                     for line in message:
                         font = pygame.font.Font(None, 50)
-                        text = font.render(line, True, WHITE if line != "(Easter Egg)" else (100,100,100))
+                        text = font.render(line, True, WHITE if line != "(Easter Egg)" else GREY)
                         self.screen.blit(text, (WIDTH[0] // 2 - text.get_width() // 2, y))
                         y += 50
                     pygame.display.flip()

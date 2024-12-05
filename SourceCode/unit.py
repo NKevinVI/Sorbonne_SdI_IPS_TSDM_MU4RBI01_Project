@@ -2,9 +2,17 @@ import pygame
 import random
 import os
 import sys
+import numpy as np
 
 # Constantes et valeurs par défaut.
-GRID_SIZE = 7
+BOARD = np.array([[-1,-1,0,0,0,1,1],
+                [-1,-1,0,0,0,1,1],
+                [-1,-1,0,0,0,1,1],
+                [-1,-1,0,0,0,1,1],
+                [-1,-1,0,0,0,1,1],
+                [-1,-1,0,0,0,1,1],
+                [-1,-1,0,0,0,1,1]]) # Le BOARD doit absolumant être un carré! Ou vous subirez mon courroux!
+GRID_SIZE = len(BOARD)
 CELL_SIZE = [128] # Default
 WIDTH = [GRID_SIZE * CELL_SIZE[0]]
 HEIGHT = [WIDTH[0]] # On est forcément dans un carré!
@@ -12,11 +20,14 @@ FPS = 30
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
+DARK_RED = (100, 0, 0)
 GREEN = (0, 255, 0)
+DARK_GREEN = (0, 100, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 MAGENTA = (255, 0, 255)
 CYAN = (0, 255, 255)
+GREY = (100, 100, 100)
 
 WINDOW = pygame.display.set_mode((CELL_SIZE[0], CELL_SIZE[0]))
 
@@ -62,6 +73,7 @@ class Unit:
         self.is_selected = False
         self.move_count = 0
         self.is_alive = True
+        self.protected = False # L'unité est-elle protégée des attaques à distance?
 
     def move(self, dx, dy, game):
         """Déplace l'unité de dx, dy."""
@@ -185,87 +197,88 @@ class Soldier(Unit): # Le soldat.
         _ X _
         X O X
         _ X _
-        avec le "O" étant aux coordonnées [x,y].
+        avec le "O" étant aux coordonnées [x,y] et étant une zone touchée, le "X" une zone touchée, et "_" les zones non affectées.
         Le foe est un ennemi potentiel.
         """
-        if area[0] == 0:
-            if area[1] == 0:
-                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
-                    foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint((area[0] + 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
-                    foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] + 1) * CELL_SIZE[0]):
-                    foe.dmg(self.attack_power - 4)
-            elif area[1] == int(HEIGHT[0]/GRID_SIZE) - 1:
-                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
-                    foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint((area[0] + 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
-                    foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] - 1) * CELL_SIZE[0]):
-                    foe.dmg(self.attack_power - 4)
+        if not foe.protected: # Si le foe n'est pas sur une case qui le protège, il ne prend pas de dégât.
+            if area[0] == 0:
+                if area[1] == 0:
+                    if foe.rect.collidepoint(area[0] * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
+                        foe.dmg(self.attack_power - 4)
+                    if foe.rect.collidepoint((area[0] + 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
+                        foe.dmg(self.attack_power - 4)
+                    if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] + 1) * CELL_SIZE[0]):
+                        foe.dmg(self.attack_power - 4)
+                elif area[1] == int(HEIGHT[0]/GRID_SIZE) - 1:
+                    if foe.rect.collidepoint(area[0] * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
+                        foe.dmg(self.attack_power - 4)
+                    if foe.rect.collidepoint((area[0] + 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
+                        foe.dmg(self.attack_power - 4)
+                    if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] - 1) * CELL_SIZE[0]):
+                        foe.dmg(self.attack_power - 4)
+                else:
+                    if foe.rect.collidepoint(area[0] * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
+                        foe.dmg(self.attack_power - 4)
+                    if foe.rect.collidepoint((area[0] + 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
+                        foe.dmg(self.attack_power - 4)
+                    if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] + 1) * CELL_SIZE[0]):
+                        foe.dmg(self.attack_power - 4)
+                    if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] - 1) * CELL_SIZE[0]):
+                        foe.dmg(self.attack_power - 4)
+            elif area[0] == int(WIDTH[0]/GRID_SIZE) - 1:
+                if area[1] == 0:
+                    if foe.rect.collidepoint(area[0] * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
+                        foe.dmg(self.attack_power - 4)
+                    if foe.rect.collidepoint((area[0] - 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
+                        foe.dmg(self.attack_power - 4)
+                    if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] + 1) * CELL_SIZE[0]):
+                        foe.dmg(self.attack_power - 4)
+                elif area[1] == int(HEIGHT[0]/GRID_SIZE) - 1:
+                    if foe.rect.collidepoint(area[0] * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
+                        foe.dmg(self.attack_power - 4)
+                    if foe.rect.collidepoint((area[0] - 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
+                        foe.dmg(self.attack_power - 4)
+                    if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] - 1) * CELL_SIZE[0]):
+                        foe.dmg(self.attack_power - 4)
+                else:
+                    if foe.rect.collidepoint(area[0] * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
+                        foe.dmg(self.attack_power - 4)
+                    if foe.rect.collidepoint((area[0] - 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
+                        foe.dmg(self.attack_power - 4)
+                    if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] + 1) * CELL_SIZE[0]):
+                        foe.dmg(self.attack_power - 4)
+                    if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] - 1) * CELL_SIZE[0]):
+                        foe.dmg(self.attack_power - 4)
             else:
-                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
-                    foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint((area[0] + 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
-                    foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] + 1) * CELL_SIZE[0]):
-                    foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] - 1) * CELL_SIZE[0]):
-                    foe.dmg(self.attack_power - 4)
-        elif area[0] == int(WIDTH[0]/GRID_SIZE) - 1:
-            if area[1] == 0:
-                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
-                    foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint((area[0] - 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
-                    foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] + 1) * CELL_SIZE[0]):
-                    foe.dmg(self.attack_power - 4)
-            elif area[1] == int(HEIGHT[0]/GRID_SIZE) - 1:
-                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
-                    foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint((area[0] - 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
-                    foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] - 1) * CELL_SIZE[0]):
-                    foe.dmg(self.attack_power - 4)
-            else:
-                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
-                    foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint((area[0] - 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
-                    foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] + 1) * CELL_SIZE[0]):
-                    foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] - 1) * CELL_SIZE[0]):
-                    foe.dmg(self.attack_power - 4)
-        else:
-            if area[1] == 0:
-                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
-                    foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint((area[0] - 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
-                    foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint((area[0] + 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
-                    foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] + 1) * CELL_SIZE[0]):
-                    foe.dmg(self.attack_power - 4)
-            elif area[1] == int(HEIGHT[0]/GRID_SIZE) - 1:
-                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
-                    foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint((area[0] - 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
-                    foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint((area[0] + 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
-                    foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] - 1) * CELL_SIZE[0]):
-                    foe.dmg(self.attack_power - 4)
-            else:
-                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
-                    foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint((area[0] - 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
-                    foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint((area[0] + 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
-                    foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] + 1) * CELL_SIZE[0]):
-                    foe.dmg(self.attack_power - 4)
-                if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] - 1) * CELL_SIZE[0]):
-                    foe.dmg(self.attack_power - 4)
+                if area[1] == 0:
+                    if foe.rect.collidepoint(area[0] * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
+                        foe.dmg(self.attack_power - 4)
+                    if foe.rect.collidepoint((area[0] - 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
+                        foe.dmg(self.attack_power - 4)
+                    if foe.rect.collidepoint((area[0] + 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
+                        foe.dmg(self.attack_power - 4)
+                    if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] + 1) * CELL_SIZE[0]):
+                        foe.dmg(self.attack_power - 4)
+                elif area[1] == int(HEIGHT[0]/GRID_SIZE) - 1:
+                    if foe.rect.collidepoint(area[0] * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
+                        foe.dmg(self.attack_power - 4)
+                    if foe.rect.collidepoint((area[0] - 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
+                        foe.dmg(self.attack_power - 4)
+                    if foe.rect.collidepoint((area[0] + 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
+                        foe.dmg(self.attack_power - 4)
+                    if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] - 1) * CELL_SIZE[0]):
+                        foe.dmg(self.attack_power - 4)
+                else:
+                    if foe.rect.collidepoint(area[0] * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
+                        foe.dmg(self.attack_power - 4)
+                    if foe.rect.collidepoint((area[0] - 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
+                        foe.dmg(self.attack_power - 4)
+                    if foe.rect.collidepoint((area[0] + 1) * CELL_SIZE[0], area[1] * CELL_SIZE[0]):
+                        foe.dmg(self.attack_power - 4)
+                    if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] + 1) * CELL_SIZE[0]):
+                        foe.dmg(self.attack_power - 4)
+                    if foe.rect.collidepoint(area[0] * CELL_SIZE[0], (area[1] - 1) * CELL_SIZE[0]):
+                        foe.dmg(self.attack_power - 4)
 
     def draw(self, screen):
         self.rect = pygame.Rect(self.x * CELL_SIZE[0], self.y * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0])

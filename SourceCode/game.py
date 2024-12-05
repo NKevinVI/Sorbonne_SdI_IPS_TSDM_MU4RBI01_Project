@@ -2,6 +2,7 @@ import pygame
 import random
 import os
 import sys
+import numpy as np
 
 from unit import *
 from mana import *
@@ -55,6 +56,15 @@ class Game:
                 self.PauperNumTot = 6
 
         self.mana_src = [Mana(0, 0), Mana(6, 0), Mana(0, 6), Mana(6, 6), Mana(3, 0), Mana(3, 6)]
+
+    def team(self, unit):
+        """
+        Retourne -1 si unit est evil, +1 si unit est good.
+        """
+        if unit.team == "good":
+            return 1
+        if unit.team == "evil":
+            return -1
 
     def handle_turn(self, unit_set):
         """Tour du joueur ayant les 'unit_set' comme unités."""
@@ -167,6 +177,13 @@ class Game:
                     # On effectue les déplacements visuellement.
                     selected_unit.move(dx, dy, self)
 
+                    # On vérifie directement après le déplacement la condition de protection des attaques à distance.
+                    for unit in self.evil_units + self.good_units:
+                        if BOARD[unit.y][unit.x] == self.team(unit):
+                            unit.protected = True
+                        else:
+                            unit.protected = False
+
                     # Le mana!
                     if dx != 0 or dy != 0:
                         for mana in self.mana_src:
@@ -257,13 +274,14 @@ class Game:
                         mouse_pos = None
                         break
 
+                    pygame.time.Clock().tick(FPS)
+
     def rmv_dead(self, unit_set):
         """Renvoie la liste unit_set, mais sans les unités mortes."""
         return [unit for unit in unit_set if unit.is_alive]
 
     def flip_display(self):
         """Affiche le jeu."""
-
         # Affiche la grille et met à jour les dimensions de la fenêtre.
         self.screen.fill(BLACK)
         CELL_SIZE[0] = min(self.screen.get_width() // GRID_SIZE, self.screen.get_height() // GRID_SIZE)
@@ -272,6 +290,8 @@ class Game:
         for x in range(0, GRID_SIZE):
             for y in range(0, GRID_SIZE):
                 rect = pygame.Rect(x * CELL_SIZE[0], y * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0])
+                col = [DARK_RED if BOARD[y][x] == -1 else DARK_GREEN if BOARD[y][x] == 1 else BLACK]
+                pygame.draw.rect(self.screen, col[0], rect)
                 pygame.draw.rect(self.screen, WHITE, rect, 1)
 
         # Affiche les unités
