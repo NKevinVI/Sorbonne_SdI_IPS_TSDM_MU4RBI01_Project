@@ -111,3 +111,4 @@ class Menu:
                     elif exit_rect.collidepoint(click_pos):
                         pygame.quit()
                         sys.exit()
+            pygame.time.Clock().tick(FPS)

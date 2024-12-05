@@ -48,6 +48,12 @@ class Game:
                              Pauper(1, 3, "evil"),
                              Pauper(1, 4, "evil")]
 
+        # On compte le nombre total de Pauper (utile pour le déclenchement de l'Easter Egg).
+        self.PauperNumTot = 0
+        for unit in self.evil_units + self.good_units:
+            if isinstance(unit, Pauper):
+                self.PauperNumTot = 6
+
         self.mana_src = [Mana(0, 0), Mana(6, 0), Mana(0, 6), Mana(6, 6), Mana(3, 0), Mana(3, 6)]
 
     def handle_turn(self, unit_set):
@@ -278,15 +284,25 @@ class Game:
         # Rafraîchit l'écran
         pygame.display.flip()
 
-    def GameOver(self, unit_set):
+    def GameOver(self):
         # Renvoie True si un des camps est éliminé, et un str indiquant quel joueur a gagné.
+
+        Easter = VictoryDisplay(self.screen)
+        Easter.show_easter()
+
         Good_alive = False # Les gentils sont-ils en vie?
         Evil_alive = False # Les méchants sont-ils en vie?
-        for unit in unit_set:
+        NoSoldier = True # On vérifie que tous les Soldier sont morts (puor l'Eatser Egg).
+        PauperNum = 0 # On vérifie que tous les Paupers sont encore en vie.
+        for unit in self.evil_units + self.good_units:
             if unit.team == "evil":
                 Evil_alive = True
             if unit.team == "good":
                 Good_alive = True
+            if isinstance(unit, Soldier):
+                NoSoldier = False # Il y a bien encore au moins un soldat.
+            if isinstance(unit, Pauper):
+                PauperNum += 1
         if not(Good_alive) and not(Evil_alive):
             Tie = VictoryDisplay(self.screen)
             Tie.show_tie()
@@ -296,6 +312,11 @@ class Game:
         elif not Good_alive:
             EvilWon = VictoryDisplay(self.screen)
             EvilWon.show_evil_won()
+        elif NoSoldier and PauperNum == self.PauperNumTot: # Condition du déclenchement de l'Easter Egg.
+            # On vérifie maintenant que les Royal sont côte à côte.
+            if ((self.evil_units[0].x == self.good_units[0].x + 1 or self.evil_units[0].x == self.good_units[0].x - 1) and self.evil_units[0].y == self.good_units[0].y) or (self.evil_units[0].x == self.good_units[0].x and (self.evil_units[0].y == self.good_units[0].y + 1 or self.evil_units[0].y == self.good_units[0].y - 1)):
+                Easter = VictoryDisplay(self.screen)
+                Easter.show_easter()
 
 def main():
     # Initialisation de Pygame
@@ -316,13 +337,12 @@ def main():
 
     # Boucle principale du jeu
     while True:
-        game.GameOver(game.evil_units + game.good_units)
         game.handle_turn(game.evil_units) # Tour des méchants pas beaux!
 
         game.evil_units = game.rmv_dead(game.evil_units) # Supprimer les macchabées!
         game.good_units = game.rmv_dead(game.good_units) # Supprimer les macchabées!
 
-        game.GameOver(game.evil_units + game.good_units)
+        game.GameOver()
 
 
         game.handle_turn(game.good_units) # Tour des gentils.
@@ -330,7 +350,7 @@ def main():
         game.evil_units = game.rmv_dead(game.evil_units) # Supprimer les macchabées!
         game.good_units = game.rmv_dead(game.good_units) # Supprimer les macchabées!
 
-        game.GameOver(game.evil_units + game.good_units)
+        game.GameOver()
 
 
 if __name__ == "__main__":

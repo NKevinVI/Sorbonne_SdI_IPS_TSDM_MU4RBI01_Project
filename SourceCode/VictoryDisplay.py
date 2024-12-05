@@ -60,3 +60,36 @@ class VictoryDisplay:
                     pygame.quit()
                     sys.exit()
             self.display_message("Les Dragons sont éteints!", WHITE)
+
+    def show_easter(self):
+        """
+            Affiche l'Easter Egg (les deux joueurs gagnent simultanément).
+        """
+        self.play_music("../Assets/you_win.mp3")
+        self.screen.fill(BLACK)
+        message = ["Paix durable entre les Royaumes!","La Reine Dragon et le Roi Dragon se sont liés!","","(Easter Egg)"]
+        y = HEIGHT[0] // 2 - 200 # Hauteur initiale du message.
+        for line in message:
+            font = pygame.font.Font(None, 50)
+            text = font.render(line, True, WHITE if line != "(Easter Egg)" else (100,100,100))
+            self.screen.blit(text, (WIDTH[0] // 2 - text.get_width() // 2, y))
+            y += 50
+            pygame.display.flip()
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.stop_music()
+                    pygame.quit()
+                    sys.exit()
+                if event.type == pygame.VIDEORESIZE:
+                    CELL_SIZE[0] = min(self.screen.get_width() // GRID_SIZE, self.screen.get_height() // GRID_SIZE)
+                    WIDTH[0] = GRID_SIZE * CELL_SIZE[0]
+                    HEIGHT[0] = WIDTH[0]
+                    y = HEIGHT[0] // 2 - 200 # Hauteur initiale du message.
+                    for line in message:
+                        font = pygame.font.Font(None, 50)
+                        text = font.render(line, True, WHITE if line != "(Easter Egg)" else (100,100,100))
+                        self.screen.blit(text, (WIDTH[0] // 2 - text.get_width() // 2, y))
+                        y += 50
+                    pygame.display.flip()
+            pygame.time.Clock().tick(FPS)
