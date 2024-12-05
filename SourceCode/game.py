@@ -325,8 +325,6 @@ def main():
     # Gestion du menu de départ.
     menu = Menu(screen)
     menu.display()
-    # if not menu.show_menu():
-    #     return
 
     # Instanciation du jeu
     game = Game(screen)
