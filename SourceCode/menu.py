@@ -60,17 +60,17 @@ class Menu:
             start_text = self.font_option.render("START", True, start_color)
             exit_text = self.font_option.render("EXIT", True, exit_color)
 
-            start_rect = pygame.Rect(WIDTH[0] // 2 - 100, 240, 200, 50)
-            exit_rect = pygame.Rect(WIDTH[0] // 2 - 100, 340, 200, 50)
+            start_rect = pygame.Rect(WIDTH[0] // 2 - 100, 440, 200, 50)
+            exit_rect = pygame.Rect(WIDTH[0] // 2 - 100, 540, 200, 50)
 
-            self.screen.blit(start_text, (WIDTH[0] // 2 - start_text.get_width() // 2, 250))
-            self.screen.blit(exit_text, (WIDTH[0] // 2 - exit_text.get_width() // 2, 350))
+            self.screen.blit(start_text, (WIDTH[0] // 2 - start_text.get_width() // 2, 450))
+            self.screen.blit(exit_text, (WIDTH[0] // 2 - exit_text.get_width() // 2, 550))
 
             # Dessine un contour autour de l'option sélectionnée
             if self.selected_option == "START":
-                pygame.draw.rect(self.screen, WHITE, (WIDTH[0] // 2 - 100, 240, 200, 50), 2)
+                pygame.draw.rect(self.screen, WHITE, (WIDTH[0] // 2 - 100, 440, 200, 50), 2)
             elif self.selected_option == "EXIT":
-                pygame.draw.rect(self.screen, WHITE, (WIDTH[0] // 2 - 100, 340, 200, 50), 2)
+                pygame.draw.rect(self.screen, WHITE, (WIDTH[0] // 2 - 100, 540, 200, 50), 2)
 
             self.background = pygame.transform.scale(self.background, (WIDTH[0], HEIGHT[0]))
             pygame.display.flip()
