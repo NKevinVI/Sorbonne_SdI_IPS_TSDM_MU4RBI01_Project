@@ -286,10 +286,6 @@ class Game:
 
     def GameOver(self):
         # Renvoie True si un des camps est éliminé, et un str indiquant quel joueur a gagné.
-
-        Easter = VictoryDisplay(self.screen)
-        Easter.show_easter()
-
         Good_alive = False # Les gentils sont-ils en vie?
         Evil_alive = False # Les méchants sont-ils en vie?
         NoSoldier = True # On vérifie que tous les Soldier sont morts (puor l'Eatser Egg).
