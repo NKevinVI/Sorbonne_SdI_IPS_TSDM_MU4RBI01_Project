@@ -89,6 +89,8 @@ Il existe trois types de classes, communes et identiques pour chaque camp:
 
 Le mana (représenté par des carrés cyans), une fois récupéré, permet d'augmenter la puissance d'attaque de l'unité l'ayant ramassé.
 
+Les méchants se trouvent sur des cases rouges par défaut, qui les protègent des attaques à distance des soldats. Idem pour les gentils, mais sur les cases vertes.
+
 ---
 
 ## Licence
