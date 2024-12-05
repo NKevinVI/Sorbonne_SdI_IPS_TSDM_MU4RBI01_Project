@@ -305,8 +305,6 @@ class Game:
         pygame.display.flip()
 
     def GameOver(self):
-        EvilWon = VictoryDisplay(self.screen)
-        EvilWon.show_evil_won()
         # Renvoie True si un des camps est éliminé, et un str indiquant quel joueur a gagné.
         Good_alive = False # Les gentils sont-ils en vie?
         Evil_alive = False # Les méchants sont-ils en vie?
