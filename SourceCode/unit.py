@@ -5,13 +5,13 @@ import sys
 import numpy as np
 
 # Constantes et valeurs par défaut.
-BOARD = np.array([[-1,-1,0,0,0,1,1],
+BOARD = np.array([[-1,0,0,0,0,0,1],
+                [0,0,1,0,-1,0,0],
                 [-1,-1,0,0,0,1,1],
                 [-1,-1,0,0,0,1,1],
                 [-1,-1,0,0,0,1,1],
-                [-1,-1,0,0,0,1,1],
-                [-1,-1,0,0,0,1,1],
-                [-1,-1,0,0,0,1,1]]) # Le BOARD doit absolumant être un carré! Ou vous subirez mon courroux!
+                [0,0,1,0,-1,0,0],
+                [-1,0,0,0,0,0,1]]) # Le BOARD doit absolumant être un carré! Ou vous subirez mon courroux!
 GRID_SIZE = len(BOARD)
 CELL_SIZE = [128] # Default
 WIDTH = [GRID_SIZE * CELL_SIZE[0]]
@@ -318,6 +318,47 @@ class Pauper(Unit): # Le bas peuple.
             game.flip_display()
             Attaque = True
         return Attaque
+
+    def attack_simple(self, evils, goods, Attaque, Deplacer, event, target, game):
+        """Attaque une unité cible adjacente à l'unité principale."""
+        if event.key == pygame.K_SPACE and target != [self.x, self.y] and not(Attaque):
+            for unit in evils + goods:
+                if unit.x == target[0] and unit.y == target[1]:
+                    target = unit
+                    break
+            if isinstance(target, Unit):
+                target.dmg(self.attack_power)
+                Attaque = True # L'unité a attaqué.
+                game.flip_display()
+
+        return Attaque
+
+    def attack_show(self, target, Attaque, Deplacer, event):
+        """
+        Indique ce qu'on s'apprête à attaquer (case adjacente).
+
+        Attaque -> A-t-on déjà attaqué?
+        Deplacer -> Nous sommes-nous déjà déplacés?
+        game -> L'instance gérant le jeu entier.
+        event -> pygame event.
+        """
+        # Attaque simple:
+        if event.key == pygame.K_z and not(Attaque):
+            target = [self.x, self.y - 1]
+            pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE[0], target[1] * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
+        elif event.key == pygame.K_q and not(Attaque):
+            target = [self.x - 1, self.y]
+            pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE[0], target[1] * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
+        elif event.key == pygame.K_s and not(Attaque):
+            target = [self.x, self.y + 1]
+            pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE[0], target[1] * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
+        elif event.key == pygame.K_d and not(Attaque):
+            target = [self.x + 1, self.y]
+            pygame.draw.rect(WINDOW, RED, (target[0] * CELL_SIZE[0], target[1] * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]), 2)
+
+        pygame.display.flip()
+
+        return target
 
     def draw(self, screen):
         self.rect = pygame.Rect(self.x * CELL_SIZE[0], self.y * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0])

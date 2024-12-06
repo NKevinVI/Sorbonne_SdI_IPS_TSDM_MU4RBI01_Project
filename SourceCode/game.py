@@ -117,62 +117,121 @@ class Game:
                     collide = False # L'unité va-t-elle percuter une autre unité?
 
                     # Gestion des déplacements.
-                    if event.key == pygame.K_LEFT and selected_unit.move_count < selected_unit.speed and not(Attaque): # Si on veut se déplacer à gauche, qu'on a pas encore usé toute notre capacité de déplacement et qu'on n'a pas encore attaqué.
-                        dx = -1 # Potentiel déplacement de 1 case vers la gauche.
-                        if selected_unit.x + dx < 0: # Sommes-nous en situation de collision avec un mur?
-                            collide = True
-                        else:
-                            for unit in self.good_units + self.evil_units:
-                                if unit.x == selected_unit.x + dx and unit.y == selected_unit.y + dy: # Sommes-nous en situation de collision avec une autre unité?
-                                    collide = True
-                        if not collide: # Si pas de collision.
-                            selected_unit.move_count += 1 # La créature est considérée comme s'étant déplacée de 1.
-                            Deplacer = True # Elle s'est déplacée.
-                        else: # Sinon, on annule le déplacement.
-                            dx = 0
-                            dy = 0
-                    elif event.key == pygame.K_RIGHT and selected_unit.move_count < selected_unit.speed and not(Attaque):
-                        dx = 1
-                        if selected_unit.x + dx > GRID_SIZE - 1:
-                            collide = True
-                        else:
-                            for unit in self.good_units + self.evil_units:
-                                if unit.x == selected_unit.x + dx and unit.y == selected_unit.y + dy:
-                                    collide = True
-                        if not collide:
-                            selected_unit.move_count += 1
-                            Deplacer = True
-                        else:
-                            dx = 0
-                            dy = 0
-                    elif event.key == pygame.K_UP and selected_unit.move_count < selected_unit.speed and not(Attaque):
-                        dy = -1
-                        if selected_unit.y + dy < 0:
-                            collide = True
-                        else:
-                            for unit in self.good_units + self.evil_units:
-                                if unit.x == selected_unit.x + dx and unit.y == selected_unit.y + dy:
-                                    collide = True
-                        if not collide:
-                            selected_unit.move_count += 1
-                            Deplacer = True
-                        else:
-                            dx = 0
-                            dy = 0
-                    elif event.key == pygame.K_DOWN and selected_unit.move_count < selected_unit.speed and not(Attaque):
-                        dy = 1
-                        if selected_unit.y + dy > GRID_SIZE - 1:
-                            collide = True
-                        else:
-                            for unit in self.good_units + self.evil_units:
-                                if unit.x == selected_unit.x + dx and unit.y == selected_unit.y + dy:
-                                    collide = True
-                        if not collide:
-                            selected_unit.move_count += 1
-                            Deplacer = True
-                        else:
-                            dx = 0
-                            dy = 0
+                    if not isinstance(selected_unit, Pauper):
+                        if event.key == pygame.K_LEFT and selected_unit.move_count < selected_unit.speed and not(Attaque): # Si on veut se déplacer à gauche, qu'on a pas encore usé toute notre capacité de déplacement et qu'on n'a pas encore attaqué.
+                            dx = -1 # Potentiel déplacement de 1 case vers la gauche.
+                            if selected_unit.x + dx < 0: # Sommes-nous en situation de collision avec un mur?
+                                collide = True
+                            else:
+                                for unit in self.good_units + self.evil_units:
+                                    if unit.x == selected_unit.x + dx and unit.y == selected_unit.y + dy: # Sommes-nous en situation de collision avec une autre unité?
+                                        collide = True
+                            if not collide: # Si pas de collision.
+                                selected_unit.move_count += 1 # La créature est considérée comme s'étant déplacée de 1.
+                                Deplacer = True # Elle s'est déplacée.
+                            else: # Sinon, on annule le déplacement.
+                                dx = 0
+                                dy = 0
+                        elif event.key == pygame.K_RIGHT and selected_unit.move_count < selected_unit.speed and not(Attaque):
+                            dx = 1
+                            if selected_unit.x + dx > GRID_SIZE - 1:
+                                collide = True
+                            else:
+                                for unit in self.good_units + self.evil_units:
+                                    if unit.x == selected_unit.x + dx and unit.y == selected_unit.y + dy:
+                                        collide = True
+                            if not collide:
+                                selected_unit.move_count += 1
+                                Deplacer = True
+                            else:
+                                dx = 0
+                                dy = 0
+                        elif event.key == pygame.K_UP and selected_unit.move_count < selected_unit.speed and not(Attaque):
+                            dy = -1
+                            if selected_unit.y + dy < 0:
+                                collide = True
+                            else:
+                                for unit in self.good_units + self.evil_units:
+                                    if unit.x == selected_unit.x + dx and unit.y == selected_unit.y + dy:
+                                        collide = True
+                            if not collide:
+                                selected_unit.move_count += 1
+                                Deplacer = True
+                            else:
+                                dx = 0
+                                dy = 0
+                        elif event.key == pygame.K_DOWN and selected_unit.move_count < selected_unit.speed and not(Attaque):
+                            dy = 1
+                            if selected_unit.y + dy > GRID_SIZE - 1:
+                                collide = True
+                            else:
+                                for unit in self.good_units + self.evil_units:
+                                    if unit.x == selected_unit.x + dx and unit.y == selected_unit.y + dy:
+                                        collide = True
+                            if not collide:
+                                selected_unit.move_count += 1
+                                Deplacer = True
+                            else:
+                                dx = 0
+                                dy = 0
+                    # Si Pauper, l'unité peut attaquer puis se déplacer.
+                    if isinstance(selected_unit, Pauper):
+                        if event.key == pygame.K_LEFT and selected_unit.move_count < selected_unit.speed: # Si on veut se déplacer à gauche, qu'on a pas encore usé toute notre capacité de déplacement et qu'on n'a pas encore attaqué.
+                            dx = -1 # Potentiel déplacement de 1 case vers la gauche.
+                            if selected_unit.x + dx < 0: # Sommes-nous en situation de collision avec un mur?
+                                collide = True
+                            else:
+                                for unit in self.good_units + self.evil_units:
+                                    if unit.x == selected_unit.x + dx and unit.y == selected_unit.y + dy: # Sommes-nous en situation de collision avec une autre unité?
+                                        collide = True
+                            if not collide: # Si pas de collision.
+                                selected_unit.move_count += 1 # La créature est considérée comme s'étant déplacée de 1.
+                                Deplacer = True # Elle s'est déplacée.
+                            else: # Sinon, on annule le déplacement.
+                                dx = 0
+                                dy = 0
+                        elif event.key == pygame.K_RIGHT and selected_unit.move_count < selected_unit.speed:
+                            dx = 1
+                            if selected_unit.x + dx > GRID_SIZE - 1:
+                                collide = True
+                            else:
+                                for unit in self.good_units + self.evil_units:
+                                    if unit.x == selected_unit.x + dx and unit.y == selected_unit.y + dy:
+                                        collide = True
+                            if not collide:
+                                selected_unit.move_count += 1
+                                Deplacer = True
+                            else:
+                                dx = 0
+                                dy = 0
+                        elif event.key == pygame.K_UP and selected_unit.move_count < selected_unit.speed:
+                            dy = -1
+                            if selected_unit.y + dy < 0:
+                                collide = True
+                            else:
+                                for unit in self.good_units + self.evil_units:
+                                    if unit.x == selected_unit.x + dx and unit.y == selected_unit.y + dy:
+                                        collide = True
+                            if not collide:
+                                selected_unit.move_count += 1
+                                Deplacer = True
+                            else:
+                                dx = 0
+                                dy = 0
+                        elif event.key == pygame.K_DOWN and selected_unit.move_count < selected_unit.speed:
+                            dy = 1
+                            if selected_unit.y + dy > GRID_SIZE - 1:
+                                collide = True
+                            else:
+                                for unit in self.good_units + self.evil_units:
+                                    if unit.x == selected_unit.x + dx and unit.y == selected_unit.y + dy:
+                                        collide = True
+                            if not collide:
+                                selected_unit.move_count += 1
+                                Deplacer = True
+                            else:
+                                dx = 0
+                                dy = 0
 
                     # On effectue les déplacements visuellement.
                     selected_unit.move(dx, dy, self)
