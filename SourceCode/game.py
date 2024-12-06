@@ -95,6 +95,7 @@ class Game:
         has_acted = False # L'unité a-t-elle joué?
         Deplacer = False # L'unité a-t-elle bougée?
         Attaque = False # L'unité a-t-elle attaquée?
+        Heal = False # L'unité s'est-elle régénérée?
         target = [selected_unit.x, selected_unit.y] # Cible par défaut: soi-même.
         mouse_pos = [None, None] # Position du curseur.
         while not has_acted:
@@ -258,7 +259,7 @@ class Game:
 
                     # Régénération, si Pauper.
                     if isinstance(selected_unit, Pauper):
-                        Attaque = selected_unit.heal(Attaque, Deplacer, event, self) # La régénération est traitée comme une attaque. Ne jugez pas, SVP.
+                        Heal = selected_unit.heal(Heal, event, self)
 
                     # Attaque de zone, si Soldier. Gérée principalement par Game.
                     if isinstance(selected_unit, Soldier):

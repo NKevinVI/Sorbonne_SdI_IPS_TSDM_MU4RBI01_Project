@@ -309,15 +309,15 @@ class Pauper(Unit): # Le bas peuple.
         self.resistance = 11
         self.speed = 2
 
-    def heal(self, Attaque, Deplacer, event, game):
+    def heal(self, heal, event, game):
         # Action permettant de s'auto-régénérer.
-        if not(Attaque) and not(Deplacer) and event.key == pygame.K_x and self.health < 23:
+        if not(heal) and event.key == pygame.K_x and self.health < 23:
             self.health += int(self.attack_power / 2)
             if self.health >= 23:
                 self.health = 23
             game.flip_display()
-            Attaque = True
-        return Attaque
+            heal = True
+        return heal
 
     def attack_simple(self, evils, goods, Attaque, Deplacer, event, target, game):
         """Attaque une unité cible adjacente à l'unité principale."""
