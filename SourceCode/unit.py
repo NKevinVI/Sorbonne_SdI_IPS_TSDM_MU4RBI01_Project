@@ -28,6 +28,7 @@ YELLOW = (255, 255, 0)
 MAGENTA = (255, 0, 255)
 CYAN = (0, 255, 255)
 GREY = (100, 100, 100)
+VOLUME = 0.25 # Volume sonore des musiques.
 
 WINDOW = pygame.display.set_mode((CELL_SIZE[0], CELL_SIZE[0]))
 

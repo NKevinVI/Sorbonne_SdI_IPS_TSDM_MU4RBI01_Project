@@ -32,6 +32,7 @@ class VictoryDisplay:
     def show_good_won(self):
         """Affiche 'Les Dragons de Lumière ont vaincu!' en vert avec de la musique."""
         self.play_music("../Assets/good.mp3")
+        pygame.mixer.music.set_volume(VOLUME)
         pygame.mixer.music.play(-1)  # Lecture en boucle
         self.screen.fill(BLACK)
         message = ["Les Dragons de Lumière ont vaincu!"]
@@ -66,6 +67,7 @@ class VictoryDisplay:
     def show_evil_won(self):
         """Affiche 'Les Dragons de l'Ombre ont vaincu!' en rouge avec de la musique."""
         self.play_music("../Assets/evil.mp3")
+        pygame.mixer.music.set_volume(VOLUME)
         pygame.mixer.music.play(-1)  # Lecture en boucle
         self.screen.fill(BLACK)
         message = ["Les Dragons de l'Ombre ont vaincu!"]
@@ -100,6 +102,7 @@ class VictoryDisplay:
     def show_tie(self):
         """Affiche 'Les Dragons de l'Ombre ont vaincu!' en rouge avec de la musique."""
         self.play_music("../Assets/tie.mp3")
+        pygame.mixer.music.set_volume(VOLUME)
         pygame.mixer.music.play(-1)  # Lecture en boucle
         self.screen.fill(BLACK)
         message = ["L'Espèce Draconique est éteinte!"]
@@ -136,6 +139,7 @@ class VictoryDisplay:
             Affiche l'Easter Egg (les deux joueurs gagnent simultanément).
         """
         self.play_music("../Assets/love.mp3")
+        pygame.mixer.music.set_volume(VOLUME)
         pygame.mixer.music.play(-1)  # Lecture en boucle
         self.screen.fill(BLACK)
         message = ["Paix durable entre les Royaumes!","La Reine Dragon et le Roi Dragon se sont liés!","","(Easter Egg)"]

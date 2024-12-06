@@ -30,6 +30,7 @@ class Menu:
         try:
             pygame.mixer.music.load(os.path.join("..", "Assets", "menu_music.mp3"))
             pygame.mixer.music.play(-1)  # Lecture en boucle
+            pygame.mixer.music.set_volume(VOLUME)
         except FileNotFoundError:
             print("Erreur : La musique 'menu_music.mp3' est introuvable.")
             sys.exit()
