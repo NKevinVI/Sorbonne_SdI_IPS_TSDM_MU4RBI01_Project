@@ -145,7 +145,7 @@ class Royal(Unit): # L'unité royale, bonne ou mauvaise.
         self.health = 60
         self.attack_power = 32
         self.resistance = 16
-        self.speed = 1
+        self.speed = 2
 
     def attack_berserk(self, evils, goods, Attaque, Deplacer, event, target, game):
         # Attaque une unité target en mode berserk.
@@ -189,7 +189,7 @@ class Soldier(Unit): # Le soldat.
         self.health = 36
         self.attack_power = 23
         self.resistance = 13
-        self.speed = 4
+        self.speed = 3
 
     def attack_special(self, area, foe):
         """

@@ -79,17 +79,19 @@ Voici donc son mode d'emploi:
 | Échap | Dans certains cas, annule le coup spéciale de l'unité. |
 | Control | Rafraîchit la fenêtre (d'autres boutons peuvent fonctionner, mais on conseille à ceux allergiques à l'informatique d'utiliser celui-ci). |
 
-À chaque tour, le joueur choisit une unité, peut **ou** la déplacer, **ou** la faire attaquer, **ou** encore lui faire faire son attaque spéciale.
+À chaque tour, le joueur choisit une unité, peut **ou** la déplacer, **ou** la faire attaquer, **ou** encore lui faire faire son attaque spéciale (seul cas particulier: le _Gueux_).
 
 Il existe trois types de classes, communes et identiques pour chaque camp:
 
-- Le _Gueux_: Son attaque spéciale est simplement sa régénération de points de vie. Il se déplace de 2 cases. Il s'agit de la seule unité capable de faire toutes ses actions en un tour (se déplacer, attacker et utiliser sa capacité spéciale).
-- Le _Soldat_: Son attaque spéciale est une attaque de zone à distance. Il se déplace de 4 cases.
-- Le _Royal_: Son attaque spéciale est une attaque berserk, qui multiplie les dégâts mais engendre des dommages à celui qui les donnent. Il se déplace de 2 cases.
+- Le _Gueux_: Unité représentant le peuple. Il a une vitesse de 2 cases, une résistance de 11, une puissance d'attaque de 17 et une santé de 23. Il s'agit de la seule unité capable de faire toutes ses actions en un tour (se déplacer, attacker et utiliser sa capacité spéciale). Sa capacité spéciale est de se régénérer de la moitié de sa propre puissance d'attaque; comme les autres unités, elle ne peut avoir une santé supérieure à celle attribuée par défaut (c'est-à-dire ici 23).
+- Le _Soldat_: Unité représentant le pouvoir politique autour des puissants. Il a une vitesse de 3 cases, une résistance de 13, une attaque de 23 et une santé de 36. Son attaque spéciale est de pouvoir attaquer une zone de 5 cases n'importe où sur le plateau, en infligeant sa puissance s'attaque moins 4, avec pour minimum 0 dégât. Il ne peut attaquer les unités protégées par les cases spéciales (voir plus bas).
+- Le _Royal_: Unité représentant le chef d'état par excellence. Il a une vitesse de 2, une résistance de 16, une attaque de 32 et une santé de 60. Son attaque spéciale est une capacité berserk lui permettant d'infliger son attaque normale plus la moitié de sa puissance d'attaque à un adversaire, sans que ce dernier puisse utiliser sa résistance; cependant, l'unité royale reçoit la moitié de sa propre puissance d'attaque sans pouvoir utiliser également sa résistance, s'ingligeant du même coup des dégâts importants.
 
-Le mana (représenté par des carrés cyans), une fois récupéré, permet d'augmenter la puissance d'attaque de l'unité l'ayant ramassé.
+Lorsqu'une unité reçoit des dégâts, les dégâts reçues sont la puissance d'attaque de l'adversaire moins la résistance de l'unité subissant l'attaque. Comme nous l'avons vu, le _Royal_ peut échapper à cette règle avec son attaque spéciale (berserk).
 
-Les méchants se trouvent sur des cases rouges par défaut, qui les protègent des attaques à distance des soldats. Idem pour les gentils, mais sur les cases vertes.
+Le mana (représenté par des carrés cyans), une fois récupéré, permet d'augmenter la puissance d'attaque de l'unité l'ayant ramassé de 4.
+
+Les méchants se trouvent sur des cases rouges par défaut, qui les protègent des attaques à distance des unités _Soldat_. Idem pour les gentils, mais sur les cases vertes.
 
 ---
 
@@ -100,7 +102,7 @@ Les méchants se trouvent sur des cases rouges par défaut, qui les protègent d
 ### Pour la branche *main*
 
 Les musiques proviennent de *Sergey Cheremisinov*, et sont sous licence CC BY-NC 4.0.
-L'image de début de jeu vient de l'artiste Anne Stokes, et peut être retrouvée sur son [site](https://annestokes.com/).
+L'image de début de jeu vient de l'artiste *Anne Stokes*, et peut être retrouvée sur son [site](https://annestokes.com/).
 
 > Les outils utilisés ici sont fournis par _Sorbonne Université_ et les bibliothèques _Python_; l'univers est le produit des collaborateurs (toute ressemblance avec une marque ou un fait réel est une pure coïncidence). Le but de ce projet est en tout premier lieu éducatif.
 
