@@ -66,6 +66,12 @@
 
     \section*{Fonctionnalités du jeu}
         %
+         Ce jeu est un jeu entre deux équipes le bien "good" représenté en vert et le mal "evil" représenté en rouge. La représentation des couleurs des cases n'étaient facile à implémenter, il fallait 
+        
+        Dans chaque équipe, il y a trois catégories : roi, soldat, et le bas peuple. En fonction de leur catégorie, leur niveau de vie varie. Ainsi, pour le roi, le niveau de vie et à 100% . 
+        Ces niveau de vie, sont implémentés à l'aide de self.health et est représenté par un rectangle qui perend 1/12 ème de la taille du case. Avec en vert le niveau de vie restant, en rouge le niveau de vie manquant. Lorsque le rectangle est entièrement rouge, le pion meurt. cette mort peut-être causé uniquement par les attaques (qui différent en fonction des catégories par exemple le roi aura une plus grande puissance que le bas-peuple); Cette fonctionnalitée est mise en place à l'aide de la méthode attack. 
+        
+        Un pion ne peut attacker et se déplacer en même temps.
 
 %     \includepdf[noautoscale=true]{UML.pdf} % À décommenter une fois le diagramme UML créé.
 \end{document}
