@@ -58,24 +58,38 @@
 
     \section*{Introduction}
         Ce présent document a pour but d'expliquer comment le projet python de l'UE \emph{MU4RBI01} de \emph{Sorbonne Université}, département scientifique, a été travaillé par le groupe n°5 de la formation d'IPS-TSDM (auteur de ce rapport).
+        Pour rappel, le but de ledit projet est de créer un simple jeu de tactique, mettant en scène au moins deux joueurs, dans lequel ces derniers s'affrontent avec des unités (équivalent de soldats), tout en utilisant, dans le code source, des classes avec des liens spécifiques entre elles (relation mère-fille, etc).
 
         Le projet a été réalisé grâce à \emph{Github}, via l'intermédiaire de \emph{Git}.
         Les logiciels tels que \emph{Kate} ou \emph{Konsole} ont été essentiels au bon déroulement du projet. % IMPORTANT: Rajouter vos applications!
 
         Le repository du projet peut être retrouvé via cet URL: \url{https://github.com/NKevinVI/Sorbonne\_SdI\_IPS\_TSDM\_MU4RBI01\_Project}
 
-        Le but de ce projet c'est de maîtriser les notions de classes, de python et de diagrammes uml ainsi que l'utilisation du git à travers ce projet. Notamment, par la conception d'un jeu.
-        
-        Dans ce rapport, nous allons présenter les fonctionnalités implémentées dans le jeu et la justification des choix de conception du diagrammes de classes UML.
-
     \section*{Fonctionnalités du jeu}
-        %
-         Ce jeu est un jeu entre deux équipes le bien "good" représenté en vert et le mal "evil" représenté en rouge. La représentation des couleurs des cases n'étaient facile à implémenter, il fallait 
-        
-        Dans chaque équipe, il y a trois catégories : roi, soldat, et le bas peuple. En fonction de leur catégorie, leur niveau de vie varie. Ainsi, pour le roi, le niveau de vie et à 100% . 
-        Ces niveau de vie, sont implémentés à l'aide de self.health et est représenté par un rectangle qui perend 1/12 ème de la taille du case. Avec en vert le niveau de vie restant, en rouge le niveau de vie manquant. Lorsque le rectangle est entièrement rouge, le pion meurt. cette mort peut-être causé uniquement par les attaques (qui différent en fonction des catégories par exemple le roi aura une plus grande puissance que le bas-peuple); Cette fonctionnalitée est mise en place à l'aide de la méthode attack. 
-        
-        Un pion ne peut attacker et se déplacer en même temps.
+        \subsection*{Résumé}
+            Dans le jeu, deux équipes d'affrontent: les dragons du bien (à droite de l'écran) et les dragons du mal (à gauche de l'écran).
+            Les dragons du mal étant \guillemotleft{}~méchants~\guillemotright{} (Quoique?...), c'est à eux de commencer.
+
+            Le jeu se joue un peu comme aux échecs: chaque joueur, durant son tour, fait agir une seule unité.
+            Ici, chaque unité ne peut effectuer qu'une seule action par tour (à l'exception du \emph{Gueux} --~voir plus bas): se déplacer, attaquer ou effectuer sa capacité spéciale.
+
+            Dans chaque équipe, on retrouve trois types d'unité, identiques pour chaque équipe:
+
+            ---~Le \emph{Royal}: C'est l'unité la plus puissante.
+            Elle a une vitesse de 2 (c'est-à-dire qu'elle peut se déplacer de deux cases par tour), une puissance d'attaque de 32 (elle retire 32 points de vie lors d'une attaque simple, moins la résistance de l'unité attaquée), a une résistance de 16 (chaque attaque contre elle a un malus de 16 points de dégâts, avec un minimum de zéro) et a une santé de 60 (la santé maximum).
+            Elle représente le chef d'état, dirigeant (peu importe l'équipe) d'une poigne de fer ses troupes.
+
+            ---~Le \emph{Soldat}: C'est une unité également très puissante en raison de son attaque spéciale, que nous verrons plus bas.
+            Elle a une vitesse de 3, une résistance de 13, une attaque de 23 et une santé de 36.
+            Dans le jeu, on lui associe l'\guillemotleft{}~aura politique~\guillemotright{} autour du \emph{Royal}, ainsi que l'immunité des élites politiques.
+
+            ---~Le \emph{Gueux}: Cela se voit à son nom misérable, il s'agit de l'unité représentant le peuple.
+            Avec une vitesse de 2, une résistance de 11, une puissance d'attaque de 17 et une santé de 23, il s'agit de l'unité la moins puissante.
+            En revanche, il s'agit également de la seule unité capable de faire toutes ses actions en un tour (se déplacer, attaquer et/ou lancer sa capacité spéciale, dans n'importe quel ordre); elle est donc non négligeable.
+
+            Chaque unité a une capacité spéciale.
+
+        \subsection*{Règles et Mode d'Emploi}
 
 %     \includepdf[noautoscale=true]{UML.pdf} % À décommenter une fois le diagramme UML créé.
 \end{document}
