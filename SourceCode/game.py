@@ -4,6 +4,7 @@ import os
 import sys
 import numpy as np
 
+from var import *
 from unit import *
 from mana import *
 from menu import *
@@ -56,6 +57,8 @@ class Game:
                 self.PauperNumTot = 6
 
         self.mana_src = [Mana(0, 0), Mana(6, 0), Mana(0, 6), Mana(6, 6), Mana(3, 0), Mana(3, 6)]
+
+        self.no_death = 0 # Compteur de morts.
 
     def team(self, unit):
         """
@@ -338,7 +341,12 @@ class Game:
 
     def rmv_dead(self, unit_set):
         """Renvoie la liste unit_set, mais sans les unités mortes."""
-        return [unit for unit in unit_set if unit.is_alive]
+        no_dead = [unit for unit in unit_set if unit.is_alive]
+        if no_dead == unit_set:
+            self.no_death += 1
+        else:
+            self.no_death = 0
+        return no_dead
 
     def flip_display(self):
         """Affiche le jeu."""
@@ -370,6 +378,9 @@ class Game:
         Evil_alive = False # Les méchants sont-ils en vie?
         NoSoldier = True # On vérifie que tous les Soldier sont morts (puor l'Eatser Egg).
         PauperNum = 0 # On vérifie que tous les Paupers sont encore en vie.
+        if self.no_death >= NB_TOUR_TIE * 4:
+            Tie = VictoryDisplay(self.screen) # Partie nulle si aucun mort pendant NB_TOUR_TIE tours!
+            Tie.show_tie()
         for unit in self.evil_units + self.good_units:
             if unit.team == "evil":
                 Evil_alive = True

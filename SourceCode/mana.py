@@ -4,7 +4,7 @@ import os
 import sys
 import numpy as np
 
-from unit import *
+from var import *
 
 
 class Mana:
