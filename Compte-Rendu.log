@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.10.7)  10 DEC 2024 17:27
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.10.7)  10 DEC 2024 17:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1963,15 +1963,23 @@ File: t1txtt.fd 2000/12/15 v3.1
 )
 LaTeX Font Info:    Font shape `T1/txr/b/n' in size <12> not available
 (Font)              Font shape `T1/txr/bx/n' tried instead on input line 69.
- [1
-
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texlive/texmf-di
-st/fonts/enc/dvips/base/8r.enc}]
 LaTeX Font Info:    Font shape `T1/txr/b/n' in size <10.95> not available
-(Font)              Font shape `T1/txr/bx/n' tried instead on input line 132.
+(Font)              Font shape `T1/txr/bx/n' tried instead on input line 102.
 LaTeX Font Info:    Font shape `T1/txr/b/it' in size <10.95> not available
-(Font)              Font shape `T1/txr/bx/it' tried instead on input line 132.
+(Font)              Font shape `T1/txr/bx/it' tried instead on input line 102.
 
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texlive/texmf-
+dist/fonts/enc/dvips/base/8r.enc}
+
+]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -1998,7 +2006,7 @@ Package logreq Info: Writing requests to 'Compte-Rendu.run.xml'.
 Here is how much of TeX's memory you used:
  43308 strings out of 474998
  843055 string characters out of 5767950
- 1942975 words of memory out of 5000000
+ 1944975 words of memory out of 5000000
  64648 multiletter control sequences out of 15000+600000
  632471 words of font info for 163 fonts, out of 8000000 for 9000
  788 hyphenation exceptions out of 8191
@@ -2010,7 +2018,7 @@ onts/type1/public/txfonts/txsy.pfb></usr/share/texlive/texmf-dist/fonts/type1/u
 rw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8
 a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/sha
 re/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on Compte-Rendu.pdf (2 pages, 75387 bytes).
+Output written on Compte-Rendu.pdf (2 pages, 75431 bytes).
 PDF statistics:
  106 PDF objects out of 1000 (max. 8388607)
  61 compressed objects within 1 object stream
