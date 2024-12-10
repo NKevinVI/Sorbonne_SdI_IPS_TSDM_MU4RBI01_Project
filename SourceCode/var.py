@@ -30,6 +30,6 @@ CYAN = (0, 255, 255)
 GREY = (100, 100, 100)
 VOLUME = 0.25 # Volume sonore des musiques.
 
-NB_TOUR_TIE = 60 # Nombre de tours avant une partie nulle, si pas de mort.
+NB_TURN_TIE = 60 # Nombre de tours (par joueur) avant une partie nulle, si pas de mort.
 
 WINDOW = pygame.display.set_mode((CELL_SIZE[0], CELL_SIZE[0]))

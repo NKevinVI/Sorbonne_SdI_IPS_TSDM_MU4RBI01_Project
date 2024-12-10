@@ -100,7 +100,7 @@ class VictoryDisplay:
             pygame.time.Clock().tick(FPS)
 
     def show_tie(self):
-        """Affiche 'Les Dragons de l'Ombre ont vaincu!' en rouge avec de la musique."""
+        """Affiche le cas où aucun des joueurs ne gagnent."""
         self.play_music("../Assets/tie.mp3")
         pygame.mixer.music.set_volume(VOLUME)
         pygame.mixer.music.play(-1)  # Lecture en boucle
@@ -134,6 +134,41 @@ class VictoryDisplay:
                     pygame.display.flip()
             pygame.time.Clock().tick(FPS)
 
+    def show_no_war(self):
+        """Affiche le cas où aucun des joueurs ne gagnent, mais des unités sont encore viables."""
+        self.play_music("../Assets/tie.mp3")
+        pygame.mixer.music.set_volume(VOLUME)
+        pygame.mixer.music.play(-1)  # Lecture en boucle
+        self.screen.fill(BLACK)
+        message = ["Paix sur les Royaumes!", "", "(Pas de mort depuis trop longtemps.)"]
+        y = HEIGHT[0] // 2 - 200 # Hauteur initiale du message.
+        for line in message:
+            font = pygame.font.Font(None, 50)
+            text = font.render(line, True, WHITE if line != "(Pas de mort depuis trop longtemps.)" else GREY)
+            self.screen.blit(text, (WIDTH[0] // 2 - text.get_width() // 2, y))
+            y += 50
+            pygame.display.flip()
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.stop_music()
+                    pygame.quit()
+                    sys.exit()
+                if event.type == pygame.VIDEORESIZE:
+                    CELL_SIZE[0] = min(self.screen.get_width() // GRID_SIZE, self.screen.get_height() // GRID_SIZE)
+                    WIDTH[0] = GRID_SIZE * CELL_SIZE[0]
+                    HEIGHT[0] = WIDTH[0]
+                    y = HEIGHT[0] // 2 - 200 # Hauteur initiale du message.
+                    for line in message:
+                        font = pygame.font.Font(None, 50)
+                        text = font.render(line, True, WHITE if line != "(Pas de mort depuis trop longtemps.)" else GREY)
+                        self.screen.blit(text, (WIDTH[0] // 2 - text.get_width() // 2, y))
+                        y += 50
+                    pygame.display.flip()
+                if event.type == pygame.KEYDOWN:
+                    pygame.display.flip()
+            pygame.time.Clock().tick(FPS)
+
     def show_easter(self):
         """
             Affiche l'Easter Egg (les deux joueurs gagnent simultanément).
@@ -146,7 +181,7 @@ class VictoryDisplay:
         y = HEIGHT[0] // 2 - 200 # Hauteur initiale du message.
         for line in message:
             font = pygame.font.Font(None, 50)
-            text = font.render(line, True, WHITE if line != "(Easter Egg)" else (100,100,100))
+            text = font.render(line, True, WHITE if line != "(Easter Egg)" else GREY)
             self.screen.blit(text, (WIDTH[0] // 2 - text.get_width() // 2, y))
             y += 50
             pygame.display.flip()

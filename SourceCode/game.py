@@ -376,11 +376,11 @@ class Game:
         # Renvoie True si un des camps est éliminé, et un str indiquant quel joueur a gagné.
         Good_alive = False # Les gentils sont-ils en vie?
         Evil_alive = False # Les méchants sont-ils en vie?
-        NoSoldier = True # On vérifie que tous les Soldier sont morts (puor l'Eatser Egg).
+        NoSoldier = True # On vérifie que tous les Soldier sont morts (pour l'Eatser Egg).
         PauperNum = 0 # On vérifie que tous les Paupers sont encore en vie.
-        if self.no_death >= NB_TOUR_TIE * 4:
-            Tie = VictoryDisplay(self.screen) # Partie nulle si aucun mort pendant NB_TOUR_TIE tours!
-            Tie.show_tie()
+        if self.no_death >= NB_TURN_TIE * 4:
+            NoWar = VictoryDisplay(self.screen) # Partie nulle si aucun mort pendant NB_TOUR_TIE tours!
+            NoWar.show_no_war()
         for unit in self.evil_units + self.good_units:
             if unit.team == "evil":
                 Evil_alive = True
