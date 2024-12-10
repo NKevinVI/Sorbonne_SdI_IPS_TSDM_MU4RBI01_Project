@@ -67,7 +67,7 @@
 
     \section*{Fonctionnalités du jeu}
         \subsection*{Résumé}
-            Dans le jeu, deux équipes d'affrontent: les dragons du bien (à droite de l'écran) et les dragons du mal (à gauche de l'écran).
+            Dans le jeu, deux équipes s'affrontent: les dragons du bien (à droite de l'écran) et les dragons du mal (à gauche de l'écran).
             Les dragons du mal étant \guillemotleft{}~méchants~\guillemotright{} (Quoique?...), c'est à eux de commencer.
 
             Le jeu se joue un peu comme aux échecs: chaque joueur, durant son tour, fait agir une seule unité.
@@ -88,6 +88,17 @@
             En revanche, il s'agit également de la seule unité capable de faire toutes ses actions en un tour (se déplacer, attaquer et/ou lancer sa capacité spéciale, dans n'importe quel ordre); elle est donc non négligeable.
 
             Chaque unité a une capacité spéciale.
+            Voici ci-dessous une liste de leurs pouvoirs:
+
+            ---~Le \emph{Royal} peut, après avoir cibler une unité, effectuer une attaque berserk contre cette unité adverse.
+            L'attaque berserk inflige $1,5$ fois les dégâts ordinaires du \emph{Royal}, tout en supprimant la résistance de l'unité attaquée.
+            En revanche, ce pouvoir n'est pas sans contre-partie; après avoir attaqué, le \emph{Royal} reçoit la moitié de sa puissance d'attaque en dommages plus 16, c'est-à-dire la moitié de son attaque tout en supprimant sa propore résistance aux dégâts (étant de 16).
+
+            ---~Le \emph{Soldat} peut, lorsque sa capacité spéciale est activée, cibler une case.
+            S'il attaque cette case ciblée, il inflige sa puissance d'attaque moins $4$ (soit $23-6=17$ d'attaque) à l'unité présente sur cette case. Il inflige autant de dégâts aux unités adjacentes à la case initialement touchée (sans compter les diagonales).
+
+            ---~Le \emph{Gueux} a une technique bien à lui qui peut lui permettre de subsister plus longtemps sur le terrain: il peut se régénérer.
+            Il regagne la moitié de sa puissance d'attaque en tant que points de vie, sans pouvoir cependant dépasser sa jauge maximale de santé, qui est celle fixée au tout début de la partie.
 
         \subsection*{Règles et Mode d'Emploi}
 
