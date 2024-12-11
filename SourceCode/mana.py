@@ -5,6 +5,10 @@ import sys
 import numpy as np
 
 from var import *
+from game import *
+from unit import *
+from menu import *
+from VictoryDisplay import *
 
 
 class Mana:
