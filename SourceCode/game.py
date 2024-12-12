@@ -388,24 +388,25 @@ class Game:
                 Evil_alive = True
             if unit.team == "good":
                 Good_alive = True
-            if isinstance(unit, Soldier):
+            if isinstance(unit, Soldier): #signifie que si unité est de type solider
                 NoSoldier = False # Il y a bien encore au moins un soldat.
-            if isinstance(unit, Pauper):
-                PauperNum += 1
-        if not(Good_alive) and not(Evil_alive):
+            if isinstance(unit, Pauper):  #signifie que si unité est de type pauper
+                PauperNum += 1  #paupernum est incrémenté de 1
+        if not(Good_alive) and not(Evil_alive):  #si aucune des équipes est en vie, la partie est déclarée nulle
             Tie = VictoryDisplay(self.screen)
             Tie.show_tie()
             return True
-        elif not Evil_alive:
+        elif not Evil_alive:  #si les gentils ont gagnés
             GoodWon = VictoryDisplay(self.screen)
             GoodWon.show_good_won()
             return True
-        elif not Good_alive:
+        elif not Good_alive:  #si les méchants ont gagnés
             EvilWon = VictoryDisplay(self.screen)
             EvilWon.show_evil_won()
             return True
         elif NoSoldier and PauperNum == self.PauperNumTot: # Condition du déclenchement de l'Easter Egg.
-            # On vérifie maintenant que les Royal sont côte à côte.
+        #les soldats sont tous morts et les paupers sont vivant 
+            # On vérifie maintenant que les Royal sont côte à côte grâce à la condition sur les positions.
             if ((self.evil_units[0].x == self.good_units[0].x + 1 or self.evil_units[0].x == self.good_units[0].x - 1) and self.evil_units[0].y == self.good_units[0].y) or (self.evil_units[0].x == self.good_units[0].x and (self.evil_units[0].y == self.good_units[0].y + 1 or self.evil_units[0].y == self.good_units[0].y - 1)):
                 Easter = VictoryDisplay(self.screen)
                 Easter.show_easter()
