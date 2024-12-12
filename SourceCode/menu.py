@@ -5,6 +5,11 @@ import sys
 import numpy as np
 
 from var import *
+from game import *
+from unit import *
+from VictoryDisplay import *
+from mana import *
+
 
 class Menu:
     """
