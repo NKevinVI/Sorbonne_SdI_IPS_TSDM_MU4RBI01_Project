@@ -64,7 +64,7 @@ class VictoryDisplay:
             # Restart button.
             resButton_col = GREY if not(button_selected) else WHITE
             resButton_text = self.font_option.render("L'Enfer refera-t-il surface?", True, resButton_col)
-            resButton_rect = pygame.Rect(WIDTH[0] // 2 - resButton_text.get_width() // 2 - 10, HEIGHT[0] // 2, 450, 50)
+            resButton_rect = pygame.Rect(WIDTH[0] // 2 - resButton_text.get_width() // 2, HEIGHT[0] // 2, resButton_text.get_width(), 50)
             self.screen.blit(resButton_text, (WIDTH[0] // 2 - resButton_text.get_width() // 2, HEIGHT[0] // 2 + 10))
             pygame.draw.rect(self.screen, WHITE, (WIDTH[0] // 2 - 225, HEIGHT[0] // 2, 450, 50), 2)
 
@@ -120,7 +120,7 @@ class VictoryDisplay:
             # Restart button.
             resButton_col = GREY if not(button_selected) else WHITE
             resButton_text = self.font_option.render("La Lumière refera-t-elle surface?", True, resButton_col)
-            resButton_rect = pygame.Rect(WIDTH[0] // 2 - resButton_text.get_width() // 2 - 10, HEIGHT[0] // 2, 550, 50)
+            resButton_rect = pygame.Rect(WIDTH[0] // 2 - resButton_text.get_width() // 2, HEIGHT[0] // 2, resButton_text.get_width(), 50)
             self.screen.blit(resButton_text, (WIDTH[0] // 2 - resButton_text.get_width() // 2, HEIGHT[0] // 2 + 10))
             pygame.draw.rect(self.screen, WHITE, (WIDTH[0] // 2 - 270, HEIGHT[0] // 2, 540, 50), 2)
 
@@ -157,7 +157,7 @@ class VictoryDisplay:
         y = HEIGHT[0] // 2 - 200 # Hauteur initiale du message.
         for line in message:
             font = pygame.font.Font(None, 50)
-            text = font.render(line, True, RED)
+            text = font.render(line, True, WHITE)
             self.screen.blit(text, (WIDTH[0] // 2 - text.get_width() // 2, y))
             y += 50
         pygame.display.flip()
@@ -169,13 +169,13 @@ class VictoryDisplay:
             y = HEIGHT[0] // 2 - 200 # Hauteur initiale du message.
             for line in message:
                 font = pygame.font.Font(None, 50)
-                text = font.render(line, True, RED)
+                text = font.render(line, True, WHITE)
                 self.screen.blit(text, (WIDTH[0] // 2 - text.get_width() // 2, y))
                 y += 50
             # Restart button.
             resButton_col = GREY if not(button_selected) else WHITE
             resButton_text = self.font_option.render("Une nouvelle génération?", True, resButton_col)
-            resButton_rect = pygame.Rect(WIDTH[0] // 2 - resButton_text.get_width() // 2 - 10, HEIGHT[0] // 2, 550, 50)
+            resButton_rect = pygame.Rect(WIDTH[0] // 2 - resButton_text.get_width() // 2, HEIGHT[0] // 2, resButton_text.get_width(), 50)
             self.screen.blit(resButton_text, (WIDTH[0] // 2 - resButton_text.get_width() // 2, HEIGHT[0] // 2 + 10))
             pygame.draw.rect(self.screen, WHITE, (WIDTH[0] // 2 - 270, HEIGHT[0] // 2, 540, 50), 2)
 
@@ -230,7 +230,7 @@ class VictoryDisplay:
             # Restart button.
             resButton_col = GREY if not(button_selected) else WHITE
             resButton_text = self.font_option.render("Y aura-t-il une nouvelle querelle?", True, resButton_col)
-            resButton_rect = pygame.Rect(WIDTH[0] // 2 - resButton_text.get_width() // 2 - 10, HEIGHT[0] // 2, 550, 50)
+            resButton_rect = pygame.Rect(WIDTH[0] // 2 - resButton_text.get_width() // 2, HEIGHT[0] // 2, resButton_text.get_width(), 50)
             self.screen.blit(resButton_text, (WIDTH[0] // 2 - resButton_text.get_width() // 2, HEIGHT[0] // 2 + 10))
             pygame.draw.rect(self.screen, WHITE, (WIDTH[0] // 2 - 275, HEIGHT[0] // 2, 550, 50), 2)
 
@@ -287,7 +287,7 @@ class VictoryDisplay:
             # Restart button.
             resButton_col = GREY if not(button_selected) else WHITE
             resButton_text = self.font_option.render("Auront-ils des héritiers?", True, resButton_col)
-            resButton_rect = pygame.Rect(WIDTH[0] // 2 - resButton_text.get_width() // 2 - 10, HEIGHT[0] // 2, 450, 50)
+            resButton_rect = pygame.Rect(WIDTH[0] // 2 - resButton_text.get_width() // 2, HEIGHT[0] // 2, resButton_text.get_width(), 50)
             self.screen.blit(resButton_text, (WIDTH[0] // 2 - resButton_text.get_width() // 2, HEIGHT[0] // 2 + 10))
             pygame.draw.rect(self.screen, WHITE, (WIDTH[0] // 2 - 225, HEIGHT[0] // 2, 450, 50), 2)
 
