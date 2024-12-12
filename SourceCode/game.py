@@ -342,20 +342,21 @@ class Game:
     def rmv_dead(self, unit_set):
         """Renvoie la liste unit_set, mais sans les unités mortes."""
         no_dead = [unit for unit in unit_set if unit.is_alive]
-        if no_dead == unit_set:
-            self.no_death += 1
+        if no_dead == unit_set:  #commpare la liste des unités non mortes avec la liste d'origine
+            self.no_death += 1   #si aucune unité n'est morte alors la varibale interne est incrémentée de 1
         else:
-            self.no_death = 0
+            self.no_death = 0  # si il y a des unités mortes, la variable interne est réinitialiser à 0
         return no_dead
 
     def flip_display(self):
         """Affiche le jeu."""
-        # Affiche la grille et met à jour les dimensions de la fenêtre.
-        self.screen.fill(BLACK)
-        CELL_SIZE[0] = min(self.screen.get_width() // GRID_SIZE, self.screen.get_height() // GRID_SIZE)
+        # Affiche la grille et met à jour les dimensions de la fenêtre (cellules restent carrées même si l'écran est rectangulaire).
+        self.screen.fill(BLACK) #rempli l'écran de noir
+        CELL_SIZE[0] = min(self.screen.get_width() // GRID_SIZE, self.screen.get_height() // GRID_SIZE)  # self.screen.get_width() // GRID_SIZE signifie la largeur de l'écran diviser par le nb cellules --> afin de déterminer la taille de la cellule
         WIDTH[0] = GRID_SIZE * CELL_SIZE[0]
         HEIGHT[0] = WIDTH[0]
-        for x in range(0, GRID_SIZE):
+        
+        for x in range(0, GRID_SIZE):  #on dessine la grille
             for y in range(0, GRID_SIZE):
                 rect = pygame.Rect(x * CELL_SIZE[0], y * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0])
                 col = [DARK_RED if BOARD[y][x] == -1 else DARK_GREEN if BOARD[y][x] == 1 else BLACK]
@@ -364,13 +365,13 @@ class Game:
 
         # Affiche les unités
         for unit in self.good_units + self.evil_units:
-            unit.draw(self.screen)
+            unit.draw(self.screen)  #chaque unité dessine sa propre représentation
 
         for mana_src in self.mana_src:
             mana_src.draw(self.screen)
 
         # Rafraîchit l'écran
-        pygame.display.flip()
+        pygame.display.flip()   
 
     def GameOver(self):
         # Renvoie True si un des camps est éliminé, et un str indiquant quel joueur a gagné.
