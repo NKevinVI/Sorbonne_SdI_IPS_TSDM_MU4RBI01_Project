@@ -57,10 +57,10 @@ Pour plus d'informations, voir le fichier `Sujet.pdf`.
 
 ## Comment lancer le jeu?
 
-Aller dans le dossier `SourceCode` et lancer le fichier `game.py`.
-Une autre possibilité est de taper `python3 game.py` ou `python game.py` dans un terminal *Bash*, dans le dossier `SourceCode/`.
+Aller dans le dossier `SourceCode` et lancer le fichier `main.py`.
+Une autre possibilité est de taper `python3 main.py` ou `python main.py` dans un terminal *Bash*, dans le dossier `SourceCode/`.
 
-Il est également possible de lancer `exec(open("game.py").read())` dans un shell *Python*, depuis le dossier `SourceCode`.
+Il est également possible de lancer `exec(open("main.py").read())` dans un shell *Python*, depuis le dossier `SourceCode`.
 
 ---
 
