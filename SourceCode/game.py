@@ -27,8 +27,9 @@ class Game:
     """
 
     def __init__(self, screen):
+        
         """
-        Construit le jeu avec la surface de la fenêtre.
+        Construit le jeu avec la surface de la fenêtre et initialise la musique.
 
         Paramètres
         ----------
