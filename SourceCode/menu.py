@@ -29,7 +29,7 @@ class Menu:
         except FileNotFoundError:
             print(f"Erreur : L'image 'background.jpg' est introuvable.")
             print(f"Chemin absolu recherché : {os.path.abspath(path)}")
-            sys.exit()
+            sys.exit()  #quitte si l'image n'est pas trouvée
 
         # Charger la musique de fond
         try:
