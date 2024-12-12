@@ -59,6 +59,22 @@ class Game:
         self.mana_src = [Mana(0, 0), Mana(6, 0), Mana(0, 6), Mana(6, 6), Mana(3, 0), Mana(3, 6)]
 
         self.no_death = 0 # Compteur de morts.
+        
+        # Initialisation de la musique
+        pygame.mixer.init()
+        self.music_file = "../Assets/game_music.mp3"  # Assurez-vous que ce fichier existe
+        self.play_music(self.music_file)
+
+    def play_music(self, music_file):
+        """
+        Joue une musique de fond en boucle.
+        """
+        try:
+            pygame.mixer.music.load(music_file)
+            pygame.mixer.music.play(-1)  # -1 pour la lecture en boucle
+            pygame.mixer.music.set_volume(0.5)  # Ajuste le volume
+        except FileNotFoundError:
+            print(f"Fichier audio introuvable : {music_file}")
 
     def team(self, unit):
         """
