@@ -48,27 +48,27 @@ class Unit:
         self.x = x
         self.y = y
         self.rect = pygame.Rect(self.x * CELL_SIZE[0], self.y * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0])
-        self.team = team  #représente l'équipe à laquelle l'unité appartient
-        self.is_selected = False #l'unité n'est pas actuellement sélectionné
-        self.move_count = 0   #compte le nombre de déplacement
-        self.is_alive = True   #l'unité est en vie
+        self.team = team
+        self.is_selected = False
+        self.move_count = 0
+        self.is_alive = True
         self.protected = False # L'unité est-elle protégée des attaques à distance?
 
     def move(self, dx, dy, game):
         """Déplace l'unité de dx, dy."""
         if 0 <= self.x + dx < GRID_SIZE and 0 <= self.y + dy < GRID_SIZE:
-            self.x += dx # dx = déplacement sur l'axe des x
-            self.y += dy  # dy = déplacement sur l'axe des y
-        self.rect = pygame.Rect(self.x * CELL_SIZE[0], self.y * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0]) #nouvelle position mis à jour sur l'écran
+            self.x += dx
+            self.y += dy
+        self.rect = pygame.Rect(self.x * CELL_SIZE[0], self.y * CELL_SIZE[0], CELL_SIZE[0], CELL_SIZE[0])
         game.flip_display()
 
-    def dmg(self, dmg):   #dmg = montant des dégâts subis
+    def dmg(self, dmg):
         # Quand l'unité reçoit des dégâts.
         if dmg <= self.resistance:
-            return    # degats < résistance alors l'unité ne perd pas de point de vie
+            return
         else:
-            self.health -= dmg - self.resistance #sinon, l'unité perd des points de vie
-            if self.health <= 0:  #si c'est points de vie deviennent négative alors l'unité est morte.
+            self.health -= dmg - self.resistance
+            if self.health <= 0:
                 self.health = 0
                 self.is_alive = False
 
