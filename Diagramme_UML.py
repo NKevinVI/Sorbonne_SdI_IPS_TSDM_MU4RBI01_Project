@@ -1,16 +1,10 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Dec 12 19:42:25 2024
-
-@author: galib
-"""
 from graphviz import Digraph
 
 # Création du diagramme UML
 uml = Digraph(format='pdf')
-uml.attr(rankdir='BT', size='8,10')
+uml.attr(rankdir='BT', size='10,10')
 
-# Ajout des classes principales avec le constructeur
+# Définition des classes principales
 uml.node("Game", '''{
 {Game} |
 {+ screen: Surface\\l+ good_units: list[Unit]\\l+ evil_units: list[Unit]\\l+ mana_src: list[Mana]\\l+ no_death: int\\l+ PauperNumTot: int\\l} |
@@ -38,7 +32,7 @@ uml.node("VictoryDisplay", '''{
 uml.node("Unit", '''{
 {Unit} |
 {+ x: int\\l+ y: int\\l+ health: int\\l+ attack_power: int\\l+ team: str\\l+ is_selected: bool\\l+ move_count: int\\l+ is_alive: bool\\l+ protected: bool\\l} |
-{+ __init__(x, y, team)\\l+ move(dx, dy, game)\\l+ dmg(dmg)\\l+ attack_simple(evils, goods, Attaque, Deplacer, event, target, game)\\l+ attack_show(target, Attaque, Deplacer, event)\\l+ draw(screen)\\l}
+{+ __init__(x, y, team)\\l+ move(dx, dy, game)\\l+ dmg(dmg)\\l+ attack_simple(evils, goods, Attaque, Deplacer, event, target, game)\\l+ draw(screen)\\l}
 }''', shape='record')
 
 uml.node("Royal", '''{
@@ -59,15 +53,22 @@ uml.node("Pauper", '''{
 {+ __init__(x, y, team)\\l+ heal(heal, event, game)\\l+ draw(screen)\\l}
 }''', shape='record')
 
+uml.node("Main", '''{
+{Main} |
+{+ reset: bool\\l} |
+{+ __init__()\\l+ restart()\\l}
+}''', shape='record')
+
 # Relations entre les classes
-uml.edge('Royal', 'Unit', label='héritage', arrowhead='empty')
-uml.edge('Soldier', 'Unit', label='héritage', arrowhead='empty')
-uml.edge('Pauper', 'Unit', label='héritage', arrowhead='empty')
+uml.edge('Royal', 'Unit', label='Héritage', arrowhead='empty')
+uml.edge('Soldier', 'Unit', label='Héritage', arrowhead='empty')
+uml.edge('Pauper', 'Unit', label='Héritage', arrowhead='empty')
 
-uml.edge('Game', 'Unit', label='agrégation', arrowhead='vee')
-uml.edge('Game', 'Mana', label='association', arrowhead='vee')
-uml.edge('Game', 'Menu', label='composition', arrowhead='diamond')
-uml.edge('Game', 'VictoryDisplay', label='composition', arrowhead='diamond')
+uml.edge('Game', 'Unit', label='Aggregation', arrowhead='vee')
+uml.edge('Game', 'Mana', label='Composition', arrowhead='diamond')
+uml.edge('Game', 'Menu', label='Composition', arrowhead='diamond')
+uml.edge('Game', 'VictoryDisplay', label='Composition', arrowhead='diamond')
+uml.edge('Main', 'Game', label='Composition', arrowhead='diamond')
 
-# Générez le fichier et ouvrez-le
-uml.render("test-output", view=True)
+# Génération du fichier et ouverture
+uml.render("uml_diagram", view=True)
