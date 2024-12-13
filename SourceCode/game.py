@@ -37,14 +37,14 @@ class Game:
             La surface de la fenêtre du jeu.
         """
         self.screen = screen
-        self.good_units = [Royal(6, 3, "good"),
+        self.good_units = [Royal(6, 3, "good"),  #liste et emplacements des joueurs gentils
                              Soldier(6, 2, "good"),
                              Soldier(6, 4, "good"),
                              Pauper(5, 2, "good"),
                              Pauper(5, 3, "good"),
                              Pauper(5, 4, "good")]
 
-        self.evil_units = [Royal(0, 3, "evil"),
+        self.evil_units = [Royal(0, 3, "evil"),  #liste et emplacement des joueurs méchants
                              Soldier(0, 2, "evil"),
                              Soldier(0, 4, "evil"),
                              Pauper(1, 2, "evil"),
@@ -57,7 +57,7 @@ class Game:
             if isinstance(unit, Pauper):
                 self.PauperNumTot = 6
 
-        self.mana_src = [Mana(0, 0), Mana(6, 0), Mana(0, 6), Mana(6, 6), Mana(3, 0), Mana(3, 6)]
+        self.mana_src = [Mana(0, 0), Mana(6, 0), Mana(0, 6), Mana(6, 6), Mana(3, 0), Mana(3, 6)]  #liste constituée d'objet source mana placés à des positions fixe sur la grille
 
         self.no_death = 0 # Compteur de morts.
         
