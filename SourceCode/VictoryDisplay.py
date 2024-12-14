@@ -17,26 +17,16 @@ class VictoryDisplay:
         self.font = pygame.font.Font(None, 74)  # Police par défaut avec une taille de 74
         self.font_title = pygame.font.Font(None, 80)  # Police pour le titre
         self.font_option = pygame.font.Font(None, 50)  # Police pour les options
-        pygame.mixer.init()  # Initialisation du module audio
-
-    def display_message(self, message, color):
-        """Affiche un message centré sur l'écran."""
-        self.screen.fill((0, 0, 0))  # Efface l'écran avec une couleur noire
-        text = self.font.render(message, True, color)  # Rend le texte
-        text_rect = text.get_rect(center=(self.screen.get_width() // 2, self.screen.get_height() // 2))
-        self.screen.blit(text, text_rect)  # Dessine le texte
-        pygame.display.flip()  # Met à jour l'écran
 
     def play_music(self, music_file):
         """Joue une musique de victoire."""
         pygame.mixer.music.load(music_file)  # Charge le fichier audio
         pygame.mixer.music.play(-1)  # Joue la musique en boucle (-1 pour boucle, 0 pour une seule fois)
+        pygame.mixer.music.set_volume(VOLUME)
 
     def show_good_won(self):
         """Affiche 'Les Dragons de Lumière ont vaincu!' en vert avec de la musique."""
         self.play_music("../Assets/good.mp3")
-        pygame.mixer.music.set_volume(VOLUME)
-        pygame.mixer.music.play(-1)  # Lecture en boucle
         self.screen.fill(BLACK)
         message = ["Les Dragons de Lumière ont vaincu!"]
         y = HEIGHT[0] // 2 - 200 # Hauteur initiale du message.
@@ -89,8 +79,6 @@ class VictoryDisplay:
     def show_evil_won(self):
         """Affiche 'Les Dragones de l'Ombre ont vaincu!' en vert avec de la musique."""
         self.play_music("../Assets/evil.mp3")
-        pygame.mixer.music.set_volume(VOLUME)
-        pygame.mixer.music.play(-1)  # Lecture en boucle
         self.screen.fill(BLACK)
         message = ["Les Dragones de l'Ombre ont vaincu!"]
         y = HEIGHT[0] // 2 - 200 # Hauteur initiale du message.
@@ -142,8 +130,6 @@ class VictoryDisplay:
     def show_tie(self):
         """Affiche le cas où aucun des joueurs ne gagnent."""
         self.play_music("../Assets/tie.mp3")
-        pygame.mixer.music.set_volume(VOLUME)
-        pygame.mixer.music.play(-1)  # Lecture en boucle
         self.screen.fill(BLACK)
         message = ["L'Espèce Draconique est éteinte"]
         y = HEIGHT[0] // 2 - 200 # Hauteur initiale du message.
@@ -195,8 +181,6 @@ class VictoryDisplay:
     def show_no_war(self):
         """Affiche le cas où aucun des joueurs ne gagnent, mais des unités sont encore viables."""
         self.play_music("../Assets/menu_music.mp3")
-        pygame.mixer.music.set_volume(VOLUME)
-        pygame.mixer.music.play(-1)  # Lecture en boucle
         self.screen.fill(BLACK)
         message = ["Paix sur les Royaumes!", "", "(Pas de mort depuis trop longtemps.)"]
         y = HEIGHT[0] // 2 - 200 # Hauteur initiale du message.
@@ -250,8 +234,6 @@ class VictoryDisplay:
             Affiche l'Easter Egg (les deux joueurs gagnent simultanément).
         """
         self.play_music("../Assets/love.mp3")
-        pygame.mixer.music.set_volume(VOLUME)
-        pygame.mixer.music.play(-1)  # Lecture en boucle
         self.screen.fill(BLACK)
         message = ["Paix durable entre les Royaumes!","La Reine Dragon et le Roi Dragon se sont liés!","","(Easter Egg)"]
         y = HEIGHT[0] // 2 - 200 # Hauteur initiale du message.
