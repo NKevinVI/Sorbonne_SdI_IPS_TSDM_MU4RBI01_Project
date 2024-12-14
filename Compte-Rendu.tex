@@ -128,11 +128,28 @@
 
             Comme indiqué précédemment, c'est le joueur \guillemotleft{}~du mal~\guillemotright{} qui commence.
 
+            \subsection*{Fonctionnalités supplémentaires}
+                \begin{itemize}
+                    \item Du mana peut être récupéré afin d'améliorer la puissance d'attaque de chaque unité (et la capacité de régénération du \emph{Gueux}).
+                    \item Au bout de soixante tours sans aucune mort, le jeu se termine sur une égalité des joueurs.
+                    \item Il est possible de relancer le jeu à la fin d'une partie.
+                    \item Le jeu possède un \emph{Easter Egg}, \underline{seul cas} où les deux joueurs gagnent simultanément.
+                        Si les soldats sont éliminés dans chaque camp, qu'aucun gueux n'a été tué et que les royaux sont côte-à-côte, alors les deux royaumes draconiques se lient, et la partie se termine en une victoire des deux joueurs (il n'existe aucun autre moyen de faire remporter la victoire aux deux joueurs en même temps).
+                    \item Il est possible d'agrandir la fenêtre de jeu en la plaçant tout en haut de l'écran, ce qui l'agrandit automatiquement. Il n'est cependant pas possible de l'agrandir confortablement en l'étirant avec le curseur.
+                \end{itemize}
+
     \section*{Organisation du Projet}
         Pour ce qui est de la séparation des tâches, Fady s'est principalement occupé des fichiers \texttt{VictoryDisplay.py} et \texttt{menu.py}, permettant ainsi d'avoir une interface de début et de fin de session de jeu; il a également joué un rôle majeur pour ce qui est de l'ajout de musique au sein du jeu.
         Kévin s'est occupé de la classe \texttt{unit.py}, \texttt{game.py} et \texttt{main.py}, en créant un nouveau fichier \texttt{var.py} pour y placer toutes les variables; nous y retrouvons ainsi tout le c\oe{}ur central du jeu, avec la gestion d'une partie complète entre deux joueurs, ainsi que la possibilité de rejouer une fois la partie terminée.
         Ramya a pu faire des mises à jour importantes dans le code, notamment dans les fichiers \texttt{mana.py} ou \texttt{menu.py}, et a travaillé sur l'affichage de la grille du jeu, dans le fichier \texttt{game.py}.
         Avec Fady, ils se sont beaucoup occupé du diagramme UML.
+
+        \subsection*{Sur le Diagramme UML}
+            La classe \emph{Unit} est abstraite car nous l'utilisons pour créer nos classes \emph{Pauper} (\emph{Gueux}), \emph{Soldier} (\emph{Soldat}) et \emph{Royal}, qui sont toutes des unités.
+            De ce fait, \emph{Unit} est la classe mère de ces trois classes citées précédemment.
+
+            Toutes les autres classes du jeu sont imbriquées les unes dans les autres (\emph{VictoryDisplay} est utilisée par \emph{Game} qui est elle-même utilisée par \emph{Main}).
+            Ainsi, nous trouvons beaucoup de relation de composition, les unités importantes étant composées d'autres unités moins complexes (relations fortes).
 
 
     \includepdf[angle=90]{UML.pdf} % À décommenter une fois le diagramme UML créé.
