@@ -71,4 +71,4 @@ uml.edge('Game', 'VictoryDisplay', label='Composition', arrowhead='diamond')
 uml.edge('Main', 'Game', label='Composition', arrowhead='diamond')
 
 # Génération du fichier et ouverture
-uml.render("uml_diagram", view=True)
+uml.render("UML", view=True)

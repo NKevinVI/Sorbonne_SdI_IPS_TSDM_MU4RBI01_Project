@@ -1,0 +1,56 @@
+digraph {
+	rankdir=BT size="10,10"
+	Game [label="{
+{Game} |
+{+ screen: Surface\l+ good_units: list[Unit]\l+ evil_units: list[Unit]\l+ mana_src: list[Mana]\l+ no_death: int\l+ PauperNumTot: int\l} |
+{+ __init__(screen)\l+ team(unit)\l+ handle_turn(unit_set)\l+ rmv_dead(unit_set)\l+ flip_display()\l+ GameOver()\l}
+}" shape=record]
+	Mana [label="{
+{Mana} |
+{+ x: int\l+ y: int\l+ here: bool\l} |
+{+ __init__(x, y)\l+ absorbed(owner)\l+ draw(screen)\l}
+}" shape=record]
+	Menu [label="{
+{Menu} |
+{+ screen: Surface\l+ font_title: Font\l+ font_option: Font\l+ selected_option: str\l+ background: Surface\l} |
+{+ __init__(screen)\l+ display()\l}
+}" shape=record]
+	VictoryDisplay [label="{
+{VictoryDisplay} |
+{+ screen: Surface\l+ font: Font\l} |
+{+ __init__(screen)\l+ display_message(message, color)\l+ play_music(music_file)\l+ stop_music()\l+ show_good_won()\l+ show_evil_won()\l+ show_tie()\l+ show_easter()\l}
+}" shape=record]
+	Unit [label="{
+{Unit} |
+{+ x: int\l+ y: int\l+ health: int\l+ attack_power: int\l+ team: str\l+ is_selected: bool\l+ move_count: int\l+ is_alive: bool\l+ protected: bool\l} |
+{+ __init__(x, y, team)\l+ move(dx, dy, game)\l+ dmg(dmg)\l+ attack_simple(evils, goods, Attaque, Deplacer, event, target, game)\l+ draw(screen)\l}
+}" shape=record]
+	Royal [label="{
+{Royal} |
+{+ health: int\l+ attack_power: int\l+ resistance: int\l+ speed: int\l} |
+{+ __init__(x, y, team)\l+ attack_berserk(evils, goods, Attaque, Deplacer, event, target, game)\l+ draw(screen)\l}
+}" shape=record]
+	Soldier [label="{
+{Soldier} |
+{+ health: int\l+ attack_power: int\l+ resistance: int\l+ speed: int\l} |
+{+ __init__(x, y, team)\l+ attack_special(area, foe)\l+ draw(screen)\l}
+}" shape=record]
+	Pauper [label="{
+{Pauper} |
+{+ health: int\l+ attack_power: int\l+ resistance: int\l+ speed: int\l} |
+{+ __init__(x, y, team)\l+ heal(heal, event, game)\l+ draw(screen)\l}
+}" shape=record]
+	Main [label="{
+{Main} |
+{+ reset: bool\l} |
+{+ __init__()\l+ restart()\l}
+}" shape=record]
+	Royal -> Unit [label="Héritage" arrowhead=empty]
+	Soldier -> Unit [label="Héritage" arrowhead=empty]
+	Pauper -> Unit [label="Héritage" arrowhead=empty]
+	Game -> Unit [label=Aggregation arrowhead=vee]
+	Game -> Mana [label=Composition arrowhead=diamond]
+	Game -> Menu [label=Composition arrowhead=diamond]
+	Game -> VictoryDisplay [label=Composition arrowhead=diamond]
+	Main -> Game [label=Composition arrowhead=diamond]
+}
