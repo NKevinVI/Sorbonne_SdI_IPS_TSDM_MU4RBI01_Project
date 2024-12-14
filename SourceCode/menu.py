@@ -113,7 +113,6 @@ class Menu:
                     pygame.display.flip()
 
                     if start_rect.collidepoint(click_pos):
-                        pygame.mixer.music.stop()  # Arrêter la musique avant de lancer le jeu
                         return True  # Lancer le jeu
                     elif exit_rect.collidepoint(click_pos):
                         pygame.quit()

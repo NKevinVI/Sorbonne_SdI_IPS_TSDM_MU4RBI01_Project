@@ -73,7 +73,7 @@ class Game:
         try:
             pygame.mixer.music.load(music_file)
             pygame.mixer.music.play(-1)  # -1 pour la lecture en boucle
-            pygame.mixer.music.set_volume(0.5)  # Ajuste le volume
+            pygame.mixer.music.set_volume(VOLUME)  # Ajuste le volume
         except FileNotFoundError:
             print(f"Fichier audio introuvable : {music_file}")
 

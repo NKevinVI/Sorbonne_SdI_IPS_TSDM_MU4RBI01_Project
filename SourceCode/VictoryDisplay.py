@@ -32,10 +32,6 @@ class VictoryDisplay:
         pygame.mixer.music.load(music_file)  # Charge le fichier audio
         pygame.mixer.music.play(-1)  # Joue la musique en boucle (-1 pour boucle, 0 pour une seule fois)
 
-    def stop_music(self):
-        """Arrête la musique."""
-        pygame.mixer.music.stop()
-
     def show_good_won(self):
         """Affiche 'Les Dragons de Lumière ont vaincu!' en vert avec de la musique."""
         self.play_music("../Assets/good.mp3")
@@ -70,7 +66,6 @@ class VictoryDisplay:
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.stop_music()
                     pygame.quit()
                     sys.exit()
                 click_pos = pygame.mouse.get_pos()
@@ -79,7 +74,6 @@ class VictoryDisplay:
                 else:
                     button_selected = False
                 if event.type == pygame.MOUSEBUTTONDOWN and button_selected:
-                    self.stop_music()
                     show = False
                 if event.type == pygame.VIDEORESIZE:
                     CELL_SIZE[0] = min(self.screen.get_width() // GRID_SIZE, self.screen.get_height() // GRID_SIZE)
@@ -126,7 +120,6 @@ class VictoryDisplay:
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.stop_music()
                     pygame.quit()
                     sys.exit()
                 click_pos = pygame.mouse.get_pos()
@@ -135,7 +128,6 @@ class VictoryDisplay:
                 else:
                     button_selected = False
                 if event.type == pygame.MOUSEBUTTONDOWN and button_selected:
-                    self.stop_music()
                     show = False
                 if event.type == pygame.VIDEORESIZE:
                     CELL_SIZE[0] = min(self.screen.get_width() // GRID_SIZE, self.screen.get_height() // GRID_SIZE)
@@ -181,7 +173,6 @@ class VictoryDisplay:
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.stop_music()
                     pygame.quit()
                     sys.exit()
                 click_pos = pygame.mouse.get_pos()
@@ -190,7 +181,6 @@ class VictoryDisplay:
                 else:
                     button_selected = False
                 if event.type == pygame.MOUSEBUTTONDOWN and button_selected:
-                    self.stop_music()
                     show = False
                 if event.type == pygame.VIDEORESIZE:
                     CELL_SIZE[0] = min(self.screen.get_width() // GRID_SIZE, self.screen.get_height() // GRID_SIZE)
@@ -236,7 +226,6 @@ class VictoryDisplay:
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.stop_music()
                     pygame.quit()
                     sys.exit()
                 click_pos = pygame.mouse.get_pos()
@@ -245,7 +234,6 @@ class VictoryDisplay:
                 else:
                     button_selected = False
                 if event.type == pygame.MOUSEBUTTONDOWN and button_selected:
-                    self.stop_music()
                     show = False
                 if event.type == pygame.VIDEORESIZE:
                     CELL_SIZE[0] = min(self.screen.get_width() // GRID_SIZE, self.screen.get_height() // GRID_SIZE)
@@ -293,7 +281,6 @@ class VictoryDisplay:
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.stop_music()
                     pygame.quit()
                     sys.exit()
                 click_pos = pygame.mouse.get_pos()
@@ -302,7 +289,6 @@ class VictoryDisplay:
                 else:
                     button_selected = False
                 if event.type == pygame.MOUSEBUTTONDOWN and button_selected:
-                    self.stop_music()
                     show = False
                 if event.type == pygame.VIDEORESIZE:
                     CELL_SIZE[0] = min(self.screen.get_width() // GRID_SIZE, self.screen.get_height() // GRID_SIZE)
