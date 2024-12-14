@@ -60,7 +60,7 @@ uml.node("Pauper", '''{
 uml.node("VictoryDisplay", '''{
 {VictoryDisplay} |
 {+ screen: pygame.Surface\\l+ font: pygame.font.Font\\l+ font_title: pygame.font.Font\\l+ font_option: pygame.font.Font\\l} |
-{+ __init__(screen:pygame.Surface)\\l+ play_music(music_file:str)\\l+ show_good_won()\\l+ show_evil_won()\\l+ show_tie\\l+ show_no_war()\\l+ show_easter\\l}
+{+ __init__(screen:pygame.Surface)\\l+ play_music(music_file:str)\\l+ show_good_won()\\l+ show_evil_won()\\l+ show_tie()\\l+ show_no_war()\\l+ show_easter()\\l}
 }''', shape='record')
 
 
@@ -69,10 +69,11 @@ uml.edge('Royal', 'Unit', label='Héritage', arrowhead='empty')
 uml.edge('Soldier', 'Unit', label='Héritage', arrowhead='empty')
 uml.edge('Pauper', 'Unit', label='Héritage', arrowhead='empty')
 
-uml.edge('Game', 'Unit', label='Agrégation', arrowhead='odiamond')
+uml.edge('Game', 'Unit', label='Composition', arrowhead='diamond')
 uml.edge('Game', 'Mana', label='Composition', arrowhead='diamond')
-uml.edge('Game', 'Menu', label='Composition', arrowhead='diamond')
 uml.edge('Game', 'VictoryDisplay', label='Composition', arrowhead='diamond')
+
+uml.edge('Main', 'Menu', label='Composition', arrowhead='diamond')
 uml.edge('Main', 'Game', label='Composition', arrowhead='diamond')
 
 # Génération du fichier et ouverture
