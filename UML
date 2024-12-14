@@ -48,7 +48,7 @@ digraph {
 	Royal -> Unit [label="Héritage" arrowhead=empty]
 	Soldier -> Unit [label="Héritage" arrowhead=empty]
 	Pauper -> Unit [label="Héritage" arrowhead=empty]
-	Game -> Unit [label=Aggregation arrowhead=vee]
+	Game -> Unit [label="Agrégation" arrowhead=odiamond]
 	Game -> Mana [label=Composition arrowhead=diamond]
 	Game -> Menu [label=Composition arrowhead=diamond]
 	Game -> VictoryDisplay [label=Composition arrowhead=diamond]

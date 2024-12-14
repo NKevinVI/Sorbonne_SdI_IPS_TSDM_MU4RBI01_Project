@@ -1,5 +1,9 @@
 from graphviz import Digraph
 
+"""
+    Dans ce fichier réside le diagramme UML du projet. Pour le visualiser, exécuter ce fichier.
+"""
+
 # Création du diagramme UML
 uml = Digraph(format='pdf')
 uml.attr(rankdir='BT', size='10,10')
@@ -64,7 +68,7 @@ uml.edge('Royal', 'Unit', label='Héritage', arrowhead='empty')
 uml.edge('Soldier', 'Unit', label='Héritage', arrowhead='empty')
 uml.edge('Pauper', 'Unit', label='Héritage', arrowhead='empty')
 
-uml.edge('Game', 'Unit', label='Aggregation', arrowhead='vee')
+uml.edge('Game', 'Unit', label='Agrégation', arrowhead='odiamond')
 uml.edge('Game', 'Mana', label='Composition', arrowhead='diamond')
 uml.edge('Game', 'Menu', label='Composition', arrowhead='diamond')
 uml.edge('Game', 'VictoryDisplay', label='Composition', arrowhead='diamond')
