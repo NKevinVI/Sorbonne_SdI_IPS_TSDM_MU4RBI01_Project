@@ -1,4 +1,5 @@
 import pygame
+from abc import ABC, abstractmethod
 import random
 import os
 import sys
@@ -11,7 +12,7 @@ from VictoryDisplay import *
 from mana import *
 
 
-class Unit:
+class Unit(ABC):
     """
     Classe pour représenter une unité.
 
@@ -113,6 +114,7 @@ class Unit:
 
         return target
 
+    @abstractmethod
     def draw(self, screen):
         """Affiche l'unité sur l'écran."""
         pass

@@ -1,4 +1,5 @@
 import pygame
+from abc import ABC, abstractmethod
 import random
 import os
 import sys
