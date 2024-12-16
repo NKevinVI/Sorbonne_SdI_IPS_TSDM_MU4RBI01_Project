@@ -1,2 +1,5 @@
 \babel@toc {russian}{}\relax 
 \babel@toc {french}{}\relax 
+\beamer@sectionintoc {1}{\emph {Draconic Generations}}{2}{0}{1}
+\beamer@sectionintoc {2}{Le Code}{3}{0}{2}
+\beamer@sectionintoc {3}{Conclusion}{19}{0}{3}

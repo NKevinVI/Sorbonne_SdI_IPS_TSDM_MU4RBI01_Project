@@ -1,0 +1,10 @@
+\frametitle{\emph{Main}}\centering
+            \pause
+            \texttt{\_\_init\_\_()} = \texttt{main()}
+            \pause
+            \begin{block}{Comment recommencer?}
+                \begin{verbatim}
+    def restart(self):
+        self.__init__()
+                \end{verbatim}
+            \end{block}

@@ -52,11 +52,62 @@
     \maketitle
 
     \section{\emph{Draconic Generations}} % Présentation du jeu et essai du jeu.
+        \begin{frame} % Teste du jeu à cette slide.
+            \frametitle{Le Jeu}
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=0.6\textwidth]{ImageDuJeu.png}
+            \end{figure}
+        \end{frame}
 
     \section{Le Code} % Présentation du code.
-        \subsection{\emph{Unit} et ses Filles}
-        \subsection{\emph{Game}}
-        \subsection{\emph{Main}}
+        \includepdf{UML.pdf}
+        \begin{frame}[fragile]
+            \frametitle{\emph{Main}}\centering
+            \pause
+            \texttt{\_\_init\_\_()} = \texttt{main()}
+            \pause
+            \begin{block}{Comment recommencer?}
+                \begin{verbatim}
+    def restart(self):
+        self.__init__()
+                \end{verbatim}
+            \end{block}
+        \end{frame}
+        \begin{frame}
+            \frametitle{\emph{Game}}\centering
+            \pause
+            \texttt{handle\_turn()}\\
+            \pause
+            \texttt{rmv\_dead()}\\
+            \pause
+            \texttt{GameOver()}
+        \end{frame}
+        \begin{frame}
+            \frametitle{\emph{Unit}}\centering
+            \pause
+            \begin{itemize}
+                \item{$\rightarrow$} Définition des \underline{fonctions communes}
+                \pause
+                \item{$\rightarrow$} \underline{Abstraite} et héritage avec autres unités
+            \end{itemize}
+        \end{frame}
+        \begin{frame}
+            \frametitle{\emph{VictoryDisplay}}\centering
+            \pause
+            \begin{itemize}
+                \item{$\rightarrow$} Possibilité de recommencer
+                \pause
+                \item{$\rightarrow$} 1 fonction = 1 fin de partie % Il s'agit de show_evil_won(), show_tie(), etc...
+            \end{itemize}
+        \end{frame}
+        \begin{frame}
+            \frametitle{\emph{Menu}}\centering % Parler aussi de la gestion d'erreur?
+            \pause
+            Affichage de début\\
+            +~Gestion de 2 boutons \&{} musique
+        \end{frame}
 
     \section{Conclusion} % Conclusion.
+        \includepdf{UML.pdf}
 \end{document}
