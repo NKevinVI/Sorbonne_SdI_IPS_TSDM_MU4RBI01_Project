@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.10.7)  16 DEC 2024 10:38
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.10.7)  16 DEC 2024 14:34
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2610,6 +2610,17 @@ Package pdftex.def Info: UML.pdf , page1 used on input line 112.
 
 
 ]
+Overfull \hbox (41.75902pt too wide) in paragraph at lines 116--116
+ [][]  \T1/txss/m/n/6 ([])  
+ []
+
+LaTeX Font Info:    Font shape `T1/txss/m/n' will be
+(Font)              scaled to size 23.63593pt on input line 116.
+LaTeX Font Info:    Font shape `T1/txss/b/n' in size <24.88> not available
+(Font)              Font shape `T1/txss/bx/n' tried instead on input line 116.
+LaTeX Font Info:    Font shape `T1/txss/bx/n' will be
+(Font)              scaled to size 23.63593pt on input line 116.
+[20]
 \tf@nav=\write8
 \openout8 = `Presentation.nav'.
 
@@ -2635,11 +2646,11 @@ Package logreq Info: Writing requests to 'Presentation.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 47216 strings out of 474998
- 955528 string characters out of 5767950
+ 47225 strings out of 474998
+ 955635 string characters out of 5767950
  1936975 words of memory out of 5000000
- 68349 multiletter control sequences out of 15000+600000
- 614996 words of font info for 112 fonts, out of 8000000 for 9000
+ 68354 multiletter control sequences out of 15000+600000
+ 619724 words of font info for 116 fonts, out of 8000000 for 9000
  788 hyphenation exceptions out of 8191
  128i,17n,123p,1137b,2458s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/txfonts/t1xtt.pfb></usr/sha
@@ -2648,10 +2659,10 @@ exmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fo
 nts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/ur
 w/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/u
 hvr8a.pfb>
-Output written on Presentation.pdf (19 pages, 250366 bytes).
+Output written on Presentation.pdf (20 pages, 251393 bytes).
 PDF statistics:
- 327 PDF objects out of 1000 (max. 8388607)
- 208 compressed objects within 3 object streams
- 42 named destinations out of 1000 (max. 500000)
+ 335 PDF objects out of 1000 (max. 8388607)
+ 213 compressed objects within 3 object streams
+ 44 named destinations out of 1000 (max. 500000)
  389 words of extra memory for PDF output out of 10000 (max. 10000000)
 
